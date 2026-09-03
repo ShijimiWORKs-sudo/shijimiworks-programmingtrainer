@@ -1,3 +1,5 @@
+import type { RunErrorType, RunStatus } from "../features/runner";
+
 export type LessonProgressStatus = "not_started" | "in_progress" | "passed";
 
 export interface LessonProgress {
@@ -15,6 +17,16 @@ export interface LessonProgress {
   updatedAt: string;
 }
 
+export interface AttemptTestResult {
+  id: string;
+  attemptId: string;
+  testCaseId: string;
+  passed: boolean;
+  actualStdout: string;
+  errorType?: RunErrorType;
+  durationMs: number;
+}
+
 export interface Attempt {
   id: string;
   userId: string;
@@ -22,12 +34,13 @@ export interface Attempt {
   exerciseId: string;
   sourceCode: string;
   stdin: string;
-  executionStatus: string;
+  executionStatus: RunStatus;
   stdout: string;
   stderr: string;
   passed: boolean;
   durationMs: number;
   createdAt: string;
+  testResults?: AttemptTestResult[];
 }
 
 export interface AppSettings {
