@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 01:04 +09:00
+Updated: 2026-09-05 01:07 +09:00
 
 Current Phase: Phase 5 / Python 1級
-Current Branch: main
-Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
+Current Branch: codex/phase-5-python-grade1
+Current Commit: pending Phase 5 start checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -143,12 +143,14 @@ Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
 - Completed Phase 4 PR self-review fix: changed the Python 2級 Curriculum chapter state from the old fixed `Preparing` label to `6 Lessons ready` after all six lessons are published.
 - Created Phase 4 PR #5 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
+- Recorded and pushed the post-merge Phase 4 checkpoint on `main` as `718982ac5016555ee82a2a95ad7e80f39e26e28e`.
+- Created Phase 5 branch `codex/phase-5-python-grade1` from latest `main`.
 
 ## In Progress
-- Phase 5 branch preparation.
+- P5-01 Multi-file Project Model planning.
 
 ## Next
-- Create the Phase 5 branch and begin `P5-01 Multi-file Project Model`.
+- Implement a safe multi-file project exercise data model without breaking existing single-file lessons.
 
 ## Tests
 - `npm run lint`: passed.
