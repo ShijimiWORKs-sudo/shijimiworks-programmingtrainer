@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 20:51 +09:00
+Updated: 2026-09-04 20:59 +09:00
 
-Current Phase: Phase 2 / Python 3級 Curriculum Complete
-Current Branch: codex/phase-2-python-grade3-curriculum
-Current Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
+Current Phase: Phase 3 / Python 3級 Challenge and Mock Exam
+Current Branch: codex/phase-3-python-grade3-challenge
+Current Commit: f2197eb88944c8103194744b30fb37f8d6225cc2
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -76,12 +76,16 @@ Current Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 - Added lesson-level chapter progress aggregation for Python 3級, including completed, in-progress, and not-started counts.
 - Displayed chapter progress on the Curriculum screen as completed lesson count, percentage, progressbar, detail counts, and chapter state.
 - Verified reload recalculation, Lesson 10 multi-exercise single-lesson counting, and passed-lesson re-edit preservation.
+- Completed `P2-11 Phase 2 Regression Checkpoint`.
+- Created Phase 2 PR #3 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
+- Fast-forwarded local `main` to merge commit `f2197eb88944c8103194744b30fb37f8d6225cc2`.
+- Created Phase 3 branch `codex/phase-3-python-grade3-challenge`.
 
 ## In Progress
-- P2-11 Phase 2 Regression Checkpoint preparation.
+- P3-01 Chapter Challenge Data Model recovery and implementation.
 
 ## Next
-- Self-review the full Phase 2 branch, run/confirm full regression as needed, create or update the Phase 2 Draft PR, and continue the Phase 2 completion gate.
+- Implement challenge entities compatible with existing curriculum/progress architecture, then add focused unit tests.
 
 ## Tests
 - `npm run lint`: passed.
@@ -112,6 +116,7 @@ Current Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 - P2-09 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed; audit initially failed with npm registry 503 and later passed with 0 vulnerabilities on retry.
 - P2-10 targeted checks on 2026-09-04: chapter progress/progress model/repository unit tests passed, Curriculum page component tests passed, Chrome/Edge chapter progress E2E passed.
 - P2-10 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (12 files / 48 tests), build passed, Chrome/Edge E2E passed (28 tests), audit passed with 0 vulnerabilities.
+- P2-11 Phase 2 PR #3 GitHub Actions: `CI / verify` passed on head `896e8dcfb3424d35ec628699ac97fb46577b870a`.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

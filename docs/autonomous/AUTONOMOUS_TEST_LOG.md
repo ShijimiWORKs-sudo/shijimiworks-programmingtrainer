@@ -150,7 +150,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P2-08 Multiple Exercises Per Lesson
 Datetime: 2026-09-04 16:28 +09:00
-Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Commit: a6fe16d4957fbf9b0b46943315540d37a39042f4
 Target: Support multiple exercises per lesson with exercise-specific editor state, progress, grading, and attempts.
 Test Command: `npm run lint`
 Result: Passed.
@@ -264,7 +264,7 @@ Retest Result: `npm ping --registry=https://registry.npmjs.org/` passed, `npm vi
 
 ## 2026-09-04 Checkpoint: P2-10 Chapter Progress
 Datetime: 2026-09-04 20:51 +09:00
-Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 Target: Show reliable Python 3級 chapter-level progress on the Curriculum screen.
 Test Command: `npm test -- --run src/features/progress/chapterProgress.test.ts src/routes/PythonGrade3CurriculumPage.test.tsx src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts`
 Result: Initially failed after adding a component test, then passed, 4 files / 17 tests.
@@ -313,6 +313,52 @@ Result: Passed with 0 vulnerabilities.
 Failure: None.
 Fix: None.
 Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P2-11 Phase 2 Regression and Merge
+Datetime: 2026-09-04 20:59 +09:00
+Commit: f2197eb88944c8103194744b30fb37f8d6225cc2
+Target: Complete the Phase 2 branch gate, open PR, confirm CI, and merge to main.
+Test Command: `npm run lint`
+Result: Passed during P2-10 final regression.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed during P2-10 final regression.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 12 files / 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 28 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: GitHub Actions `CI / verify`
+Result: Passed on PR #3 head `896e8dcfb3424d35ec628699ac97fb46577b870a`.
+Failure: None.
+Fix: None.
+Retest Result: PR #3 was marked ready and merged to `main` as `f2197eb88944c8103194744b30fb37f8d6225cc2`.
 
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
