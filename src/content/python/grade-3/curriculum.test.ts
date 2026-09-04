@@ -105,4 +105,22 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["red\nblue\ngreen\n", "cat\ndog\neel\n"]);
     expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["red\nPython\ngreen\n", "cat\nPython\neel\n"]);
   });
+
+  it("publishes Lesson 9 with dict update test cases", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_09_dict");
+    const exercise = lesson?.exercises[0];
+
+    expect(lesson).toMatchObject({
+      title: "Lesson 09: dict",
+      status: "published",
+      order: 9,
+    });
+    expect(exercise).toMatchObject({
+      id: "ex_py3_09_01",
+      lessonId: "lesson_py3_09_dict",
+      gradingMode: "stdout",
+    });
+    expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["apple\n120\n", "banana\n180\n"]);
+    expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["120\n", "180\n"]);
+  });
 });
