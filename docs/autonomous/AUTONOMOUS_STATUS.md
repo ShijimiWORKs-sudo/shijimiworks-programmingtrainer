@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 00:59 +09:00
+Updated: 2026-09-05 01:04 +09:00
 
-Current Phase: Phase 4 / Python 2級
-Current Branch: codex/phase-4-python-grade2
-Current Commit: 6c9eecd9ddb026f4756403a42bf1e86d83e67c4c
+Current Phase: Phase 5 / Python 1級
+Current Branch: main
+Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -141,12 +141,14 @@ Current Commit: 6c9eecd9ddb026f4756403a42bf1e86d83e67c4c
 - Added public and hidden grading cases for clean and partially invalid score input without exposing hidden details in the UI.
 - Completed the local Phase 4 full gate successfully.
 - Completed Phase 4 PR self-review fix: changed the Python 2級 Curriculum chapter state from the old fixed `Preparing` label to `6 Lessons ready` after all six lessons are published.
+- Created Phase 4 PR #5 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
+- Fast-forwarded local `main` to merge commit `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
 
 ## In Progress
-- Phase 4 PR #5 CI verification.
+- Phase 5 branch preparation.
 
 ## Next
-- Confirm PR #5 GitHub Actions, mark ready, merge to `main`, and begin Phase 5.
+- Create the Phase 5 branch and begin `P5-01 Multi-file Project Model`.
 
 ## Tests
 - `npm run lint`: passed.
@@ -205,6 +207,7 @@ Current Commit: 6c9eecd9ddb026f4756403a42bf1e86d83e67c4c
 - P4-06 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 75 tests), build passed, Chrome/Edge E2E passed (46 tests), audit passed with 0 vulnerabilities.
 - P4-07 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 23 tests); Chrome/Edge Python 2級 small project E2E passed (14 tests).
 - P4-07 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 76 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities. After PR self-review fixed the Python 2級 chapter readiness label, targeted checks passed again and the full gate was rerun successfully with the same results.
+- PR #5 Phase 4 GitHub Actions: `CI / verify` passed on head `41b624284b429c26a878d017ff7ef14e09ecde39`; PR merged to `main` as `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.
