@@ -151,3 +151,11 @@ Decision: Create 10 JavaScript 3級 lessons that mirror the proven Python 3級 f
 Reason: This provides a complete beginner JavaScript run/grade/progress path while staying inside the P6-02 curriculum scope and reusing the existing chapter progress model.
 Alternatives: Add only three smoke lessons; add JavaScript challenge/mock exam immediately; invent a different grade structure. These were rejected because they either under-deliver the grade path or expand beyond the active checkpoint.
 Risk: The JavaScript 3級 content is intentionally foundational. Future content QA can tune wording and add richer exercises without changing the route/progress contract.
+
+## 2026-09-05: JavaScript Grade 2 Scope Without File I/O
+Date: 2026-09-05
+Context: P6-03 requires JavaScript 2級 lessons, while the current JavaScript runner provides console/stdin execution but does not include a virtual file model.
+Decision: Use JavaScript-native 2級 tasks for functions, classes, `throw`/`try`/`catch`, array methods, algorithm debugging, and a small in-memory project. Keep file I/O out of JavaScript 2級 until a JavaScript virtual file model exists.
+Reason: This preserves the current browser-worker runner contract, avoids inventing file APIs mid-checkpoint, and still gives learners a complete Grade 2 progression.
+Alternatives: Emulate `localStorage` or virtual files in the JavaScript runner now; copy the Python virtual file lesson directly; omit the practical small project. These were rejected because they either broaden P6-03 or leave the level less useful.
+Risk: JavaScript 2級 differs from Python 2級's file I/O checkpoint. A future JavaScript or release-hardening pass can add a dedicated virtual storage exercise if the product wants parity.

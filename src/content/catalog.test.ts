@@ -94,12 +94,15 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_py1_04_refactoring")).toBeUndefined();
   });
 
-  it("enables JavaScript grade 3 and keeps next-lesson routing within the JavaScript course", () => {
+  it("enables JavaScript grade 2 and grade 3 and keeps next-lesson routing within each JavaScript course", () => {
     const javascript = languages.find((language) => language.slug === "javascript");
 
     expect(javascript).toMatchObject({
       status: "available",
-      levels: [{ code: "grade-3", status: "available", courses: [{ id: "course_javascript_grade_3_foundation" }] }],
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_javascript_grade_3_foundation" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_javascript_grade_2" }] },
+      ],
     });
     expect(findLessonById("lesson_js3_01_console_log")).toMatchObject({
       title: "Lesson 01: console.log / 出力",
@@ -110,5 +113,10 @@ describe("content catalog", () => {
       id: "lesson_js3_02_variables",
     });
     expect(findNextLesson("lesson_js3_10_functions")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_js2_01_function_return")?.id).toBe("course_javascript_grade_2");
+    expect(findNextLesson("lesson_js2_01_function_return")).toMatchObject({
+      id: "lesson_js2_02_classes",
+    });
+    expect(findNextLesson("lesson_js2_06_small_project")).toBeUndefined();
   });
 });

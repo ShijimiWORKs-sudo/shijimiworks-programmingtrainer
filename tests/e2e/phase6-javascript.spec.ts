@@ -91,3 +91,71 @@ test("switches JavaScript Lesson 10 exercises and grades both", async ({ page })
   await expect(page.getByRole("button", { name: /Exercise 2 Passed/ })).toBeVisible();
   await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/javascript/grade-3");
 });
+
+test("opens the JavaScript grade 2 curriculum from level select", async ({ page }) => {
+  await page.goto("/languages/javascript");
+
+  await expect(page.getByRole("heading", { name: "JavaScript Level Select" })).toBeVisible();
+  await page.getByRole("link", { name: /2級/ }).click();
+
+  await expect(page.getByRole("heading", { name: "JavaScript 2級", exact: true })).toBeVisible();
+  await expect(page.getByLabel("JavaScript 2級 chapter progress")).toContainText("0 / 6 Lessons completed");
+  await expect(page.getByRole("link", { name: /Lesson 01: 関数の戻り値/ })).toHaveAttribute(
+    "href",
+    "/languages/javascript/grade-2/lessons/lesson_js2_01_function_return"
+  );
+  await expect(page.getByRole("link", { name: /Lesson 06: small project/ })).toHaveAttribute(
+    "href",
+    "/languages/javascript/grade-2/lessons/lesson_js2_06_small_project"
+  );
+});
+
+test("grades JavaScript grade 2 function and class lessons", async ({ page }) => {
+  await page.goto("/languages/javascript/grade-2/lessons/lesson_js2_01_function_return");
+  await expect(page.getByRole("heading", { name: "Lesson 01: 関数の戻り値" })).toBeVisible();
+  await setEditorValue(
+    page,
+    "function discountedPrice(price, rate) {\n  return Math.floor(price * (100 - rate) / 100);\n}\n\nconst price = Number(readline());\nconst rate = Number(readline());\nconsole.log(discountedPrice(price, rate));\n"
+  );
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 30000 });
+  await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
+  await expect(page.getByText("2500")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "次Lessonへ進む" })).toHaveAttribute(
+    "href",
+    "/languages/javascript/grade-2/lessons/lesson_js2_02_classes"
+  );
+
+  await page.goto("/languages/javascript/grade-2/lessons/lesson_js2_02_classes");
+  await expect(page.getByRole("heading", { name: "Lesson 02: class" })).toBeVisible();
+  await setEditorValue(
+    page,
+    "class Student {\n  constructor(name, score) {\n    this.name = name;\n    this.score = score;\n  }\n\n  label() {\n    return this.name + \":\" + this.score;\n  }\n}\n\nconst name = readline();\nconst score = Number(readline());\nconst student = new Student(name, score);\nconsole.log(student.label());\n"
+  );
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 30000 });
+  await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
+  await expect(page.getByText("Ren")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/javascript/grade-2");
+});
+
+test("grades JavaScript grade 2 small project and persists progress", async ({ page }) => {
+  await page.goto("/languages/javascript/grade-2/lessons/lesson_js2_06_small_project");
+  await expect(page.getByRole("heading", { name: "Lesson 06: small project" })).toBeVisible();
+  await setEditorValue(
+    page,
+    "class ScoreBook {\n  constructor(scores) {\n    this.scores = scores;\n  }\n\n  count() {\n    return this.scores.length;\n  }\n\n  maxScore() {\n    let best = this.scores[0];\n    for (const score of this.scores) {\n      if (score > best) {\n        best = score;\n      }\n    }\n    return best;\n  }\n\n  average() {\n    const total = this.scores.reduce((sum, score) => sum + score, 0);\n    return Math.floor(total / this.scores.length);\n  }\n}\n\nfunction parseScores(line) {\n  return line.split(\",\").map((part) => Number(part)).filter((score) => !Number.isNaN(score));\n}\n\nconst scores = parseScores(readline());\nconst book = new ScoreBook(scores);\nconsole.log(\"count:\" + book.count() + \",max:\" + book.maxScore() + \",avg:\" + book.average());\n"
+  );
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 30000 });
+  await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
+  await expect(page.getByText("100,no,85,95")).toHaveCount(0);
+
+  await page.goto("/languages/javascript/grade-2");
+  await expect(page.getByLabel("JavaScript 2級 chapter progress")).toContainText("1 / 6 Lessons completed");
+  await page.reload();
+  await expect(page.getByLabel("JavaScript 2級 chapter progress")).toContainText("1 / 6 Lessons completed");
+});

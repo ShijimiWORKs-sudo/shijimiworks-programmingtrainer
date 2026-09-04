@@ -12,8 +12,8 @@ export function JavaScriptLevelSelectPage() {
       <PageHeader title="JavaScript Level Select" eyebrow="SCR-020" />
       <div className="card-grid compact">
         {javascriptLanguage?.levels.map((level) =>
-          level.code === "grade-3" ? (
-            <Link key={level.id} className="select-card interactive" to={routePaths.javascriptGrade3}>
+          level.code === "grade-3" || level.code === "grade-2" ? (
+            <Link key={level.id} className="select-card interactive" to={level.code === "grade-2" ? routePaths.javascriptGrade2 : routePaths.javascriptGrade3}>
               <span>{level.name}</span>
               <StatusBadge status={level.status} />
             </Link>

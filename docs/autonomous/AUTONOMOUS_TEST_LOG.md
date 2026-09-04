@@ -161,6 +161,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P6-03 JavaScript Grade 2 Curriculum
+Datetime: 2026-09-05 04:56 +09:00
+Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Target: Add JavaScript 2級 curriculum, route it through the existing Lesson Workspace, and verify grading/progress persistence.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/javascript/grade-2/curriculum.test.ts src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade2CurriculumPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/routes/LanguageSelectPage.test.tsx`
+Result: Passed, 7 files / 18 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase6-javascript.spec.ts`
+Result: Passed, 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full Chrome/Edge E2E.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 27 files / 109 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 72 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "Ren|2500|oops|-4 -2 -9|100,no,85,95|tc_js2_.*hidden|child_process|node:fs|eval\(" src tests docs/autonomous`
+Result: Hidden values appear only in hidden test case definitions and tests that assert those values are not visible; no UI or visible JavaScript 2級 lesson text exposes them. No new host filesystem or child-process access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64

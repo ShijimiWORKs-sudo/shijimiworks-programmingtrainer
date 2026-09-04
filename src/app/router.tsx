@@ -1,6 +1,7 @@
 import { createBrowserRouter, createMemoryRouter, type RouteObject } from "react-router-dom";
 import { AppLayout } from "../components/layout/AppLayout";
 import { HomePage } from "../routes/HomePage";
+import { JavaScriptGrade2CurriculumPage } from "../routes/JavaScriptGrade2CurriculumPage";
 import { JavaScriptGrade3CurriculumPage } from "../routes/JavaScriptGrade3CurriculumPage";
 import { JavaScriptLevelSelectPage } from "../routes/JavaScriptLevelSelectPage";
 import { LanguageSelectPage } from "../routes/LanguageSelectPage";
@@ -26,6 +27,8 @@ export const appRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "languages", element: <LanguageSelectPage /> },
       { path: "languages/javascript", element: <JavaScriptLevelSelectPage /> },
+      { path: "languages/javascript/grade-2", element: <JavaScriptGrade2CurriculumPage /> },
+      { path: "languages/javascript/grade-2/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/javascript/grade-3", element: <JavaScriptGrade3CurriculumPage /> },
       { path: "languages/javascript/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/python", element: <PythonLevelSelectPage /> },
