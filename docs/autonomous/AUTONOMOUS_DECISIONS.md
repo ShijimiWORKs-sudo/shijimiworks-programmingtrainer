@@ -23,3 +23,11 @@ Decision: Add a development-only Lesson Workspace hook that lets E2E set the Rea
 Reason: This keeps production behavior unchanged while making E2E assertions validate runner/grading behavior instead of Monaco keyboard timing.
 Alternatives: Keep retrying the flaky keyboard helper; expose Monaco internals from `CodeEditor`; weaken or skip E2E. These were rejected because the checkpoint requires reliable Chrome/Edge coverage without weakening tests.
 Risk: The dev-only window hook is test support surface. It must remain guarded by `import.meta.env.DEV` and should not be used as product functionality.
+
+## 2026-09-04: Preserve Pyodide Batched Output Line Breaks
+Date: 2026-09-04
+Context: P2-01 Lesson 4 introduced a correct solution with two `print` calls. Targeted E2E showed Pyodide's batched stdout callback could deliver each printed line without a trailing newline, producing captured output like `712` instead of `7\n12`.
+Decision: Normalize batched stdout and stderr in the Python worker by appending a newline when a batch does not already end with one.
+Reason: Lesson comparators and the visible output panel expect normal Python `print` line separation. Keeping the fix in the runner preserves correctness for all lessons without changing lesson-specific expected outputs.
+Alternatives: Change Lesson 4 expected output to `712`; use raw callback instead of batched callback; loosen the comparator. These were rejected because they would hide real multi-line output behavior or weaken grading.
+Risk: If a future exercise intentionally relies on partial-line output without a newline, batched capture may display it with line separation. Current curriculum and beginner lessons use line-oriented `print` output, so this is acceptable for the MVP.

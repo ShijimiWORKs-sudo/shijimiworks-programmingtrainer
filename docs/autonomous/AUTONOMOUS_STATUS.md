@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04
+Updated: 2026-09-04 14:18 +09:00
 
-Current Phase: Phase 2 Planning / Python 3級 Curriculum Complete
-Current Branch: main
-Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
+Current Phase: Phase 2 / Python 3級 Curriculum Complete
+Current Branch: codex/phase-2-python-grade3-curriculum
+Current Commit: 79a6e9e20cff2f34e1d1e33f787e06458655ba98 plus pending P2-01 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -23,14 +23,19 @@ Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
 - Marked PR #2 ready for review.
 - Merged PR #2 into `main` with merge commit `df3f9c186ec183cf216a4244f9a5f290e0b1bdbc`.
 - Fast-forwarded local `main` to `origin/main`.
+- Created Phase 2 branch `codex/phase-2-python-grade3-curriculum`.
+- Completed `P2-01 Lesson 4 Types and Operators`.
+- Added a published Lesson 4 for reading two integers and printing their sum and product, with public and hidden grading coverage.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 4.
+- Fixed Python worker batched stdout/stderr capture so multi-line `print` output preserves line breaks for run and grade results.
+- Completed full P2-01 regression successfully.
 
 ## In Progress
-- Preparing Phase 2 branch `codex/phase-2-python-grade3-curriculum`.
+- Checkpointing and pushing `P2-01 Lesson 4 Types and Operators`.
 
 ## Next
-- Start Phase 2 on `codex/phase-2-python-grade3-curriculum`.
-- Select `P2-01 Lesson 4 Types and Operators` from `AUTONOMOUS_PLAN.md`.
-- Implement, test, review, checkpoint, commit, push, and open/update the Phase 2 PR.
+- Commit and push the P2-01 checkpoint.
+- Continue to `P2-02 Lesson 5 if` from `AUTONOMOUS_PLAN.md`.
 
 ## Tests
 - `npm run lint`: passed.
@@ -41,6 +46,8 @@ Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
+- P2-01 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4 E2E passed.
+- P2-01 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None currently.

@@ -15,4 +15,22 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise.lessonId).toBe(lesson.id);
     expect(testCase.visibility).toBe("public");
   });
+
+  it("publishes Lesson 4 with public and hidden arithmetic test cases", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_04_types_operators");
+    const exercise = lesson?.exercises[0];
+
+    expect(lesson).toMatchObject({
+      title: "Lesson 04: 型と演算子",
+      status: "published",
+      order: 4,
+    });
+    expect(exercise).toMatchObject({
+      id: "ex_py3_04_01",
+      lessonId: "lesson_py3_04_types_operators",
+      gradingMode: "stdout",
+    });
+    expect(exercise?.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
+    expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["7\n12\n", "13\n40\n"]);
+  });
 });
