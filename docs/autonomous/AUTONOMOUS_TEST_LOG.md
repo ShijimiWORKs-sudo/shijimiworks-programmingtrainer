@@ -666,7 +666,7 @@ Retest Result: PR #4 was marked ready and merged into `main` as `7d35a604bf79de7
 
 ## 2026-09-04 Checkpoint: P4-01 Python 2級 Course Foundation
 Datetime: 2026-09-04 23:25 +09:00
-Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Commit: f44b2f2e9b2f0e28db5be8374f089f16c1ab2c14
 Target: Add Python 2級 routing and curriculum skeleton without breaking Python 3級.
 Test Command: `npm run typecheck`
 Result: Passed.
