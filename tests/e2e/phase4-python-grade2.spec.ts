@@ -21,6 +21,7 @@ test("opens the Python grade 2 curriculum skeleton from level select", async ({ 
   await expect(page.getByRole("link", { name: /Lesson 02: class/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_02_classes");
   await expect(page.getByRole("link", { name: /Lesson 03: exception/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_03_exceptions");
   await expect(page.getByRole("link", { name: /Lesson 04: virtual file I\/O/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_04_virtual_file_io");
+  await expect(page.getByRole("link", { name: /Lesson 05: algorithm debug/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_05_algorithm_debug");
   await expect(page.getByText("Preparing")).toBeVisible();
   await expect(page.getByRole("link", { name: "Level Selectへ戻る" })).toHaveAttribute("href", "/languages/python");
 });
@@ -94,5 +95,23 @@ test("grades the Python grade 2 virtual file I/O lesson", async ({ page }) => {
   await expect(page.getByText("合格 (2/2)")).toBeVisible();
   await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
   await expect(page.getByText("Mina")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/python/grade-2");
+  await expect(page.getByRole("link", { name: "次Lessonへ進む" })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_05_algorithm_debug");
+});
+
+test("grades the Python grade 2 algorithm debug lesson", async ({ page }) => {
+  await page.goto("/languages/python/grade-2/lessons/lesson_py2_05_algorithm_debug");
+
+  await expect(page.getByRole("heading", { name: "Lesson 05: algorithm debug" })).toBeVisible();
+  await setEditorValue(
+    page,
+    "scores = [int(value) for value in input().split()]\n\ndef highest_score(scores):\n    best = scores[0]\n    for score in scores:\n        if score > best:\n            best = score\n    return best\n\nprint(highest_score(scores))\n"
+  );
+
+  await page.getByRole("button", { name: "採点" }).click();
+
+  await expect(page.getByText("合格 (2/2)")).toBeVisible();
+  await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
+  await expect(page.getByText("-4 -2 -9")).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/python/grade-2");
 });

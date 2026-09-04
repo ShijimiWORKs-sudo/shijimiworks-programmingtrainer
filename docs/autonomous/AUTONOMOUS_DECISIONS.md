@@ -79,3 +79,11 @@ Decision: Teach virtual file I/O using relative filenames such as `report.txt` i
 Reason: This satisfies the learner workflow for `open()`, `write()`, and `read()` while preserving the existing security boundary: user Python stays browser-contained and cannot access the local OS filesystem through the app.
 Alternatives: Add a custom virtual filesystem grading API now; inspect file contents after execution; expose host files for realistic tasks. These were rejected because they either expand the architecture before needed or weaken the product security model.
 Risk: Stdout grading cannot fully prove that a learner used file I/O rather than computing the same output directly. Future advanced tasks can add a dedicated virtual filesystem assertion layer without changing this lesson's safe execution boundary.
+
+## 2026-09-05: Debug Tasks As Code Exercises
+Date: 2026-09-05
+Context: P4-06 requires algorithm and debug tasks, but the domain currently has a single `ExerciseType` of `code` and no separate debug-task type.
+Decision: Represent the first debug task as a normal code exercise with intentionally buggy starter code, explicit constraints, and hidden tests that catch the bug.
+Reason: This keeps the checkpoint small and preserves existing grading/progress behavior while still giving learners a realistic repair workflow.
+Alternatives: Add a new `debug` exercise type and UI affordances now; defer debug practice until a richer domain model exists. These were rejected because they would either broaden P4-06 or leave the roadmap item unimplemented.
+Risk: The UI does not yet visually distinguish debug tasks from code-completion tasks. A future curriculum polish pass can add task-kind presentation without invalidating the current lesson.
