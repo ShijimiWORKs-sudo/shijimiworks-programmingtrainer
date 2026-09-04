@@ -228,7 +228,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P6-04 JavaScript Grade 1 Curriculum
 Datetime: 2026-09-05 05:28 +09:00
-Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
 Target: Add JavaScript 1級 practical maintenance lessons, project support metadata, route integration, grading, and progress persistence.
 
 Test Command: `npm run typecheck`

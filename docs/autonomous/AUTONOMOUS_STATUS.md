@@ -4,7 +4,7 @@ Updated: 2026-09-05 05:28 +09:00
 
 Current Phase: Phase 6 / JavaScript
 Current Branch: codex/phase-6-javascript
-Current Commit: pending P6-04 checkpoint commit
+Current Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
