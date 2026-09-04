@@ -778,6 +778,52 @@ Failure: None.
 Fix: None.
 Retest Result: Phase 5 branch `codex/phase-5-python-grade1` created from `main` after `718982ac5016555ee82a2a95ad7e80f39e26e28e`.
 
+## 2026-09-05 Checkpoint: P5-01 Multi-file Project Model
+Datetime: 2026-09-05 01:21 +09:00
+Commit: pending checkpoint commit on `codex/phase-5-python-grade1`
+Target: Represent multi-file project exercises without breaking existing single-file lessons.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/project/projectExercise.test.ts src/content/catalog.test.ts src/features/grading/GradingEngine.test.ts`
+Result: Passed, 3 files / 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 18 files / 80 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed. Project path safety review found absolute and parent-directory paths only in explicit rejection tests.
+
 ## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
 Datetime: 2026-09-05 00:19 +09:00
 Commit: 3baada3a388c069b8133f497e9dfe5ee9b9ce7a7

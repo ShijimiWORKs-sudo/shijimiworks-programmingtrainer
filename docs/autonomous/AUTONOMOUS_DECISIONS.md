@@ -87,3 +87,11 @@ Decision: Represent the first debug task as a normal code exercise with intentio
 Reason: This keeps the checkpoint small and preserves existing grading/progress behavior while still giving learners a realistic repair workflow.
 Alternatives: Add a new `debug` exercise type and UI affordances now; defer debug practice until a richer domain model exists. These were rejected because they would either broaden P4-06 or leave the roadmap item unimplemented.
 Risk: The UI does not yet visually distinguish debug tasks from code-completion tasks. A future curriculum polish pass can add task-kind presentation without invalidating the current lesson.
+
+## 2026-09-05: Optional Multi-file Project Metadata
+Date: 2026-09-05
+Context: P5-01 requires a multi-file project model, while all existing lessons, challenges, mock exams, progress records, and grading paths still use single `starterCode` strings.
+Decision: Add optional project metadata to exercises and helper functions that can create a project file snapshot while keeping `starterCode` as the existing single-file entry source.
+Reason: Optional metadata lets future Python 1級 tasks represent entry/support/test files without forcing a migration or breaking current Lesson Workspace, Challenge Workspace, Mock Exam, progress, or grading behavior.
+Alternatives: Replace `starterCode` with a files array everywhere; add a separate exercise type immediately; wait until the UI work. These were rejected because they either create broad churn or fail to establish the P5-01 model checkpoint.
+Risk: The current editor still renders only the entry source. P5-02/P5-03 must add UI/grading behavior carefully before expecting learners to edit multiple files directly.

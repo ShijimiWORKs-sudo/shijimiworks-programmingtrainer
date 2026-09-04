@@ -8,6 +8,20 @@ export type OutputComparator = "exact_text" | "trimmed_text" | "normalized_lines
 export type ChallengePublicationStatus = "draft" | "published";
 export type ChallengeKind = "chapter_challenge";
 export type MockExamPublicationStatus = "draft" | "published";
+export type ProjectExerciseFilePurpose = "entry" | "support" | "test";
+
+export interface ProjectExerciseFile {
+  path: string;
+  language: string;
+  content: string;
+  editable: boolean;
+  purpose: ProjectExerciseFilePurpose;
+}
+
+export interface ProjectExercise {
+  entryFilePath: string;
+  files: ProjectExerciseFile[];
+}
 
 export interface TestCase {
   id: string;
@@ -26,6 +40,7 @@ export interface Exercise {
   type: ExerciseType;
   promptMd: string;
   starterCode: string;
+  project?: ProjectExercise;
   gradingMode: GradingMode;
   timeoutMs: number;
   completionCriteria: string;

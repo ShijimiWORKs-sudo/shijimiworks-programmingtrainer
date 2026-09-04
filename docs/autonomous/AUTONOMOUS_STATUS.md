@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 01:07 +09:00
+Updated: 2026-09-05 01:21 +09:00
 
 Current Phase: Phase 5 / Python 1級
 Current Branch: codex/phase-5-python-grade1
-Current Commit: 57b92bc37d4650d9d2c30f9858ba48700cef2b2f
+Current Commit: pending P5-01 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -145,12 +145,16 @@ Current Commit: 57b92bc37d4650d9d2c30f9858ba48700cef2b2f
 - Fast-forwarded local `main` to merge commit `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
 - Recorded and pushed the post-merge Phase 4 checkpoint on `main` as `718982ac5016555ee82a2a95ad7e80f39e26e28e`.
 - Created Phase 5 branch `codex/phase-5-python-grade1` from latest `main`.
+- Completed `P5-01 Multi-file Project Model`.
+- Added optional project exercise metadata for entry/support/test files without changing existing single-file exercise requirements.
+- Added project helper functions for safe relative path validation, entry file lookup, editable file listing, and single-file-compatible snapshots.
+- Verified existing grading and Chrome/Edge learning flows remain unchanged.
 
 ## In Progress
-- P5-01 Multi-file Project Model planning.
+- P5-02 Bug Fix Tasks planning.
 
 ## Next
-- Implement a safe multi-file project exercise data model without breaking existing single-file lessons.
+- Add Python 1級 bug fix task content and routeable learner flow using the project model where practical.
 
 ## Tests
 - `npm run lint`: passed.
@@ -210,6 +214,8 @@ Current Commit: 57b92bc37d4650d9d2c30f9858ba48700cef2b2f
 - P4-07 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 23 tests); Chrome/Edge Python 2級 small project E2E passed (14 tests).
 - P4-07 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 76 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities. After PR self-review fixed the Python 2級 chapter readiness label, targeted checks passed again and the full gate was rerun successfully with the same results.
 - PR #5 Phase 4 GitHub Actions: `CI / verify` passed on head `41b624284b429c26a878d017ff7ef14e09ecde39`; PR merged to `main` as `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
+- P5-01 targeted checks on 2026-09-05: typecheck passed; project helper/catalog/grading unit tests passed (3 files / 10 tests).
+- P5-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (18 files / 80 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.
