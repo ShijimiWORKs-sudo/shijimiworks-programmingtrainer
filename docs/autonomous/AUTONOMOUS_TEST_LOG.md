@@ -512,7 +512,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P3-04 Mock Exam Final Scoring
 Datetime: 2026-09-04 22:35 +09:00
-Commit: pending checkpoint commit on `codex/phase-3-python-grade3-challenge`
+Commit: 89fe6e99f5e67b2260c61c8eec3fdf0e385523e9
 Target: Add final mock exam grading, score, pass/fail, and result view without leaking hidden test details.
 Test Command: `npm run typecheck`
 Result: Initially failed, then passed.
