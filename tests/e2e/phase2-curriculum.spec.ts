@@ -23,3 +23,20 @@ test("grades Lesson 4 types and operators", async ({ page }) => {
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
   await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
 });
+
+test("grades Lesson 5 if", async ({ page }) => {
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_05_if");
+  await expect(page.getByRole("heading", { name: "Lesson 05: if" })).toBeVisible();
+  await page.getByLabel("stdin").fill("72\n");
+  await setEditorValue(
+    page,
+    'score = int(input())\nif score >= 60:\n    print("pass")\nelse:\n    print("retry")\n'
+  );
+
+  await page.getByRole("button", { name: "実行" }).click();
+  await expect(page.getByLabel("stdout")).toContainText("pass", { timeout: 90000 });
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
+  await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
+});

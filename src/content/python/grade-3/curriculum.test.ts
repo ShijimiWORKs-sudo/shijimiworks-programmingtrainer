@@ -33,4 +33,22 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise?.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
     expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["7\n12\n", "13\n40\n"]);
   });
+
+  it("publishes Lesson 5 with if/else pass and retry test cases", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_05_if");
+    const exercise = lesson?.exercises[0];
+
+    expect(lesson).toMatchObject({
+      title: "Lesson 05: if",
+      status: "published",
+      order: 5,
+    });
+    expect(exercise).toMatchObject({
+      id: "ex_py3_05_01",
+      lessonId: "lesson_py3_05_if",
+      gradingMode: "stdout",
+    });
+    expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["72\n", "45\n"]);
+    expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["pass\n", "retry\n"]);
+  });
 });

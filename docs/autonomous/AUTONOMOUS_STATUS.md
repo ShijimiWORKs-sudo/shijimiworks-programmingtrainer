@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 14:18 +09:00
+Updated: 2026-09-04 14:33 +09:00
 
 Current Phase: Phase 2 / Python 3級 Curriculum Complete
 Current Branch: codex/phase-2-python-grade3-curriculum
-Current Commit: 79a6e9e20cff2f34e1d1e33f787e06458655ba98 plus pending P2-01 checkpoint commit
+Current Commit: 08ff435cb96197abfe402c8881081ad580a21da5 plus pending P2-02 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -29,13 +29,18 @@ Current Commit: 79a6e9e20cff2f34e1d1e33f787e06458655ba98 plus pending P2-01 chec
 - Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 4.
 - Fixed Python worker batched stdout/stderr capture so multi-line `print` output preserves line breaks for run and grade results.
 - Completed full P2-01 regression successfully.
+- Committed and pushed `P2-01 Lesson 4 Types and Operators` as `08ff435cb96197abfe402c8881081ad580a21da5`.
+- Completed `P2-02 Lesson 5 if`.
+- Added a published Lesson 5 for reading a score and printing `pass` or `retry` with public and hidden grading coverage.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 5.
+- Completed full P2-02 regression successfully.
 
 ## In Progress
-- Checkpointing and pushing `P2-01 Lesson 4 Types and Operators`.
+- Checkpointing and pushing `P2-02 Lesson 5 if`.
 
 ## Next
-- Commit and push the P2-01 checkpoint.
-- Continue to `P2-02 Lesson 5 if` from `AUTONOMOUS_PLAN.md`.
+- Commit and push the P2-02 checkpoint.
+- Continue to `P2-03 Lesson 6 for` from `AUTONOMOUS_PLAN.md`.
 
 ## Tests
 - `npm run lint`: passed.
@@ -48,6 +53,8 @@ Current Commit: 79a6e9e20cff2f34e1d1e33f787e06458655ba98 plus pending P2-01 chec
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
 - P2-01 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4 E2E passed.
 - P2-01 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-02 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5 E2E passed.
+- P2-02 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None currently.
