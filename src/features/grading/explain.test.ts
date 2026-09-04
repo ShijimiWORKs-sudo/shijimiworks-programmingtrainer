@@ -42,4 +42,19 @@ describe("explainTestCaseResult", () => {
     expect(explanation).not.toContain("SECRET_ACTUAL");
     expect(explanation).not.toContain("SECRET_STDERR");
   });
+
+  it("explains DOM results without leaking hidden DOM details", () => {
+    expect(explainTestCaseResult(result({ testCaseId: "dom:heading", passed: false }))).toContain("HTML構造");
+
+    const explanation = explainTestCaseResult(result({
+      testCaseId: "dom:private-selector",
+      visibility: "hidden",
+      stdin: undefined,
+      expectedStdout: undefined,
+      actualStdout: "main.profile-card p",
+    }));
+
+    expect(explanation).toContain("非公開DOM条件");
+    expect(explanation).not.toContain("main.profile-card p");
+  });
 });

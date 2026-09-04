@@ -9,6 +9,7 @@ import { HtmlCssWorkspacePage } from "./HtmlCssWorkspacePage";
 const repositoryState = vi.hoisted(() => ({
   progress: undefined as LessonProgress | undefined,
   saveLessonProgress: vi.fn(),
+  recordAttempt: vi.fn(),
 }));
 
 vi.mock("../features/editor/CodeEditor", () => ({
@@ -22,6 +23,7 @@ vi.mock("../repositories", () => ({
   progressRepository: {
     getLessonProgress: vi.fn(() => Promise.resolve(repositoryState.progress)),
     saveLessonProgress: repositoryState.saveLessonProgress,
+    recordAttempt: repositoryState.recordAttempt,
   },
 }));
 
@@ -39,6 +41,7 @@ describe("HtmlCssWorkspacePage", () => {
   beforeEach(() => {
     repositoryState.progress = undefined;
     repositoryState.saveLessonProgress.mockClear();
+    repositoryState.recordAttempt.mockClear();
   });
 
   it("renders split HTML/CSS editors and a sandboxed preview", async () => {
@@ -71,5 +74,34 @@ describe("HtmlCssWorkspacePage", () => {
 
     expect(await screen.findByLabelText("HTML code editor")).toHaveValue("<h1>Saved</h1>");
     expect(screen.getByLabelText("CSS code editor")).toHaveValue("h1 { color: purple; }");
+  });
+
+  it("grades DOM requirements and records progress without hidden details", async () => {
+    renderWorkspace();
+
+    fireEvent.click(await screen.findByRole("button", { name: "採点" }));
+
+    expect(await screen.findByLabelText("Grading result")).toHaveTextContent("合格 (3/3)");
+    expect(screen.getByText("Public Test #1: pass")).toBeInTheDocument();
+    expect(screen.getByText("Hidden Test #3: pass")).toBeInTheDocument();
+    expect(screen.getByText("非公開テストのため詳細は表示されません。")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(repositoryState.saveLessonProgress).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: "passed",
+          gradeCount: 1,
+        })
+      )
+    );
+    expect(repositoryState.recordAttempt).toHaveBeenCalledWith(
+      expect.objectContaining({
+        lessonId: "lesson_htmlcss3_01_split_preview",
+        exerciseId: "ex_htmlcss3_01_01",
+        passed: true,
+        testResults: expect.arrayContaining([
+          expect.objectContaining({ testCaseId: "dom:profile-card-description", passed: true }),
+        ]),
+      })
+    );
   });
 });

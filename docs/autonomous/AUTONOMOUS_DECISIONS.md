@@ -175,3 +175,11 @@ Decision: Serialize the HTML/CSS file snapshot into `LessonProgress.lastCode` wi
 Reason: This keeps P7-01 inside the existing repository contract, avoids a database migration, and gives reload persistence for both editors immediately.
 Alternatives: Add a new IndexedDB store for multi-file snapshots; migrate `LessonProgress.lastCode` to structured data; persist only HTML and reset CSS on reload. These were rejected because they add unnecessary migration risk or fail the split-editor persistence expectation.
 Risk: Future multi-file languages may need a first-class structured progress model. The prefixed format isolates this HTML/CSS snapshot so it can be migrated later without corrupting older single-file lesson progress.
+
+## 2026-09-05: HTML DOM Validator Uses GradeResult-Compatible Output
+Date: 2026-09-05
+Context: P7-02 requires HTML structure grading, but the existing grading UI, progress checkpointing, and attempt recording are built around `GradeResult` and stdout-based test case result rows.
+Decision: Add `html_dom` grading mode and DOM requirement metadata, then return DOM validation results through the existing `GradeResult` shape with `dom:` test result IDs.
+Reason: This keeps lesson progress, hidden-result display rules, and attempt history consistent without forcing a broad grading UI rewrite before CSS validation.
+Alternatives: Create a separate HTML/CSS result domain and duplicate result UI; run learner HTML in the preview iframe to inspect DOM; postpone progress/attempt persistence for HTML/CSS. These were rejected because they either broaden scope, weaken the sandbox boundary, or leave grading less resumable.
+Risk: `GradeResult` now represents both stdout execution and static DOM validation. Result explanation code checks `dom:` IDs so beginner-facing messages stay accurate, but future validators should avoid overloading stdout terms further.

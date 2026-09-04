@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 06:33 +09:00
+Updated: 2026-09-05 07:13 +09:00
 
-Current Phase: Phase 7 / HTML/CSS - P7-01 Split Editor and Preview Foundation completed; P7-02 planning
+Current Phase: Phase 7 / HTML/CSS - P7-02 DOM Validator completed; P7-03 planning
 Current Branch: codex/phase-7-html-css
-Current Commit: aa17db6cd2c705062f67085dc8e4c9f5718c1b89
+Current Commit: pending P7-02 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -223,12 +223,18 @@ Current Commit: aa17db6cd2c705062f67085dc8e4c9f5718c1b89
 - Persisted HTML/CSS editor snapshots through the existing lesson progress repository using serialized `lastCode`.
 - Kept the preview sandboxed with `sandbox=""`, stripped script tags and inline event handlers from preview HTML, and escaped CSS `</style>` breakout sequences.
 - Verified preview update, reload persistence, and app-code isolation in Chrome and Edge.
+- Completed `P7-02 DOM Validator`.
+- Added HTML DOM requirement types and `html_dom` grading mode for HTML/CSS exercises.
+- Added a DOM validator that checks selector existence, text containment, and attribute equality without executing learner HTML.
+- Integrated HTML/CSS workspace grading, result presentation, lesson progress updates, and attempt recording.
+- Added public and hidden DOM requirements to the HTML/CSS 3級 split-preview lesson while keeping hidden requirement details out of the UI.
+- Verified DOM grading pass flow, hidden DOM detail suppression, chapter progress completion, and reload persistence in Chrome and Edge.
 
 ## In Progress
-- `P7-02 DOM Validator` planning.
+- `P7-03 Style Validator` planning.
 
 ## Next
-- Start `P7-02 DOM Validator`: add DOM requirement validation for HTML/CSS lessons without weakening iframe sandboxing.
+- Start `P7-03 Style Validator`: add CSS/responsive requirement validation while preserving the sandboxed preview boundary.
 
 ## Tests
 - `npm run lint`: passed.
@@ -312,6 +318,8 @@ Current Commit: aa17db6cd2c705062f67085dc8e4c9f5718c1b89
 - PR #7 Phase 6 GitHub Actions: `CI` passed on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`; PR merged to `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 - P7-01 targeted checks on 2026-09-05: typecheck passed; HTML/CSS helper, curriculum, catalog, language select, level select, curriculum page, and workspace tests passed (7 files / 17 tests); initial Chrome/Edge P7 E2E failed because tests read sandboxed iframe DOM through `contentDocument` and edited before progress recovery completed, then passed after using Playwright frame locators and a dev-only loaded marker (8 tests).
 - P7-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (34 files / 124 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (88 tests), audit passed with 0 vulnerabilities.
+- P7-02 targeted checks on 2026-09-05: typecheck passed; HTML/CSS DOM validator, preview helper, curriculum, catalog, explanation, curriculum page, and workspace tests passed (7 files / 22 tests); after DOM hidden explanation polish, focused retest passed (3 files / 11 tests); Chrome/Edge P7 E2E passed (10 tests).
+- P7-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (35 files / 129 tests), build passed with existing Pyodide/chunk warnings, initial Chrome/Edge E2E passed 89/90 with one existing Edge Python 1級 timing miss, targeted Edge retest passed, final full Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

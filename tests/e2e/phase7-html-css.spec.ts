@@ -84,6 +84,23 @@ test("keeps preview scripts and inline handlers out of app execution", async ({ 
   ).not.toMatch(/<script|onclick=/i);
 });
 
+test("grades HTML DOM requirements and persists completion", async ({ page }) => {
+  await page.goto("/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview");
+
+  await page.getByRole("button", { name: "採点" }).click();
+
+  await expect(page.getByLabel("Grading result")).toContainText("合格 (3/3)");
+  await expect(page.getByText("Public Test #1: pass")).toBeVisible();
+  await expect(page.getByText("Hidden Test #3: pass")).toBeVisible();
+  await expect(page.getByText("main.profile-card p")).toHaveCount(0);
+
+  await page.goto("/languages/html-css/grade-3");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 1 Lessons completed");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("100%");
+  await page.reload();
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 1 Lessons completed");
+});
+
 test("restores edited HTML and CSS after reload", async ({ page }) => {
   await page.goto("/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview");
 

@@ -26,6 +26,13 @@ describe("html css grade 3 curriculum seed", () => {
         { path: "styles.css", language: "css", editable: true },
       ],
     });
+    expect(exercise.gradingMode).toBe("html_dom");
+    expect(exercise.testCases).toEqual([]);
+    expect(exercise.domRequirements).toMatchObject([
+      { id: "profile-card-main", visibility: "public", selector: "main.profile-card", required: true },
+      { id: "profile-card-heading", visibility: "public", selector: "main.profile-card h1", required: true },
+      { id: "profile-card-description", visibility: "hidden", selector: "main.profile-card p", required: true },
+    ]);
     expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
     expect(getHtmlCssStarterFiles(exercise).css).toContain(".profile-card");
   });

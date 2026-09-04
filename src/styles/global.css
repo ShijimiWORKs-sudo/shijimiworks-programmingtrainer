@@ -560,7 +560,7 @@ pre {
 .html-css-editor-pane {
   min-width: 0;
   display: grid;
-  grid-template-rows: 52px minmax(260px, 1fr) minmax(220px, 38%);
+  grid-template-rows: 52px minmax(240px, 1fr) minmax(180px, 32%) auto;
   overflow: hidden;
   border: 1px solid #ccd8df;
   border-radius: 8px;
@@ -673,6 +673,15 @@ pre {
 
 .grade-panel {
   margin-top: 12px;
+}
+
+.html-css-grade-panel {
+  overflow: auto;
+  margin-top: 0;
+  padding: 12px 16px;
+  color: #d6dee6;
+  background: #26313b;
+  border-top: 1px solid #3c4954;
 }
 
 .pass-banner,

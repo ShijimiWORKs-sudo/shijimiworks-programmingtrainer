@@ -4,8 +4,11 @@ import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
 import { findLessonById } from "../content/catalog";
 import { CodeEditor } from "../features/editor/CodeEditor";
+import { explainTestCaseResult, type GradeResult } from "../features/grading";
+import { gradeHtmlDomExercise } from "../features/htmlCss/htmlDomValidator";
 import { buildHtmlCssPreviewDocument, getHtmlCssStarterFiles, parseHtmlCssFiles, serializeHtmlCssFiles, type HtmlCssFiles } from "../features/htmlCss/htmlCssProject";
-import { createInitialProgress, touchProgress } from "../features/progress/progressModel";
+import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
+import { createInitialProgress, markPassed, touchProgress } from "../features/progress/progressModel";
 import { localUserId, progressRepository } from "../repositories";
 
 declare global {
@@ -23,6 +26,9 @@ export function HtmlCssWorkspacePage() {
   const starterFiles = useMemo(() => exercise ? getHtmlCssStarterFiles(exercise) : { html: "", css: "" }, [exercise]);
   const [files, setFiles] = useState<HtmlCssFiles>(starterFiles);
   const [status, setStatus] = useState<"not_started" | "in_progress" | "passed">("not_started");
+  const [gradeResult, setGradeResult] = useState<GradeResult | undefined>();
+  const [isGrading, setIsGrading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const previewDocument = useMemo(() => buildHtmlCssPreviewDocument(files), [files]);
 
   useEffect(() => {
@@ -45,6 +51,8 @@ export function HtmlCssWorkspacePage() {
       const nextProgress = storedProgress ?? createInitialProgress(localUserId, lesson.id, serializeHtmlCssFiles(starterFiles));
       setFiles(parseHtmlCssFiles(nextProgress.lastCode, starterFiles));
       setStatus(nextProgress.status);
+      setGradeResult(undefined);
+      setErrorMessage("");
       if (import.meta.env.DEV) {
         window.__programmingTrainerLoadedHtmlCssLessonId = lesson.id;
       }
@@ -74,6 +82,7 @@ export function HtmlCssWorkspacePage() {
   const updateFile = useCallback((path: keyof HtmlCssFiles, value: string) => {
     const nextFiles = { ...files, [path]: value };
     setFiles(nextFiles);
+    setGradeResult(undefined);
     void persistFiles(nextFiles);
   }, [files, persistFiles]);
 
@@ -85,6 +94,7 @@ export function HtmlCssWorkspacePage() {
     window.__programmingTrainerSetHtmlCssFileValue = (path, value) => {
       setFiles((current) => {
         const nextFiles = { ...current, [path]: value };
+        setGradeResult(undefined);
         void persistFiles(nextFiles);
         return nextFiles;
       });
@@ -98,8 +108,40 @@ export function HtmlCssWorkspacePage() {
 
   const resetFiles = useCallback(() => {
     setFiles(starterFiles);
+    setGradeResult(undefined);
     void persistFiles(starterFiles);
   }, [persistFiles, starterFiles]);
+
+  const gradeCurrentFiles = useCallback(async () => {
+    if (!lesson || !exercise) {
+      return;
+    }
+
+    setIsGrading(true);
+    setErrorMessage("");
+
+    try {
+      const grade = gradeHtmlDomExercise(exercise, files);
+      const storedProgress = await progressRepository.getLessonProgress(localUserId, lesson.id);
+      const baseProgress = storedProgress ?? createInitialProgress(localUserId, lesson.id, serializeHtmlCssFiles(starterFiles));
+      const touchedProgress = touchProgress(baseProgress, {
+        lastCode: serializeHtmlCssFiles(files),
+        status: grade.passed ? "passed" : (baseProgress.status === "passed" ? "passed" : "in_progress"),
+        gradeCount: baseProgress.gradeCount + 1,
+      });
+      const nextProgress = grade.passed ? markPassed(touchedProgress) : touchedProgress;
+      const summaryResult = createGradeSummaryResult(grade);
+
+      setGradeResult(grade);
+      setStatus(nextProgress.status);
+      await progressRepository.saveLessonProgress(nextProgress);
+      await progressRepository.recordAttempt(createAttempt(lesson.id, exercise.id, serializeHtmlCssFiles(files), "", summaryResult, grade.passed, grade));
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : String(error));
+    } finally {
+      setIsGrading(false);
+    }
+  }, [exercise, files, lesson, starterFiles]);
 
   if (!lesson || !exercise) {
     return (
@@ -159,7 +201,10 @@ export function HtmlCssWorkspacePage() {
       <div className="html-css-editor-pane">
         <div className="editor-toolbar">
           <span>HTML/CSS Preview</span>
-          <span className="runtime-state">sandboxed iframe</span>
+          <span className="runtime-state">{isGrading ? "grading" : "sandboxed iframe"}</span>
+          <button type="button" onClick={gradeCurrentFiles} disabled={isGrading}>
+            採点
+          </button>
           <button type="button" onClick={resetFiles}>
             リセット
           </button>
@@ -178,6 +223,34 @@ export function HtmlCssWorkspacePage() {
           <div className="preview-heading">Preview</div>
           <iframe title="HTML/CSS Preview" sandbox="" srcDoc={previewDocument} />
         </section>
+        {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
+        {gradeResult ? (
+          <section className="grade-panel html-css-grade-panel" aria-label="Grading result">
+            <div className={gradeResult.passed ? "pass-banner" : "fail-banner"}>
+              {gradeResult.passed ? "合格" : "未合格"} ({gradeResult.passedRequired}/{gradeResult.totalRequired})
+            </div>
+            <div className="test-result-list">
+              {gradeResult.results.map((result) => (
+                <article key={result.testCaseId} className="test-result-row">
+                  <strong>
+                    {result.visibility === "hidden" ? "Hidden Test" : "Public Test"} #{result.order}: {result.passed ? "pass" : "fail"}
+                  </strong>
+                  <p className="test-explanation">{explainTestCaseResult(result)}</p>
+                  {result.visibility === "public" ? (
+                    <div className="test-detail">
+                      <span>condition</span>
+                      <pre>{result.expectedStdout}</pre>
+                      <span>actual</span>
+                      <pre>{result.actualStdout || "一致する要素なし"}</pre>
+                    </div>
+                  ) : (
+                    <p>非公開テストのため詳細は表示されません。</p>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </section>
   );

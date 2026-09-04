@@ -413,6 +413,77 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P7-02 DOM Validator
+Datetime: 2026-09-05 07:13 +09:00
+Commit: pending checkpoint commit on `codex/phase-7-html-css`
+Target: Add HTML DOM requirement grading, integrate it into the HTML/CSS workspace, persist progress/attempts, and verify hidden DOM requirement details stay private.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlCssProject.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/content/html-css/grade-3/curriculum.test.ts src/content/catalog.test.ts src/features/grading/explain.test.ts src/routes/HtmlCssWorkspacePage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx`
+Result: Passed, 7 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm test -- --run src/features/grading/explain.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Passed, 3 files / 11 tests.
+Failure: None after adding DOM-specific hidden-result explanation coverage.
+Fix: Added a DOM-specific hidden-result message that keeps hidden selector details private.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Passed, 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full Chrome/Edge E2E.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 35 files / 129 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial run passed 89 / 90 tests; second full run passed 90 tests.
+Failure: Edge timed out once waiting for `合格 (3/3)` in the existing Python 1級 specification-change lesson. The failed test passed on targeted rerun, and all P7 HTML/CSS tests passed in the initial full run.
+Fix: No code change; targeted Edge rerun confirmed the existing lesson still passes.
+Retest Result: Targeted Edge specification-change test passed, then full Chrome/Edge E2E passed, 90 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review DOM validator, hidden detail, and sandbox scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs|dom:|profile-card-description|main\.profile-card p" src tests docs/autonomous`
+Result: DOM hidden requirement details appear only in curriculum metadata and tests that assert they are not visible. The UI keeps hidden DOM results generic, the preview iframe remains `sandbox=""`, and no `allow-scripts`, host filesystem, or child-process access was added.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
