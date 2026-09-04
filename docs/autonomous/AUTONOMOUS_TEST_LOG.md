@@ -148,6 +148,58 @@ Failure: External npm audit endpoint returned `503 Service Unavailable`.
 Fix: No code fix required.
 Retest Result: Passed with 0 vulnerabilities.
 
+## 2026-09-04 Checkpoint: P2-03 Lesson 6 for
+Datetime: 2026-09-04 14:47 +09:00
+Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Target: Publish Python 3級 Lesson 6 and verify `for`/`range()` run and grade behavior.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm run typecheck`
+Result: Passed. One approval review timeout occurred before the successful rerun.
+Failure: Approval review timeout, not a type error.
+Fix: Retried the same command.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/content/python/grade-3/curriculum.test.ts`
+Result: Passed, 1 file / 4 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase2-curriculum.spec.ts`
+Result: Passed, 6 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 9 files / 26 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 16 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities after registry wait.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: PR #2 Ready and Merge
 Datetime: 2026-09-04
 Commit: ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55

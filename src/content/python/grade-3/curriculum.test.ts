@@ -51,4 +51,22 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["72\n", "45\n"]);
     expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["pass\n", "retry\n"]);
   });
+
+  it("publishes Lesson 6 with for loop range test cases", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_06_for");
+    const exercise = lesson?.exercises[0];
+
+    expect(lesson).toMatchObject({
+      title: "Lesson 06: for",
+      status: "published",
+      order: 6,
+    });
+    expect(exercise).toMatchObject({
+      id: "ex_py3_06_01",
+      lessonId: "lesson_py3_06_for",
+      gradingMode: "stdout",
+    });
+    expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["3\n", "5\n"]);
+    expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["1\n2\n3\n", "1\n2\n3\n4\n5\n"]);
+  });
 });
