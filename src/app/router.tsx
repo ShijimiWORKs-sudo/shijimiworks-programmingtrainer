@@ -5,6 +5,7 @@ import { LanguageSelectPage } from "../routes/LanguageSelectPage";
 import { LearningHistoryPage } from "../routes/LearningHistoryPage";
 import { ChallengeWorkspacePage } from "../routes/ChallengeWorkspacePage";
 import { LessonWorkspacePage } from "../routes/LessonWorkspacePage";
+import { MockExamResultPage } from "../routes/MockExamResultPage";
 import { MockExamShellPage } from "../routes/MockExamShellPage";
 import { NotFoundPage } from "../routes/NotFoundPage";
 import { PythonGrade3CurriculumPage } from "../routes/PythonGrade3CurriculumPage";
@@ -25,6 +26,7 @@ export const appRoutes: RouteObject[] = [
       { path: "languages/python/grade-3/challenges/:challengeId", element: <ChallengeWorkspacePage /> },
       { path: "languages/python/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/python/grade-3/mock-exams/:examId", element: <MockExamShellPage /> },
+      { path: "languages/python/grade-3/mock-exams/:examId/result", element: <MockExamResultPage /> },
       { path: "history", element: <LearningHistoryPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "*", element: <NotFoundPage /> },

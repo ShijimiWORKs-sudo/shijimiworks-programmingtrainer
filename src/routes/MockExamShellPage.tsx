@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
 import { findMockExamById } from "../content/catalog";
 import type { AppSettings, MockExamSession } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
+import { buildMockExamResult, GradingEngine } from "../features/grading";
 import {
   createInitialMockExamSession,
   getMockExamAnswer,
   saveMockExamAnswer,
+  submitMockExamSession,
   touchMockExamSession,
 } from "../features/progress/progressModel";
+import { PythonRunner } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 function formatRemaining(seconds: number) {
@@ -21,11 +24,15 @@ function formatRemaining(seconds: number) {
 
 export function MockExamShellPage() {
   const { examId } = useParams();
+  const navigate = useNavigate();
   const exam = examId ? findMockExamById(examId) : undefined;
+  const runnerRef = useRef<PythonRunner | undefined>(undefined);
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
   const [session, setSession] = useState<MockExamSession | undefined>();
   const [code, setCode] = useState("");
   const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [runtimeState, setRuntimeState] = useState<"idle" | "initializing" | "grading">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const saveTimerRef = useRef<number | undefined>(undefined);
   const problem = useMemo(
     () => exam?.problems.find((candidate) => candidate.id === session?.activeProblemId) ?? exam?.problems[0],
@@ -44,6 +51,15 @@ export function MockExamShellPage() {
       }
       delete window.__programmingTrainerEditorValue;
       delete window.__programmingTrainerLoadedLessonId;
+    };
+  }, []);
+
+  useEffect(() => {
+    runnerRef.current = new PythonRunner();
+    return () => {
+      void runnerRef.current?.dispose();
+      runnerRef.current = undefined;
+      window.clearTimeout(saveTimerRef.current);
     };
   }, []);
 
@@ -87,6 +103,8 @@ export function MockExamShellPage() {
       setSession(nextSession);
       setRemainingSeconds(nextSession.remainingSeconds);
       setCode(getMockExamAnswer(nextSession, nextProblem.id, nextProblem.starterCode).sourceCode);
+      setRuntimeState("idle");
+      setErrorMessage("");
       if (import.meta.env.DEV) {
         window.__programmingTrainerLoadedLessonId = exam.id;
       }
@@ -99,18 +117,6 @@ export function MockExamShellPage() {
     };
   }, [exam]);
 
-  useEffect(() => {
-    if (session?.status !== "in_progress") {
-      return;
-    }
-
-    const interval = window.setInterval(() => {
-      setRemainingSeconds((current) => Math.max(0, current - 1));
-    }, 1000);
-
-    return () => window.clearInterval(interval);
-  }, [session?.status]);
-
   const persistSession = useCallback(async (nextSession: MockExamSession) => {
     setSession(nextSession);
     setRemainingSeconds(nextSession.remainingSeconds);
@@ -118,7 +124,7 @@ export function MockExamShellPage() {
   }, []);
 
   const persistAnswer = useCallback((sourceCode: string) => {
-    if (!session || !problem) {
+    if (!session || !problem || session.status === "submitted") {
       return;
     }
     const nextSession = saveMockExamAnswer(session, problem.id, sourceCode);
@@ -170,6 +176,59 @@ export function MockExamShellPage() {
     }));
   }, [persistSession, remainingSeconds, session]);
 
+  const submitExam = useCallback(async () => {
+    if (!exam || !session || !runnerRef.current || runtimeState !== "idle") {
+      return;
+    }
+
+    const sessionWithCurrentAnswer = saveMockExamAnswer(session, session.activeProblemId, code);
+    setRuntimeState("initializing");
+    setErrorMessage("");
+
+    try {
+      await runnerRef.current.initialize();
+      setRuntimeState("grading");
+      const gradingEngine = new GradingEngine(runnerRef.current);
+      const problemGrades = [];
+      for (const candidate of exam.problems) {
+        const answer = getMockExamAnswer(sessionWithCurrentAnswer, candidate.id, candidate.starterCode);
+        const grade = await gradingEngine.gradeExercise(candidate, answer.sourceCode);
+        problemGrades.push({ problem: candidate, grade });
+      }
+
+      const submittedAt = new Date().toISOString();
+      const result = buildMockExamResult(exam, problemGrades, submittedAt);
+      const nextSession = submitMockExamSession(sessionWithCurrentAnswer, result, remainingSeconds);
+      await persistSession(nextSession);
+      navigate(routePaths.pythonGrade3MockExamResult(exam.id));
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : String(error));
+    } finally {
+      setRuntimeState("idle");
+    }
+  }, [code, exam, navigate, persistSession, remainingSeconds, runtimeState, session]);
+
+  useEffect(() => {
+    if (session?.status !== "in_progress") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setRemainingSeconds((current) => Math.max(0, current - 1));
+    }, 1000);
+
+    return () => window.clearInterval(interval);
+  }, [session?.status]);
+
+  useEffect(() => {
+    if (session?.status === "in_progress" && remainingSeconds === 0 && runtimeState === "idle") {
+      const submitTimer = window.setTimeout(() => {
+        void submitExam();
+      }, 0);
+      return () => window.clearTimeout(submitTimer);
+    }
+  }, [remainingSeconds, runtimeState, session?.status, submitExam]);
+
   const selectProblem = useCallback(async (problemId: string) => {
     if (!exam || !session || !problem || problem.id === problemId) {
       return;
@@ -211,6 +270,7 @@ export function MockExamShellPage() {
 
   const activeProblemIndex = exam.problems.findIndex((candidate) => candidate.id === problem.id);
   const hasStarted = session.status !== "not_started";
+  const canSubmit = hasStarted && session.status !== "submitted" && runtimeState === "idle";
 
   return (
     <section className="workspace-shell" aria-label="Mock Exam Shell">
@@ -259,6 +319,7 @@ export function MockExamShellPage() {
       <div className="editor-pane">
         <div className="editor-toolbar">
           <span>Python Mock Exam</span>
+          <span className="runtime-state">{runtimeState === "idle" ? "ready" : runtimeState}</span>
           <button type="button" onClick={startExam} disabled={hasStarted}>
             開始
           </button>
@@ -268,11 +329,21 @@ export function MockExamShellPage() {
           <button type="button" onClick={resumeExam} disabled={session.status !== "paused"}>
             再開
           </button>
+          <button type="button" onClick={() => { void submitExam(); }} disabled={!canSubmit}>
+            提出して採点
+          </button>
         </div>
         <div className="monaco-host">
-          <CodeEditor value={code} fontSize={settings.editorFontSize} tabSize={settings.tabSize} onChange={handleCodeChange} />
+          <CodeEditor
+            value={code}
+            fontSize={settings.editorFontSize}
+            tabSize={settings.tabSize}
+            readOnly={session.status === "submitted"}
+            onChange={handleCodeChange}
+          />
         </div>
         <div className="console-pane" aria-label="Mock exam status">
+          {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
           <p>{hasStarted ? "回答はこのブラウザに保存されます。" : "開始すると問題移動と一時停止が使えます。"}</p>
           <div className="completion-actions">
             <button type="button" className="secondary-action inline-action" onClick={() => { void selectProblem(exam.problems[Math.max(0, activeProblemIndex - 1)].id); }} disabled={!hasStarted || activeProblemIndex === 0}>
@@ -284,6 +355,11 @@ export function MockExamShellPage() {
             <Link className="secondary-action inline-action" to={routePaths.pythonGrade3}>
               Curriculumへ戻る
             </Link>
+            {session.result ? (
+              <Link className="primary-action inline-action" to={routePaths.pythonGrade3MockExamResult(exam.id)}>
+                結果を見る
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

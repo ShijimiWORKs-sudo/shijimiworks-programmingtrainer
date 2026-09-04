@@ -55,3 +55,11 @@ Decision: Add a non-destructive IndexedDB version 3 migration with a dedicated `
 Reason: The shell needs reliable recovery across reloads and problem navigation, but scoring state should stay out of scope until the next checkpoint.
 Alternatives: Reuse lesson or challenge progress; wait to persist exam sessions until scoring; store the shell only in component state. These were rejected because they either mix separate product concepts or fail pause/reload recovery.
 Risk: P3-04 must extend the existing session model carefully so submitted results remain compatible with sessions created by P3-03.
+
+## 2026-09-04: Mock Exam Passing Threshold
+Date: 2026-09-04
+Context: Product docs require mock exam score and pass/fail, but do not define the initial passing threshold for the Python 3級 trial exam.
+Decision: Set `passingScorePercent` to 100 for the current Python 3級 v1.0 candidate mock exam.
+Reason: The seeded exam is short and focused on core Grade 3 concepts, so requiring every required test to pass gives beginners a clear completion target and avoids ambiguous partial certification semantics.
+Alternatives: Use 70% or 80%; pass by problem count; omit pass/fail until more exams exist. These were rejected because they would introduce an unexplained certification rule or fail the P3-04 acceptance condition.
+Risk: Future fuller mock exams may need a lower threshold or grade-specific policy. The threshold is explicit in the exam data so it can be changed per exam without migration.

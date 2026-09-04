@@ -5,6 +5,7 @@ import type {
   LessonProgress,
   LessonProgressStatus,
   MockExamAnswer,
+  MockExamResult,
   MockExamSession,
   MockExamSessionStatus,
 } from "../../domain/progress";
@@ -220,6 +221,19 @@ export function saveMockExamAnswer(
         updatedAt: now,
       },
     },
+  });
+}
+
+export function submitMockExamSession(
+  session: MockExamSession,
+  result: MockExamResult,
+  remainingSeconds: number
+): MockExamSession {
+  return touchMockExamSession(session, {
+    status: "submitted",
+    submittedAt: result.submittedAt,
+    remainingSeconds,
+    result,
   });
 }
 

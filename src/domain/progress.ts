@@ -58,6 +58,44 @@ export interface MockExamAnswer {
   updatedAt: string;
 }
 
+export interface MockExamPublicTestResult {
+  testCaseId: string;
+  order: number;
+  passed: boolean;
+  required: boolean;
+  stdin?: string;
+  expectedStdout?: string;
+  actualStdout: string;
+  stderr: string;
+  status: RunStatus;
+  errorType: RunErrorType | undefined;
+  durationMs: number;
+}
+
+export interface MockExamProblemResult {
+  problemId: string;
+  order: number;
+  sourceLessonIds: string[];
+  passed: boolean;
+  passedRequiredCount: number;
+  totalRequiredCount: number;
+  hiddenPassedRequiredCount: number;
+  hiddenRequiredCount: number;
+  publicResults: MockExamPublicTestResult[];
+}
+
+export interface MockExamResult {
+  scorePercent: number;
+  passed: boolean;
+  passingScorePercent: number;
+  passedProblems: number;
+  totalProblems: number;
+  passedRequiredCount: number;
+  totalRequiredCount: number;
+  submittedAt: string;
+  problemResults: MockExamProblemResult[];
+}
+
 export interface MockExamSession {
   id: string;
   userId: string;
@@ -69,6 +107,7 @@ export interface MockExamSession {
   submittedAt?: string;
   remainingSeconds: number;
   answers: Record<string, MockExamAnswer>;
+  result?: MockExamResult;
   updatedAt: string;
 }
 

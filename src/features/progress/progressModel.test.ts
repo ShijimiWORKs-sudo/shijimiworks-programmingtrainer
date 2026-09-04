@@ -7,6 +7,7 @@ import {
   getMockExamAnswer,
   markPassed,
   saveMockExamAnswer,
+  submitMockExamSession,
   touchChallengeProgress,
   touchExerciseProgress,
   touchMockExamSession,
@@ -86,6 +87,31 @@ describe("progress model", () => {
       status: "paused",
       activeProblemId: "problem-2",
       remainingSeconds: 1200,
+    });
+  });
+
+  it("submits mock exam sessions with result summaries", () => {
+    const initial = createInitialMockExamSession("user", "exam", "problem-1", "starter", 25);
+    const submitted = submitMockExamSession(initial, {
+      scorePercent: 100,
+      passed: true,
+      passingScorePercent: 100,
+      passedProblems: 1,
+      totalProblems: 1,
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+      submittedAt: "2026-09-04T00:00:00.000Z",
+      problemResults: [],
+    }, 1180);
+
+    expect(submitted).toMatchObject({
+      status: "submitted",
+      submittedAt: "2026-09-04T00:00:00.000Z",
+      remainingSeconds: 1180,
+      result: {
+        scorePercent: 100,
+        passed: true,
+      },
     });
   });
 });

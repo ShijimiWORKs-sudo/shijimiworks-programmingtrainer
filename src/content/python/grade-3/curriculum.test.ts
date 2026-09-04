@@ -68,12 +68,13 @@ describe("python grade 3 curriculum seed", () => {
       title: "Python 3級 模擬試験",
       status: "published",
       timeLimitMinutes: 25,
+      passingScorePercent: 100,
     });
     expect(exam.problems.map((problem) => problem.order)).toEqual([1, 2]);
     for (const problem of exam.problems) {
       expect(problem.examId).toBe(exam.id);
       expect(problem.sourceLessonIds.every((lessonId) => lessonIds.has(lessonId))).toBe(true);
-      expect(problem.testCases.length).toBeGreaterThanOrEqual(1);
+      expect(problem.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
     }
   });
 

@@ -510,6 +510,58 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-04 Checkpoint: P3-04 Mock Exam Final Scoring
+Datetime: 2026-09-04 22:35 +09:00
+Commit: pending checkpoint commit on `codex/phase-3-python-grade3-challenge`
+Target: Add final mock exam grading, score, pass/fail, and result view without leaking hidden test details.
+Test Command: `npm run typecheck`
+Result: Initially failed, then passed.
+Failure: Mock exam scoring tried to copy a non-existent `MockExamProblem.title`, and the result page passed an optional `errorType` to `explainTestCaseResult`.
+Fix: Removed the title field from persisted problem results and made the public result `errorType` explicit as `RunErrorType | undefined`.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/features/grading/mockExamScoring.test.ts src/features/progress/progressModel.test.ts src/content/python/grade-3/curriculum.test.ts src/app/App.test.tsx src/repositories/BrowserProgressRepository.test.ts`
+Result: Passed, 5 files / 36 tests.
+Failure: None after type fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase3-mock-exam.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Initially failed, then passed.
+Failure: React hooks lint flagged a synchronous submit call from the zero-time remaining effect.
+Fix: Scheduled the auto-submit call with `window.setTimeout(..., 0)` and cleaned up the timer.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 14 files / 63 tests.
+Failure: None after targeted fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 32 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`

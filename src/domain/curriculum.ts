@@ -88,6 +88,7 @@ export interface MockExam {
   descriptionMd: string;
   status: MockExamPublicationStatus;
   timeLimitMinutes: number;
+  passingScorePercent: number;
   problems: MockExamProblem[];
 }
 

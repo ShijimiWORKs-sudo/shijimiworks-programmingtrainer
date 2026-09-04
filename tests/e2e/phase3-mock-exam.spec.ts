@@ -41,4 +41,11 @@ test("starts, navigates, pauses, and restores the Python grade 3 mock exam shell
   await page.getByRole("button", { name: "前の問題" }).click();
   await expect(page.getByText("1 / 2")).toBeVisible();
   await expect.poll(() => page.evaluate(() => window.__programmingTrainerEditorValue)).toContain('message = "Python"');
+
+  await page.getByRole("button", { name: "提出して採点" }).click();
+  await expect(page.getByRole("heading", { name: "Mock Exam Result" })).toBeVisible();
+  await expect(page.getByText("Passed / Score 100%")).toBeVisible();
+  await expect(page.getByText("2 / 2 problems passed")).toBeVisible();
+  await expect(page.getByText("Hidden tests: 1 / 1")).toHaveCount(2);
+  await expect(page.getByText("17")).toHaveCount(0);
 });

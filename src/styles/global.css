@@ -326,6 +326,39 @@ pre {
   font-weight: 700;
 }
 
+.mock-exam-result {
+  display: grid;
+  gap: 1rem;
+}
+
+.mock-exam-result h2 {
+  margin: 0;
+}
+
+.result-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.result-summary div {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  background: #ffffff;
+}
+
+.result-summary dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.result-summary dd {
+  margin: 0.25rem 0 0;
+  font-weight: 800;
+}
+
 .workspace-shell {
   height: calc(100vh - 104px);
   min-height: 616px;
