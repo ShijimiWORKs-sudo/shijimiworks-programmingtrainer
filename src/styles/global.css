@@ -359,6 +359,16 @@ pre {
   font-weight: 800;
 }
 
+.review-suggestion-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-suggestion-list h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
 .workspace-shell {
   height: calc(100vh - 104px);
   min-height: 616px;

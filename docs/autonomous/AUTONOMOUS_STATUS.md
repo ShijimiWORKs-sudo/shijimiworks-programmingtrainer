@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 22:35 +09:00
+Updated: 2026-09-04 22:54 +09:00
 
 Current Phase: Phase 3 / Python 3級 Challenge and Mock Exam
 Current Branch: codex/phase-3-python-grade3-challenge
-Current Commit: 89fe6e99f5e67b2260c61c8eec3fdf0e385523e9
+Current Commit: pending P3-05 checkpoint commit after green regression
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -101,12 +101,16 @@ Current Commit: 89fe6e99f5e67b2260c61c8eec3fdf0e385523e9
 - Added a Mock Exam Result route with score, pass line, problem-level results, public test details, and hidden test pass counts only.
 - Added hidden mock exam coverage and verified hidden stdin/expected details are not displayed in the result view.
 - Verified submitted sessions can be re-opened through the shell and result route.
+- Completed `P3-05 Weakness Analysis and Review Path`.
+- Added source-lesson based mock exam review suggestion analytics.
+- Displayed review suggestions on the Mock Exam Result screen with direct Lesson links.
+- Verified failed mock exam results recommend relevant input/if lessons while keeping hidden test details private.
 
 ## In Progress
-- P3-05 Weakness Analysis and Review Path planning.
+- P3-06 Python 3級 v1.0 Candidate Checkpoint planning.
 
 ## Next
-- Connect mock exam failures to weak lesson review suggestions.
+- Stabilize Python 3級 candidate with full regression, PR review, CI, and merge readiness.
 
 ## Tests
 - `npm run lint`: passed.
@@ -146,6 +150,8 @@ Current Commit: 89fe6e99f5e67b2260c61c8eec3fdf0e385523e9
 - P3-03 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (13 files / 59 tests), build passed, Chrome/Edge E2E passed (32 tests), audit passed with 0 vulnerabilities.
 - P3-04 targeted checks on 2026-09-04: initial typecheck failed on using a non-existent mock exam problem title and optional error type; fixed. Related scoring/progress/content/route/repository tests passed (5 files / 36 tests). Chrome/Edge Mock Exam submit/result E2E passed (2 tests).
 - P3-04 full regression on 2026-09-04: initial lint failed on synchronous submit call from an effect; fixed with a next-tick timer. lint passed, typecheck passed, unit/component tests passed (14 files / 63 tests), build passed, Chrome/Edge E2E passed (32 tests), audit passed with 0 vulnerabilities.
+- P3-05 targeted checks on 2026-09-04: typecheck passed; analytics/scoring/route tests passed (3 files / 14 tests); Chrome/Edge Mock Exam pass/fail result and review suggestion E2E passed (4 tests).
+- P3-05 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (15 files / 65 tests), build passed, Chrome/Edge E2E passed (34 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

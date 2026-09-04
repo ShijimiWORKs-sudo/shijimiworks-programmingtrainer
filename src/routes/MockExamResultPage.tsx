@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { findMockExamById } from "../content/catalog";
+import { pythonGrade3Course } from "../content/python/grade-3";
 import type { MockExamSession, MockExamPublicTestResult } from "../domain/progress";
+import { buildMockExamReviewSuggestions } from "../features/analytics/mockExamReview";
 import { explainTestCaseResult } from "../features/grading";
 import { localUserId, progressRepository } from "../repositories";
 
@@ -61,6 +63,9 @@ export function MockExamResultPage() {
     );
   }
 
+  const lessons = pythonGrade3Course.chapters.flatMap((chapter) => chapter.lessons);
+  const reviewSuggestions = buildMockExamReviewSuggestions(result, lessons);
+
   return (
     <section className="page-panel mock-exam-result" aria-label="Mock Exam Result">
       <p className="eyebrow">SCR-070</p>
@@ -105,6 +110,23 @@ export function MockExamResultPage() {
           </article>
         ))}
       </div>
+      <section className="review-suggestion-list" aria-label="Review suggestions">
+        <h2>Review suggestions</h2>
+        {reviewSuggestions.length > 0 ? (
+          reviewSuggestions.map((suggestion) => (
+            <Link
+              key={suggestion.lessonId}
+              className="lesson-row challenge-row"
+              to={routePaths.pythonGrade3Lesson(suggestion.lessonId)}
+            >
+              <span>{suggestion.title}</span>
+              <span>{suggestion.failedRequiredCount} required test gap</span>
+            </Link>
+          ))
+        ) : (
+          <p>復習候補はありません。この範囲は安定しています。</p>
+        )}
+      </section>
       <div className="completion-actions">
         <Link className="secondary-action inline-action" to={routePaths.pythonGrade3MockExam(exam.id)}>
           模擬試験へ戻る

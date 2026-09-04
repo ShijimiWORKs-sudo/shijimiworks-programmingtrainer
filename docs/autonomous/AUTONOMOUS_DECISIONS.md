@@ -63,3 +63,11 @@ Decision: Set `passingScorePercent` to 100 for the current Python 3級 v1.0 cand
 Reason: The seeded exam is short and focused on core Grade 3 concepts, so requiring every required test to pass gives beginners a clear completion target and avoids ambiguous partial certification semantics.
 Alternatives: Use 70% or 80%; pass by problem count; omit pass/fail until more exams exist. These were rejected because they would introduce an unexplained certification rule or fail the P3-04 acceptance condition.
 Risk: Future fuller mock exams may need a lower threshold or grade-specific policy. The threshold is explicit in the exam data so it can be changed per exam without migration.
+
+## 2026-09-04: Mock Exam Review Suggestions From Source Lessons
+Date: 2026-09-04
+Context: P3-05 requires weakness analysis and review paths, but the product docs do not define a skill taxonomy yet.
+Decision: Derive initial review suggestions from failed mock exam problem `sourceLessonIds`, sorted by failed required-test count and lesson order.
+Reason: The curriculum already links exam problems to source lessons, so this creates useful review guidance without inventing a separate taxonomy before Phase 13.
+Alternatives: Add a new skill map now; recommend all source lessons regardless of pass/fail; wait until cross-language analytics. These were rejected because they either broaden scope or make the review path less precise.
+Risk: Source-lesson suggestions are coarse. Future analytics can replace or enrich them with a skill taxonomy while preserving the existing result data.
