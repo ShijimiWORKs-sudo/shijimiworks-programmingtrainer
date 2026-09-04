@@ -11,6 +11,14 @@ import { markPassed, createInitialProgress, touchProgress } from "../features/pr
 import { PythonRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
+declare global {
+  interface Window {
+    __programmingTrainerSetEditorValue?: (value: string) => void;
+    __programmingTrainerEditorValue?: string;
+    __programmingTrainerLoadedLessonId?: string;
+  }
+}
+
 export function LessonWorkspacePage() {
   const { lessonId } = useParams();
   const lesson = lessonId ? findLessonById(lessonId) : undefined;
@@ -27,6 +35,27 @@ export function LessonWorkspacePage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    if (!import.meta.env.DEV) {
+      return;
+    }
+
+    window.__programmingTrainerSetEditorValue = setCode;
+    return () => {
+      if (window.__programmingTrainerSetEditorValue === setCode) {
+        delete window.__programmingTrainerSetEditorValue;
+      }
+      delete window.__programmingTrainerEditorValue;
+      delete window.__programmingTrainerLoadedLessonId;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      window.__programmingTrainerEditorValue = code;
+    }
+  }, [code]);
+
+  useEffect(() => {
     runnerRef.current = new PythonRunner();
     return () => {
       void runnerRef.current?.dispose();
@@ -40,6 +69,9 @@ export function LessonWorkspacePage() {
     async function loadLessonState() {
       if (!lesson) {
         return;
+      }
+      if (import.meta.env.DEV) {
+        delete window.__programmingTrainerLoadedLessonId;
       }
       const [storedSettings, storedProgress] = await Promise.all([
         settingsRepository.getOrCreateSettings(localUserId),
@@ -59,6 +91,9 @@ export function LessonWorkspacePage() {
       setGradeResult(undefined);
       setStdin(lesson.sampleInput);
       setErrorMessage("");
+      if (import.meta.env.DEV) {
+        window.__programmingTrainerLoadedLessonId = lesson.id;
+      }
     }
 
     void loadLessonState();

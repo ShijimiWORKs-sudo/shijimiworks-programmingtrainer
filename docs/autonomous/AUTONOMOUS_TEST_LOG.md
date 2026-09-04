@@ -55,3 +55,43 @@ Result: Initially failed after network timeouts revealed DOMPurify vulnerabiliti
 Failure: 2 vulnerabilities, low/moderate, in transitive DOMPurify dependency.
 Fix: Added npm override for `dompurify@3.4.14` and refreshed dependencies with `npm install`.
 Retest Result: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2` passed with 0 vulnerabilities.
+
+## 2026-09-04 Checkpoint: PR #2 Self-review Before Merge
+Datetime: 2026-09-04
+Commit: 21d08bf895d45fd0a7b17d6e3bfa52071032b710 plus pending self-review fix
+Target: PR #2 self-review and merge gate.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E helper fix.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E helper fix.
+
+Test Command: `npm test`
+Result: Passed, 9 files / 23 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E helper fix.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed after E2E helper fix.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initially failed during self-review because the keyboard-driven Monaco helper raced with editor state recovery/replacement. Final result passed, 10 tests.
+Failure: Chrome/Edge E2E could run starter or duplicated code instead of the requested code.
+Fix: Added a dev-only Lesson Workspace editor-state hook and changed E2E helper to wait for lesson recovery and state update before running/grading.
+Retest Result: Passed, 10 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.

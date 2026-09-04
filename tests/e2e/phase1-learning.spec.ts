@@ -1,10 +1,13 @@
 import { expect, test, type Page } from "@playwright/test";
 
 async function setEditorValue(page: Page, value: string) {
-  await page.getByLabel("Python code editor").click({ force: true });
-  await page.keyboard.press("Control+A");
-  await page.keyboard.press("Backspace");
-  await page.keyboard.insertText(value);
+  await page.waitForFunction(
+    () =>
+      typeof window.__programmingTrainerLoadedLessonId === "string" &&
+      typeof window.__programmingTrainerSetEditorValue === "function"
+  );
+  await page.evaluate((nextValue) => window.__programmingTrainerSetEditorValue?.(nextValue), value);
+  await page.waitForFunction((nextValue) => window.__programmingTrainerEditorValue === nextValue, value);
 }
 
 test("completes Lesson 1 with run and grade", async ({ page }) => {

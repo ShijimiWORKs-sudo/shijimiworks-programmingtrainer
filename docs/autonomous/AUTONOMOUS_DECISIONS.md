@@ -15,3 +15,11 @@ Decision: Add npm `overrides.dompurify = 3.4.14` and refresh `package-lock.json`
 Reason: This fixes the vulnerable transitive package while preserving the existing Monaco version and application behavior.
 Alternatives: Accept the breaking downgrade; wait for a Monaco release with updated dependency; ignore audit. These were rejected because the checkpoint requires audit green without broad behavior changes.
 Risk: npm override may need revisiting when Monaco updates its own DOMPurify dependency. Keep the override until a non-vulnerable Monaco release makes it unnecessary.
+
+## 2026-09-04: Dev-only E2E Editor Hook
+Date: 2026-09-04
+Context: During PR #2 self-review, Chrome/Edge E2E showed Monaco keyboard replacement could race with lesson state recovery or fail to select all existing code, causing tests to run starter or duplicated code.
+Decision: Add a development-only Lesson Workspace hook that lets E2E set the React editor state after lesson recovery completes, then wait until the state reflects the requested code.
+Reason: This keeps production behavior unchanged while making E2E assertions validate runner/grading behavior instead of Monaco keyboard timing.
+Alternatives: Keep retrying the flaky keyboard helper; expose Monaco internals from `CodeEditor`; weaken or skip E2E. These were rejected because the checkpoint requires reliable Chrome/Edge coverage without weakening tests.
+Risk: The dev-only window hook is test support surface. It must remain guarded by `import.meta.env.DEV` and should not be used as product functionality.
