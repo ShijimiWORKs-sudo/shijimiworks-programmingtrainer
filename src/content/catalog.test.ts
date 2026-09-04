@@ -42,7 +42,10 @@ describe("content catalog", () => {
       status: "published",
     });
     expect(findCourseByLessonId("lesson_py2_01_function_return")?.id).toBe("course_python_grade_2");
-    expect(findNextLesson("lesson_py2_01_function_return")).toBeUndefined();
+    expect(findNextLesson("lesson_py2_01_function_return")).toMatchObject({
+      id: "lesson_py2_02_classes",
+    });
+    expect(findNextLesson("lesson_py2_02_classes")).toBeUndefined();
     expect(findNextLesson("lesson_py3_10_functions")).toBeUndefined();
   });
 });
