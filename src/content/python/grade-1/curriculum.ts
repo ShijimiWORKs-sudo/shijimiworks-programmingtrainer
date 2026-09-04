@@ -4,6 +4,8 @@ const starterCode = "def normalize_name(name):\n    return name\n\n\ndef build_g
 
 const specificationChangeStarterCode = "def shipping_fee(total):\n    return 500\n\n\ndef order_total(total):\n    return total + shipping_fee(total)\n\ntotal = int(input())\nprint(order_total(total))\n";
 
+const testOrientedStarterCode = "def parse_scores(line):\n    return [int(part) for part in line.split(\",\")]\n\n\ndef passed_count(scores):\n    return len(scores)\n\nline = input()\nscores = parse_scores(line)\nprint(passed_count(scores))\n";
+
 const courseId = "course_python_grade_1";
 
 export const pythonGrade1Course: Course = {
@@ -184,6 +186,96 @@ export const pythonGrade1Course: Course = {
                   visibility: "hidden",
                   stdin: "5100\n",
                   expectedStdout: "5100\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "lesson_py1_03_test_oriented",
+          chapterId: "chapter_python_grade_1_practical",
+          slug: "test-oriented",
+          title: "Lesson 03: test-oriented task",
+          objective: "公開されているテストを読み、期待される振る舞いから実装を直す。",
+          explanationMd: "テスト志向のtaskでは、説明文だけでなくテストコードも仕様の一部として読みます。テストが示す入力、境界値、期待値を手がかりに、関数の責務を小さく保ちながら実装を直します。",
+          taskMd: "tests/test_scores.py の期待を満たすように、parse_scores(line) と passed_count(scores) を修正してください。カンマ区切りの点数から整数だけを読み取り、70点以上の点数の個数を出力します。",
+          starterCode: testOrientedStarterCode,
+          sampleInput: "80,65,90\n",
+          sampleOutput: "2\n",
+          constraints: [
+            "parse_scores(line) 関数を残してください。",
+            "整数へ変換できない値は無視してください。",
+            "passed_count(scores) は70点以上の点数だけを数えてください。",
+            "出力は合格点数の個数を1行にしてください。",
+          ],
+          difficulty: 4,
+          estimatedMinutes: 20,
+          order: 3,
+          status: "published",
+          hints: [
+            "for part in line.split(\",\") でカンマ区切りの値を1つずつ見られます。",
+            "int(part) は数値ではない文字列で ValueError になるので、try/except で無視できます。",
+            "passed_count では if score >= 70: のときだけ count を増やしましょう。",
+          ],
+          exercises: [
+            {
+              id: "ex_py1_03_01",
+              lessonId: "lesson_py1_03_test_oriented",
+              type: "code",
+              promptMd: "表示されているテストを読み、点数集計の期待動作を満たすように既存コードを修正します。",
+              starterCode: testOrientedStarterCode,
+              project: {
+                entryFilePath: "main.py",
+                files: [
+                  {
+                    path: "main.py",
+                    language: "python",
+                    content: testOrientedStarterCode,
+                    editable: true,
+                    purpose: "entry",
+                  },
+                  {
+                    path: "tests/test_scores.py",
+                    language: "python",
+                    content: "assert parse_scores('80,65,90') == [80, 65, 90]\nassert passed_count([80, 65, 90]) == 2\nassert passed_count([70, 69, 71]) == 2\n",
+                    editable: false,
+                    purpose: "test",
+                  },
+                ],
+              },
+              gradingMode: "stdout",
+              timeoutMs: 3000,
+              completionCriteria: "有効な整数だけを点数として扱い、70点以上の件数を正しく出力する。",
+              testCases: [
+                {
+                  id: "tc_py1_03_public_mixed_scores",
+                  order: 1,
+                  visibility: "public",
+                  stdin: "80,65,90\n",
+                  expectedStdout: "2\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_03_public_boundary",
+                  order: 2,
+                  visibility: "public",
+                  stdin: "70,69,71\n",
+                  expectedStdout: "2\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_03_hidden_invalid_values",
+                  order: 3,
+                  visibility: "hidden",
+                  stdin: "100,no,40,75\n",
+                  expectedStdout: "2\n",
                   comparator: "trimmed_text",
                   weight: 1,
                   required: true,

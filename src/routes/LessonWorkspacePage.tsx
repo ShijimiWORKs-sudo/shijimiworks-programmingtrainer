@@ -356,6 +356,22 @@ export function LessonWorkspacePage() {
             ))}
           </ul>
         </section>
+        {exercise.project ? (
+          <section aria-label="Project files">
+            <h2>Project files</h2>
+            <div className="project-file-list">
+              {exercise.project.files.map((file) => (
+                <article key={file.path} className="project-file">
+                  <div className="project-file-heading">
+                    <strong>{file.path}</strong>
+                    <span>{file.editable ? "editable" : "read-only"}</span>
+                  </div>
+                  <pre>{file.content}</pre>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
         <section>
           <h2>ヒント</h2>
           <button className="small-button" type="button" onClick={revealHint} disabled={visibleHintCount >= lesson.hints.length}>

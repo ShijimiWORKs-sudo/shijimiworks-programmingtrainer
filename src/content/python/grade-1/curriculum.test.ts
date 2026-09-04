@@ -51,4 +51,26 @@ describe("python grade 1 curriculum seed", () => {
     expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "public", "hidden"]);
     expect(exercise.project?.files.map((file) => file.content).join("\n")).not.toContain("5100");
   });
+
+  it("adds a routeable test-oriented lesson with visible support tests", () => {
+    const lesson = pythonGrade1Course.chapters[0].lessons[2];
+    const exercise = lesson.exercises[0];
+
+    expect(lesson).toMatchObject({
+      id: "lesson_py1_03_test_oriented",
+      title: "Lesson 03: test-oriented task",
+      status: "published",
+      order: 3,
+    });
+    expect(exercise.project).toMatchObject({
+      entryFilePath: "main.py",
+      files: [
+        { path: "main.py", editable: true, purpose: "entry" },
+        { path: "tests/test_scores.py", editable: false, purpose: "test" },
+      ],
+    });
+    expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
+    expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "public", "hidden"]);
+    expect(exercise.project?.files.map((file) => file.content).join("\n")).not.toContain("100,no,40,75");
+  });
 });

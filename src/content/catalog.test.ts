@@ -70,11 +70,19 @@ describe("content catalog", () => {
       title: "Lesson 02: specification change",
       status: "published",
     });
+    expect(findLessonById("lesson_py1_03_test_oriented")).toMatchObject({
+      title: "Lesson 03: test-oriented task",
+      status: "published",
+    });
     expect(findCourseByLessonId("lesson_py1_01_bug_fix")?.id).toBe("course_python_grade_1");
     expect(findCourseByLessonId("lesson_py1_02_specification_change")?.id).toBe("course_python_grade_1");
+    expect(findCourseByLessonId("lesson_py1_03_test_oriented")?.id).toBe("course_python_grade_1");
     expect(findNextLesson("lesson_py1_01_bug_fix")).toMatchObject({
       id: "lesson_py1_02_specification_change",
     });
-    expect(findNextLesson("lesson_py1_02_specification_change")).toBeUndefined();
+    expect(findNextLesson("lesson_py1_02_specification_change")).toMatchObject({
+      id: "lesson_py1_03_test_oriented",
+    });
+    expect(findNextLesson("lesson_py1_03_test_oriented")).toBeUndefined();
   });
 });

@@ -96,6 +96,64 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P5-04 Test-Oriented Tasks
+Datetime: 2026-09-05 02:26 +09:00
+Commit: pending P5-04 checkpoint commit
+Target: Add visible project support tests and a Python 1級 test-oriented lesson with public/hidden grading coverage.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Initially failed, then passed, 8 tests.
+Failure: `getByText("tests/test_scores.py")` matched both the task body and the project file heading in strict mode.
+Fix: Narrowed the locator to `getByText("tests/test_scores.py", { exact: true })`.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_03_hidden|100,no,40,75|tests/test_scores|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden-specific `100,no,40,75` appeared only in the hidden test case and E2E non-visibility assertion; visible project support tests use separate public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed by full regression.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 88 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 56 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P5-03 Specification Change Tasks
 Datetime: 2026-09-05 02:07 +09:00
 Commit: e22b523db87a0d05ec5c2c6e0a3d3d7c2f31575e

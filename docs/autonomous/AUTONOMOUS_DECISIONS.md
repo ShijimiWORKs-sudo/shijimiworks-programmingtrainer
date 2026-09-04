@@ -111,3 +111,11 @@ Decision: Use an order-total calculation where the learner adds a new `5000å††ä»
 Reason: The task is small enough for a checkpoint, clearly demonstrates specification change work, and can be validated with stdout grading across old and new behavior.
 Alternatives: Add a larger multi-file feature request; require learners to update visible tests; defer specification changes until a richer project UI. These were rejected because they would broaden P5-03 beyond the current stable architecture.
 Risk: The exercise still uses a single visible editor even though project metadata includes a support test file. Future P5-04/P5-05 work should expand test/refactoring affordances without exposing hidden cases.
+
+## 2026-09-05: Project Support Tests Display
+Date: 2026-09-05
+Context: P5-04 requires test-oriented tasks and learner-facing feedback, but the existing Lesson Workspace only displayed the editable starter source and grading results.
+Decision: Display project exercise files in the Lesson Workspace, including read-only support test files, while keeping hidden grading cases only in `testCases`.
+Reason: This makes test-oriented lessons learnable without changing execution architecture or adding a multi-file editor. Hidden inputs remain private because support files use visible examples only.
+Alternatives: Wait for a full multi-file editor; put test snippets only in prose; expose grading hidden cases as test files. These were rejected because they either delay P5-04, reduce the value of test-oriented practice, or weaken hidden-test privacy.
+Risk: Future project exercises must keep support files free of hidden values because the UI now renders them.
