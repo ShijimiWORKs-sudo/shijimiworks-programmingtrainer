@@ -14,7 +14,7 @@ describe("App routes", () => {
     [routePaths.languages, "Language Select"],
     [routePaths.python, "Python Level Select"],
     [routePaths.pythonGrade3, "Python 3級"],
-    [routePaths.pythonGrade3Lesson("lesson_py3_foundation_workspace"), "Lesson Workspace"],
+    [routePaths.pythonGrade3Lesson("lesson_py3_01_print"), "Lesson 01: print / 出力"],
     [routePaths.history, "Learning History"],
     [routePaths.settings, "Settings"],
   ])("renders %s", (path, expectedText) => {
@@ -23,4 +23,5 @@ describe("App routes", () => {
     expect(screen.getByRole("heading", { name: expectedText })).toBeInTheDocument();
   });
 });
+
 

@@ -47,11 +47,20 @@ export const languages: Language[] = [
   { id: "lang_powershell", slug: "powershell", name: "PowerShell", order: 8, status: "planned", levels: [] },
 ];
 
-export function findLessonById(lessonId: string) {
+export function getAllLessons() {
   return languages
     .flatMap((language) => language.levels)
     .flatMap((level) => level.courses)
     .flatMap((course) => course.chapters)
-    .flatMap((chapter) => chapter.lessons)
-    .find((lesson) => lesson.id === lessonId);
+    .flatMap((chapter) => chapter.lessons);
+}
+
+export function findLessonById(lessonId: string) {
+  return getAllLessons().find((lesson) => lesson.id === lessonId);
+}
+
+export function findNextLesson(lessonId: string) {
+  const lessons = getAllLessons().sort((a, b) => a.order - b.order);
+  const index = lessons.findIndex((lesson) => lesson.id === lessonId);
+  return lessons.slice(index + 1).find((lesson) => lesson.status === "published");
 }

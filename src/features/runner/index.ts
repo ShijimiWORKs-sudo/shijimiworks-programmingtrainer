@@ -1,3 +1,4 @@
+export { PythonRunner } from "./PythonRunner";
 export type {
   LanguageRunner,
   RunErrorType,
@@ -5,3 +6,4 @@ export type {
   RunResult,
   RunStatus,
 } from "./LanguageRunner";
+export type { PythonWorkerRequest, PythonWorkerResponse } from "./pythonProtocol";

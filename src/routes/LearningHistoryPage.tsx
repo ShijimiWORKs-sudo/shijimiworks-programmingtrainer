@@ -1,6 +1,16 @@
+import { useEffect, useState } from "react";
 import { PageHeader } from "../components/PageHeader";
+import { findLessonById } from "../content/catalog";
+import type { LessonProgress } from "../domain/progress";
+import { localUserId, progressRepository } from "../repositories";
 
 export function LearningHistoryPage() {
+  const [progressList, setProgressList] = useState<LessonProgress[]>([]);
+
+  useEffect(() => {
+    void progressRepository.listLessonProgress(localUserId).then(setProgressList);
+  }, []);
+
   return (
     <section className="page-panel">
       <PageHeader title="Learning History" eyebrow="SCR-080" />
@@ -15,12 +25,23 @@ export function LearningHistoryPage() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td colSpan={5}>記録はまだありません。</td>
-          </tr>
+          {progressList.length === 0 ? (
+            <tr>
+              <td colSpan={5}>記録はまだありません。</td>
+            </tr>
+          ) : (
+            progressList.map((progress) => (
+              <tr key={progress.id}>
+                <td>{progress.lastStudiedAt ? new Date(progress.lastStudiedAt).toLocaleString("ja-JP") : "-"}</td>
+                <td>Python</td>
+                <td>{findLessonById(progress.lessonId)?.title ?? progress.lessonId}</td>
+                <td>{progress.status}</td>
+                <td>{progress.runCount + progress.gradeCount}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </section>
   );
 }
-

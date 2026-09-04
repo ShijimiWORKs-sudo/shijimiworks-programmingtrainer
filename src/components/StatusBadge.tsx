@@ -1,12 +1,15 @@
 interface StatusBadgeProps {
-  status: "available" | "planned" | "draft" | "published";
+  status: "available" | "planned" | "draft" | "published" | "passed" | "in_progress" | "not_started";
 }
 
 const labels: Record<StatusBadgeProps["status"], string> = {
   available: "Available",
   planned: "Coming soon",
   draft: "Draft",
-  published: "Published",
+  published: "Ready",
+  passed: "Passed",
+  in_progress: "In progress",
+  not_started: "Not started",
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {

@@ -14,6 +14,7 @@ export interface TestCase {
   expectedStdout: string;
   comparator: OutputComparator;
   weight: number;
+  required: boolean;
 }
 
 export interface Exercise {
@@ -24,6 +25,7 @@ export interface Exercise {
   starterCode: string;
   gradingMode: GradingMode;
   timeoutMs: number;
+  completionCriteria: string;
   testCases: TestCase[];
 }
 
@@ -38,6 +40,7 @@ export interface Lesson {
   starterCode: string;
   sampleInput: string;
   sampleOutput: string;
+  constraints: string[];
   difficulty: number;
   estimatedMinutes: number;
   order: number;
