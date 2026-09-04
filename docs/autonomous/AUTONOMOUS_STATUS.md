@@ -4,7 +4,7 @@ Updated: 2026-09-05 05:51 +09:00
 
 Current Phase: Phase 6 / JavaScript merged; preparing Phase 7 / HTML/CSS
 Current Branch: main
-Current Commit: df4d0786433400624e6e3f2c35db6043c6a859ba
+Current Commit: 92859414763d548afc8d203cecd9b7108e494511
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -213,12 +213,13 @@ Current Commit: df4d0786433400624e6e3f2c35db6043c6a859ba
 - Self-reviewed JavaScript hidden test detail suppression, browser-worker runner boundary, progress persistence, route isolation, and scope.
 - Created Phase 6 PR #7 as draft, confirmed GitHub Actions `CI` success on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `df4d0786433400624e6e3f2c35db6043c6a859ba`.
+- Recorded the post-merge Phase 6 checkpoint on `main` as `92859414763d548afc8d203cecd9b7108e494511`.
 
 ## In Progress
 - Phase 7 branch setup.
 
 ## Next
-- Record the post-merge Phase 6 checkpoint on `main`, create Phase 7 branch, and start `P7-01 Split Editor and Preview Foundation`.
+- Create Phase 7 branch and start `P7-01 Split Editor and Preview Foundation`.
 
 ## Tests
 - `npm run lint`: passed.
