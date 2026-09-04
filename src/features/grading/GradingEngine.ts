@@ -1,6 +1,11 @@
-import type { Exercise, TestCase } from "../../domain/curriculum";
+import type { TestCase } from "../../domain/curriculum";
 import type { LanguageRunner, RunResult } from "../runner";
 import { compareOutput } from "./compare";
+
+export interface GradableExercise {
+  testCases: TestCase[];
+  timeoutMs: number;
+}
 
 export interface TestCaseGradeResult {
   testCaseId: string;
@@ -27,7 +32,7 @@ export interface GradeResult {
 export class GradingEngine {
   constructor(private readonly runner: LanguageRunner) {}
 
-  async gradeExercise(exercise: Exercise, sourceCode: string): Promise<GradeResult> {
+  async gradeExercise(exercise: GradableExercise, sourceCode: string): Promise<GradeResult> {
     const results: TestCaseGradeResult[] = [];
 
     for (const testCase of [...exercise.testCases].sort((a, b) => a.order - b.order)) {

@@ -183,6 +183,16 @@ pre {
   background: #dcedff;
 }
 
+.status-paused {
+  color: #5a3d0b;
+  background: #ffe6ad;
+}
+
+.status-submitted {
+  color: #0d4f3c;
+  background: #d9f3ea;
+}
+
 .status-not_started,
 .status-planned,
 .status-draft {
@@ -277,6 +287,86 @@ pre {
 .lesson-list {
   display: grid;
   gap: 10px;
+}
+
+.challenge-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.challenge-list h3 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.challenge-row {
+  border-color: #87b8c8;
+  background: #f7fbfc;
+}
+
+.mock-exam-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.mock-exam-list h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.exam-problem-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.exam-timer {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.mock-exam-result {
+  display: grid;
+  gap: 1rem;
+}
+
+.mock-exam-result h2 {
+  margin: 0;
+}
+
+.result-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.result-summary div {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+  background: #ffffff;
+}
+
+.result-summary dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.result-summary dd {
+  margin: 0.25rem 0 0;
+  font-weight: 800;
+}
+
+.review-suggestion-list {
+  display: grid;
+  gap: 10px;
+}
+
+.review-suggestion-list h2 {
+  margin: 0;
+  font-size: 1rem;
 }
 
 .workspace-shell {

@@ -21,6 +21,8 @@ describe("python grade 3 curriculum seed", () => {
     const chapter = pythonGrade3Course.chapters[0];
     const lesson = chapter.lessons[0];
     const exercise = lesson.exercises[0];
+    const challenge = chapter.challenges[0];
+    const challengeExercise = challenge.exercises[0];
     const testCase = exercise.testCases[0];
 
     expect(pythonGrade3Course.languageId).toBe("lang_python");
@@ -28,7 +30,52 @@ describe("python grade 3 curriculum seed", () => {
     expect(chapter.courseId).toBe(pythonGrade3Course.id);
     expect(lesson.chapterId).toBe(chapter.id);
     expect(exercise.lessonId).toBe(lesson.id);
+    expect(challenge.chapterId).toBe(chapter.id);
+    expect(challengeExercise.challengeId).toBe(challenge.id);
     expect(testCase.visibility).toBe("public");
+  });
+
+  it("adds a Python 3 chapter challenge with gradable public and hidden coverage", () => {
+    const lessons = pythonGrade3Course.chapters[0].lessons;
+    const challenge = pythonGrade3Course.chapters[0].challenges[0];
+    const exercise = challenge.exercises[0];
+    const lessonIds = new Set(lessons.map((lesson) => lesson.id));
+
+    expect(challenge).toMatchObject({
+      id: "challenge_py3_basic_review",
+      kind: "chapter_challenge",
+      status: "published",
+      passingRequiredCount: 2,
+    });
+    expect(challenge.sourceLessonIds).toHaveLength(10);
+    expect(challenge.sourceLessonIds.every((lessonId) => lessonIds.has(lessonId))).toBe(true);
+    expect(exercise).toMatchObject({
+      id: "ex_challenge_py3_basic_review_01",
+      challengeId: challenge.id,
+      gradingMode: "stdout",
+      timeoutMs: 3000,
+    });
+    expect(exercise.sourceLessonIds.every((lessonId) => lessonIds.has(lessonId))).toBe(true);
+    expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
+  });
+
+  it("adds a Python 3 mock exam shell seed with ordered problems", () => {
+    const exam = pythonGrade3Course.mockExams[0];
+    const lessonIds = new Set(pythonGrade3Course.chapters.flatMap((chapter) => chapter.lessons).map((lesson) => lesson.id));
+
+    expect(exam).toMatchObject({
+      id: "mock_exam_py3_trial",
+      title: "Python 3級 模擬試験",
+      status: "published",
+      timeLimitMinutes: 25,
+      passingScorePercent: 100,
+    });
+    expect(exam.problems.map((problem) => problem.order)).toEqual([1, 2]);
+    for (const problem of exam.problems) {
+      expect(problem.examId).toBe(exam.id);
+      expect(problem.sourceLessonIds.every((lessonId) => lessonIds.has(lessonId))).toBe(true);
+      expect(problem.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
+    }
   });
 
   it("publishes Lesson 4 with public and hidden arithmetic test cases", () => {

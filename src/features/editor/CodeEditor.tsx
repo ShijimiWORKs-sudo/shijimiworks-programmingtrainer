@@ -7,10 +7,11 @@ interface CodeEditorProps {
   value: string;
   fontSize: number;
   tabSize: number;
+  readOnly?: boolean;
   onChange(value: string): void;
 }
 
-export function CodeEditor({ value, fontSize, tabSize, onChange }: CodeEditorProps) {
+export function CodeEditor({ value, fontSize, tabSize, readOnly = false, onChange }: CodeEditorProps) {
   return (
     <Editor
       height="100%"
@@ -28,6 +29,7 @@ export function CodeEditor({ value, fontSize, tabSize, onChange }: CodeEditorPro
         scrollBeyondLastLine: false,
         wordWrap: "on",
         ariaLabel: "Python code editor",
+        readOnly,
       }}
     />
   );

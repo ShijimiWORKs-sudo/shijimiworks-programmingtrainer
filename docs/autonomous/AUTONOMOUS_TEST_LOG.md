@@ -150,7 +150,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P2-08 Multiple Exercises Per Lesson
 Datetime: 2026-09-04 16:28 +09:00
-Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Commit: a6fe16d4957fbf9b0b46943315540d37a39042f4
 Target: Support multiple exercises per lesson with exercise-specific editor state, progress, grading, and attempts.
 Test Command: `npm run lint`
 Result: Passed.
@@ -264,7 +264,7 @@ Retest Result: `npm ping --registry=https://registry.npmjs.org/` passed, `npm vi
 
 ## 2026-09-04 Checkpoint: P2-10 Chapter Progress
 Datetime: 2026-09-04 20:51 +09:00
-Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 Target: Show reliable Python 3級 chapter-level progress on the Curriculum screen.
 Test Command: `npm test -- --run src/features/progress/chapterProgress.test.ts src/routes/PythonGrade3CurriculumPage.test.tsx src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts`
 Result: Initially failed after adding a component test, then passed, 4 files / 17 tests.
@@ -305,6 +305,346 @@ Retest Result: Passed.
 Test Command: `npm run test:e2e -- --project=chrome --project=edge`
 Result: Passed, 28 tests.
 Failure: None after targeted fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P2-11 Phase 2 Regression and Merge
+Datetime: 2026-09-04 20:59 +09:00
+Commit: f2197eb88944c8103194744b30fb37f8d6225cc2
+Target: Complete the Phase 2 branch gate, open PR, confirm CI, and merge to main.
+Test Command: `npm run lint`
+Result: Passed during P2-10 final regression.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed during P2-10 final regression.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 12 files / 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 28 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: GitHub Actions `CI / verify`
+Result: Passed on PR #3 head `896e8dcfb3424d35ec628699ac97fb46577b870a`.
+Failure: None.
+Fix: None.
+Retest Result: PR #3 was marked ready and merged to `main` as `f2197eb88944c8103194744b30fb37f8d6225cc2`.
+
+## 2026-09-04 Checkpoint: P3-01 Chapter Challenge Data Model
+Datetime: 2026-09-04 21:28 +09:00
+Commit: 737a5cde8fa0bfe7ed721df9eb76fa879a09cd9c
+Target: Add chapter challenge entities compatible with existing curriculum, grading, and progress architecture.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/content/python/grade-3/curriculum.test.ts src/content/catalog.test.ts src/features/grading/GradingEngine.test.ts src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts`
+Result: Passed, 5 files / 23 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 13 files / 53 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 28 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P3-02 Chapter Challenge UI and Grading
+Datetime: 2026-09-04 21:42 +09:00
+Commit: 0498cd4af4892bbbefd20076e34956b946bb0a86
+Target: Build the chapter challenge workflow using the P3-01 data model.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/app/App.test.tsx src/routes/PythonGrade3CurriculumPage.test.tsx src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts src/features/grading/GradingEngine.test.ts`
+Result: Passed, 5 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase3-challenge.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 13 files / 54 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 30 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P3-03 Mock Exam Shell
+Datetime: 2026-09-04 22:16 +09:00
+Commit: 7d0332fbc959b04f6c18b6a82012777526e67938
+Target: Add mock exam navigation, timer shell, problem movement, and pause/reload persistence without final scoring.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/app/App.test.tsx src/routes/PythonGrade3CurriculumPage.test.tsx src/content/python/grade-3/curriculum.test.ts src/content/catalog.test.ts src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts`
+Result: Initially failed once, then passed, 6 files / 37 tests.
+Failure: The Curriculum component test expected `Published`, but the existing `StatusBadge` label for published content is `Ready`.
+Fix: Updated the test expectation to match the product UI label.
+Retest Result: Passed, 6 files / 37 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase3-mock-exam.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 13 files / 59 tests.
+Failure: None after targeted fix above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 32 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P3-04 Mock Exam Final Scoring
+Datetime: 2026-09-04 22:35 +09:00
+Commit: 89fe6e99f5e67b2260c61c8eec3fdf0e385523e9
+Target: Add final mock exam grading, score, pass/fail, and result view without leaking hidden test details.
+Test Command: `npm run typecheck`
+Result: Initially failed, then passed.
+Failure: Mock exam scoring tried to copy a non-existent `MockExamProblem.title`, and the result page passed an optional `errorType` to `explainTestCaseResult`.
+Fix: Removed the title field from persisted problem results and made the public result `errorType` explicit as `RunErrorType | undefined`.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/features/grading/mockExamScoring.test.ts src/features/progress/progressModel.test.ts src/content/python/grade-3/curriculum.test.ts src/app/App.test.tsx src/repositories/BrowserProgressRepository.test.ts`
+Result: Passed, 5 files / 36 tests.
+Failure: None after type fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase3-mock-exam.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Initially failed, then passed.
+Failure: React hooks lint flagged a synchronous submit call from the zero-time remaining effect.
+Fix: Scheduled the auto-submit call with `window.setTimeout(..., 0)` and cleaned up the timer.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 14 files / 63 tests.
+Failure: None after targeted fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 32 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P3-05 Weakness Analysis and Review Path
+Datetime: 2026-09-04 22:54 +09:00
+Commit: b82d84054e25f45d03de1955238048138592cc0f
+Target: Connect failed mock exam fields to weak lesson review suggestions.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/features/analytics/mockExamReview.test.ts src/features/grading/mockExamScoring.test.ts src/app/App.test.tsx`
+Result: Passed, 3 files / 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase3-mock-exam.spec.ts`
+Result: Passed, 4 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 15 files / 65 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P3-06 Python 3級 v1.0 Candidate
+Datetime: 2026-09-04 23:04 +09:00
+Commit: 6f72356082553a144f6b2fd9748497b054402aa4
+Target: Stabilize the Python 3級 v1.0 candidate and record known limitations.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 15 files / 65 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 34 tests.
+Failure: None.
 Fix: None.
 Retest Result: Passed.
 

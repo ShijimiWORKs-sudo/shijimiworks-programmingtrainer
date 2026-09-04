@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Exercise } from "../../domain/curriculum";
+import type { ChallengeExercise, Exercise } from "../../domain/curriculum";
 import type { LanguageRunner, RunRequest } from "../runner";
 import { GradingEngine } from "./GradingEngine";
 
@@ -55,6 +55,19 @@ const exercise: Exercise = {
   ],
 };
 
+const challengeExercise: ChallengeExercise = {
+  id: "challenge-exercise",
+  challengeId: "challenge",
+  sourceLessonIds: ["lesson"],
+  type: "code",
+  promptMd: "prompt",
+  starterCode: "",
+  gradingMode: "stdout",
+  timeoutMs: 3000,
+  completionCriteria: "all required tests pass",
+  testCases: exercise.testCases,
+};
+
 describe("GradingEngine", () => {
   it("aggregates required test case results without leaking hidden expected output", async () => {
     const result = await new GradingEngine(new FakeRunner()).gradeExercise(exercise, "print('ok')");
@@ -64,5 +77,17 @@ describe("GradingEngine", () => {
     expect(result.totalRequired).toBe(2);
     expect(result.results[1].visibility).toBe("hidden");
     expect(result.results[1].expectedStdout).toBeUndefined();
+  });
+
+  it("grades chapter challenge exercises through the same safe result path", async () => {
+    const result = await new GradingEngine(new FakeRunner()).gradeExercise(challengeExercise, "print('ok')");
+
+    expect(result.passed).toBe(true);
+    expect(result.totalRequired).toBe(2);
+    expect(result.results[1]).toMatchObject({
+      visibility: "hidden",
+      stdin: undefined,
+      expectedStdout: undefined,
+    });
   });
 });

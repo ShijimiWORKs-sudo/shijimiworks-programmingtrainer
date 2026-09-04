@@ -1,5 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { allExercisesPassed, createInitialProgress, markPassed, touchExerciseProgress, touchProgress } from "./progressModel";
+import {
+  allExercisesPassed,
+  createInitialChallengeProgress,
+  createInitialMockExamSession,
+  createInitialProgress,
+  getMockExamAnswer,
+  markPassed,
+  saveMockExamAnswer,
+  submitMockExamSession,
+  touchChallengeProgress,
+  touchExerciseProgress,
+  touchMockExamSession,
+  touchProgress,
+} from "./progressModel";
 
 describe("progress model", () => {
   it("increments progress and marks passed", () => {
@@ -39,5 +52,66 @@ describe("progress model", () => {
     const allPassed = touchExerciseProgress(firstPassed, "exercise-2", "", { status: "passed" });
 
     expect(allExercisesPassed(allPassed, ["exercise-1", "exercise-2"])).toBe(true);
+  });
+
+  it("tracks chapter challenge progress without dropping passed state", () => {
+    const initial = createInitialChallengeProgress("user", "challenge");
+    const passed = touchChallengeProgress(initial, {
+      status: "passed",
+      gradeCount: 1,
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+    });
+    const reviewed = touchChallengeProgress(passed, {
+      status: "in_progress",
+      runCount: 2,
+    });
+
+    expect(reviewed.status).toBe("passed");
+    expect(reviewed.firstStartedAt).toBeDefined();
+    expect(reviewed.firstPassedAt).toBeDefined();
+    expect(reviewed.runCount).toBe(2);
+    expect(reviewed.gradeCount).toBe(1);
+  });
+
+  it("creates and updates mock exam sessions for shell navigation", () => {
+    const initial = createInitialMockExamSession("user", "exam", "problem-1", "starter", 25);
+    const started = touchMockExamSession(initial, { status: "in_progress", startedAt: "2026-09-04T00:00:00.000Z" });
+    const answered = saveMockExamAnswer(started, "problem-1", "print('answer')");
+    const moved = touchMockExamSession(answered, { activeProblemId: "problem-2", status: "paused", remainingSeconds: 1200 });
+
+    expect(initial.remainingSeconds).toBe(1500);
+    expect(getMockExamAnswer(answered, "problem-1", "starter").sourceCode).toBe("print('answer')");
+    expect(getMockExamAnswer(answered, "problem-2", "starter two").sourceCode).toBe("starter two");
+    expect(moved).toMatchObject({
+      status: "paused",
+      activeProblemId: "problem-2",
+      remainingSeconds: 1200,
+    });
+  });
+
+  it("submits mock exam sessions with result summaries", () => {
+    const initial = createInitialMockExamSession("user", "exam", "problem-1", "starter", 25);
+    const submitted = submitMockExamSession(initial, {
+      scorePercent: 100,
+      passed: true,
+      passingScorePercent: 100,
+      passedProblems: 1,
+      totalProblems: 1,
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+      submittedAt: "2026-09-04T00:00:00.000Z",
+      problemResults: [],
+    }, 1180);
+
+    expect(submitted).toMatchObject({
+      status: "submitted",
+      submittedAt: "2026-09-04T00:00:00.000Z",
+      remainingSeconds: 1180,
+      result: {
+        scorePercent: 100,
+        passed: true,
+      },
+    });
   });
 });
