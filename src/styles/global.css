@@ -279,6 +279,22 @@ pre {
   gap: 10px;
 }
 
+.challenge-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.challenge-list h3 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.challenge-row {
+  border-color: #87b8c8;
+  background: #f7fbfc;
+}
+
 .workspace-shell {
   height: calc(100vh - 104px);
   min-height: 616px;

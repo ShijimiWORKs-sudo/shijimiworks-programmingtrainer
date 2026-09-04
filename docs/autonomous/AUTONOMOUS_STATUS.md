@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 21:28 +09:00
+Updated: 2026-09-04 21:42 +09:00
 
 Current Phase: Phase 3 / Python 3級 Challenge and Mock Exam
 Current Branch: codex/phase-3-python-grade3-challenge
-Current Commit: 737a5cde8fa0bfe7ed721df9eb76fa879a09cd9c
+Current Commit: pending P3-02 checkpoint commit after 8d5cf0d5d5491cdaa6cd81376fa04a21beaf409c
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -85,12 +85,17 @@ Current Commit: 737a5cde8fa0bfe7ed721df9eb76fa879a09cd9c
 - Added challenge progress domain state, progress model helpers, and non-destructive IndexedDB version 2 `challengeProgress` store.
 - Added repository methods for challenge progress and catalog helpers for challenge lookup.
 - Seeded a Python 3級 chapter challenge covering the completed lesson set without changing existing lesson routes.
+- Completed `P3-02 Chapter Challenge UI and Grading`.
+- Added a Challenge Workspace route for running and grading the Python 3級 chapter challenge.
+- Added Curriculum screen challenge entry with persisted challenge status.
+- Reused the existing safe grading presentation so hidden challenge test details stay private.
+- Verified challenge pass flow, progress persistence, and Curriculum return state in Chrome and Edge.
 
 ## In Progress
-- P3-02 Chapter Challenge UI and Grading planning.
+- P3-03 Mock Exam Shell planning.
 
 ## Next
-- Build the chapter challenge workflow on top of the P3-01 data model.
+- Add mock exam navigation, timer shell, and problem movement without final scoring.
 
 ## Tests
 - `npm run lint`: passed.
@@ -124,6 +129,8 @@ Current Commit: 737a5cde8fa0bfe7ed721df9eb76fa879a09cd9c
 - P2-11 Phase 2 PR #3 GitHub Actions: `CI / verify` passed on head `896e8dcfb3424d35ec628699ac97fb46577b870a`.
 - P3-01 targeted checks on 2026-09-04: typecheck passed; content/catalog/grading/progress/repository unit tests passed (5 files / 23 tests).
 - P3-01 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (13 files / 53 tests), build passed, Chrome/Edge E2E passed (28 tests), audit passed with 0 vulnerabilities.
+- P3-02 targeted checks on 2026-09-04: typecheck passed; route/curriculum/progress/repository/grading tests passed (5 files / 22 tests); Challenge Chrome/Edge E2E passed (2 tests).
+- P3-02 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (13 files / 54 tests), build passed, Chrome/Edge E2E passed (30 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

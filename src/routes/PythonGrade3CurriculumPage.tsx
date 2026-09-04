@@ -4,7 +4,7 @@ import { routePaths } from "../app/routePaths";
 import { PageHeader } from "../components/PageHeader";
 import { StatusBadge } from "../components/StatusBadge";
 import { pythonGrade3Course } from "../content/python/grade-3";
-import type { LessonProgress } from "../domain/progress";
+import type { ChallengeProgress, LessonProgress } from "../domain/progress";
 import { summarizeChapterProgress, type ChapterProgressStatus } from "../features/progress/chapterProgress";
 import { localUserId, progressRepository } from "../repositories";
 
@@ -16,10 +16,15 @@ const chapterStatusLabels: Record<ChapterProgressStatus, string> = {
 
 export function PythonGrade3CurriculumPage() {
   const [progressByLessonId, setProgressByLessonId] = useState<Record<string, LessonProgress>>({});
+  const [progressByChallengeId, setProgressByChallengeId] = useState<Record<string, ChallengeProgress>>({});
 
   useEffect(() => {
-    void progressRepository.listLessonProgress(localUserId).then((progressList) => {
-      setProgressByLessonId(Object.fromEntries(progressList.map((progress) => [progress.lessonId, progress])));
+    void Promise.all([
+      progressRepository.listLessonProgress(localUserId),
+      progressRepository.listChallengeProgress(localUserId),
+    ]).then(([lessonProgressList, challengeProgressList]) => {
+      setProgressByLessonId(Object.fromEntries(lessonProgressList.map((progress) => [progress.lessonId, progress])));
+      setProgressByChallengeId(Object.fromEntries(challengeProgressList.map((progress) => [progress.challengeId, progress])));
     });
   }, []);
 
@@ -89,6 +94,24 @@ export function PythonGrade3CurriculumPage() {
                   );
                 })}
               </div>
+              {chapter.challenges.length > 0 ? (
+                <section className="challenge-list" aria-label="Chapter challenges">
+                  <h3>Chapter Challenge</h3>
+                  {chapter.challenges.map((challenge) => {
+                    const progress = progressByChallengeId[challenge.id];
+                    return (
+                      <Link
+                        key={challenge.id}
+                        className="lesson-row challenge-row"
+                        to={routePaths.pythonGrade3Challenge(challenge.id)}
+                      >
+                        <span>{challenge.title}</span>
+                        <StatusBadge status={progress?.status ?? challenge.status} />
+                      </Link>
+                    );
+                  })}
+                </section>
+              ) : null}
             </article>
           );
         })}

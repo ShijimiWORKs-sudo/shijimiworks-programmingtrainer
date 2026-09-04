@@ -45,6 +45,14 @@ export function getExerciseProgress(progress: LessonProgress, exerciseId: string
   return progress.exerciseProgress?.[exerciseId] ?? createInitialExerciseProgress(exerciseId, starterCode);
 }
 
+export function getChallengeExerciseProgress(
+  progress: ChallengeProgress,
+  exerciseId: string,
+  starterCode: string
+): ExerciseProgress {
+  return progress.exerciseProgress?.[exerciseId] ?? createInitialExerciseProgress(exerciseId, starterCode);
+}
+
 export function touchProgress(
   progress: LessonProgress,
   changes: Partial<LessonProgress> & { status?: LessonProgressStatus }
@@ -110,6 +118,37 @@ export function touchChallengeProgress(
     lastStudiedAt: now,
     updatedAt: now,
   };
+}
+
+export function touchChallengeExerciseProgress(
+  progress: ChallengeProgress,
+  exerciseId: string,
+  starterCode: string,
+  changes: Partial<ExerciseProgress> & { status?: ChallengeProgressStatus },
+  challengeChanges: Partial<ChallengeProgress> & { status?: ChallengeProgressStatus } = {}
+): ChallengeProgress {
+  const now = new Date().toISOString();
+  const current = getChallengeExerciseProgress(progress, exerciseId, starterCode);
+  const nextStatus = current.status === "passed" || changes.status === "passed" ? "passed" : (changes.status ?? current.status);
+  const nextExerciseProgress: ExerciseProgress = {
+    ...current,
+    ...changes,
+    exerciseId,
+    status: nextStatus,
+    firstStartedAt: current.firstStartedAt ?? now,
+    firstPassedAt: nextStatus === "passed" ? (current.firstPassedAt ?? now) : current.firstPassedAt,
+    lastStudiedAt: now,
+    updatedAt: now,
+  };
+
+  return touchChallengeProgress(progress, {
+    ...challengeChanges,
+    activeExerciseId: exerciseId,
+    exerciseProgress: {
+      ...progress.exerciseProgress,
+      [exerciseId]: nextExerciseProgress,
+    },
+  });
 }
 
 export function markPassed(progress: LessonProgress): LessonProgress {

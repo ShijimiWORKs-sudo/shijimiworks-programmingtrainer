@@ -14,6 +14,7 @@ vi.mock("../repositories", () => ({
   localUserId: "local-user",
   progressRepository: {
     listLessonProgress: vi.fn(() => Promise.resolve(repositoryState.progressList)),
+    listChallengeProgress: vi.fn(() => Promise.resolve([])),
   },
 }));
 
