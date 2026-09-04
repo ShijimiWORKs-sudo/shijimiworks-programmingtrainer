@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
-Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
 Target: Add JavaScript execution behind `LanguageRunner` with browser worker execution, stdout/console capture, stdin helpers, syntax/runtime error classification, and timeout/cancel recovery.
 
 Test Command: `npm run typecheck`
