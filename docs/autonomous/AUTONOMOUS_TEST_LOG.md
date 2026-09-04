@@ -96,6 +96,64 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P5-03 Specification Change Tasks
+Datetime: 2026-09-05 02:07 +09:00
+Commit: pending P5-03 checkpoint commit
+Target: Add a Python 1級 specification-change lesson that preserves old behavior while implementing a new shipping-fee rule.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 32 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Passed, 6 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_02_hidden|5100|tests/test_order_total|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden-specific `5100` appeared only in the hidden test case and E2E non-visibility assertions; support test metadata uses separate public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed by full regression.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 86 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 54 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P5-02 Bug Fix Tasks
 Datetime: 2026-09-05 01:50 +09:00
 Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea

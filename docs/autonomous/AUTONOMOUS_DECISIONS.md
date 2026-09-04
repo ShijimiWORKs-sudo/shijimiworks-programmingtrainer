@@ -103,3 +103,11 @@ Decision: Enable Python 1級 with one routeable bug fix lesson that attaches pro
 Reason: This delivers a real repair workflow with public/hidden coverage without broadening the editor, persistence, or grading architecture before the next 1級 checkpoints need it.
 Alternatives: Build a multi-file editor immediately; keep Python 1級 planned until the full practical UI exists; represent bug fix tasks as a new exercise type. These were rejected because they would either widen P5-02 or leave the checkpoint without a usable learner flow.
 Risk: Learners do not yet see the support test file in the UI. Future Python 1級 tasks should expose project files deliberately, while keeping hidden test values outside visible metadata.
+
+## 2026-09-05: Specification Change Task As Shipping Rule Update
+Date: 2026-09-05
+Context: P5-03 requires change-request exercises, but the product docs do not prescribe the first concrete Python 1級 scenario.
+Decision: Use an order-total calculation where the learner adds a new `5000円以上送料無料` rule while preserving the existing 500円 shipping behavior below the threshold.
+Reason: The task is small enough for a checkpoint, clearly demonstrates specification change work, and can be validated with stdout grading across old and new behavior.
+Alternatives: Add a larger multi-file feature request; require learners to update visible tests; defer specification changes until a richer project UI. These were rejected because they would broaden P5-03 beyond the current stable architecture.
+Risk: The exercise still uses a single visible editor even though project metadata includes a support test file. Future P5-04/P5-05 work should expand test/refactoring affordances without exposing hidden cases.

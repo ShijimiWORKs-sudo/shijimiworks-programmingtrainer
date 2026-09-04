@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 01:50 +09:00
+Updated: 2026-09-05 02:07 +09:00
 
 Current Phase: Phase 5 / Python 1級
 Current Branch: codex/phase-5-python-grade1
-Current Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea
+Current Commit: pending P5-03 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -156,12 +156,18 @@ Current Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea
 - Added catalog, route, curriculum, level select, project metadata, and Chrome/Edge E2E coverage for the Python 1級 bug fix flow.
 - Replaced a support-test example value that overlapped with the hidden test case so future multi-file UI work cannot accidentally expose the hidden case through project metadata.
 - Completed full P5-02 regression successfully.
+- Completed `P5-03 Specification Change Tasks`.
+- Added Python 1級 Lesson 02 for applying a new shipping-fee specification while preserving existing standard-shipping behavior.
+- Added public tests for free shipping and standard shipping plus a hidden test for an additional free-shipping amount.
+- Verified Lesson 01 next-lesson routing now links to the specification-change lesson.
+- Ensured hidden-specific `5100` data is absent from project support test metadata and remains hidden in the grading UI.
+- Completed full P5-03 regression successfully.
 
 ## In Progress
-- P5-03 Specification Change Tasks planning.
+- P5-04 Test-Oriented Tasks planning.
 
 ## Next
-- Add Python 1級 specification-change task content and routeable learner flow using the existing Lesson Workspace and project metadata where practical.
+- Add Python 1級 test-oriented task content and routeable learner flow using project metadata and existing safe grading feedback.
 
 ## Tests
 - `npm run lint`: passed.
@@ -225,6 +231,8 @@ Current Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea
 - P5-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (18 files / 80 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities.
 - P5-02 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 30 tests), then hidden-value support metadata adjustment tests passed (2 files / 5 tests); Chrome/Edge Python 1級 bug fix E2E passed (4 tests).
 - P5-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 84 tests), build passed, Chrome/Edge E2E passed (52 tests), audit passed with 0 vulnerabilities.
+- P5-03 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 32 tests); Chrome/Edge Python 1級 E2E passed (6 tests).
+- P5-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 86 tests), build passed, Chrome/Edge E2E passed (54 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

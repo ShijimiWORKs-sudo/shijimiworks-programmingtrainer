@@ -66,7 +66,15 @@ describe("content catalog", () => {
       title: "Lesson 01: bug fix",
       status: "published",
     });
+    expect(findLessonById("lesson_py1_02_specification_change")).toMatchObject({
+      title: "Lesson 02: specification change",
+      status: "published",
+    });
     expect(findCourseByLessonId("lesson_py1_01_bug_fix")?.id).toBe("course_python_grade_1");
-    expect(findNextLesson("lesson_py1_01_bug_fix")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_py1_02_specification_change")?.id).toBe("course_python_grade_1");
+    expect(findNextLesson("lesson_py1_01_bug_fix")).toMatchObject({
+      id: "lesson_py1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_py1_02_specification_change")).toBeUndefined();
   });
 });

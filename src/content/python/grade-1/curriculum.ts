@@ -2,6 +2,8 @@ import type { Course } from "../../../domain/curriculum";
 
 const starterCode = "def normalize_name(name):\n    return name\n\n\ndef build_greeting(name):\n    normalized = normalize_name(name)\n    return \"Hello, \" + name\n\nname = input()\nprint(build_greeting(name))\n";
 
+const specificationChangeStarterCode = "def shipping_fee(total):\n    return 500\n\n\ndef order_total(total):\n    return total + shipping_fee(total)\n\ntotal = int(input())\nprint(order_total(total))\n";
+
 const courseId = "course_python_grade_1";
 
 export const pythonGrade1Course: Course = {
@@ -92,6 +94,96 @@ export const pythonGrade1Course: Course = {
                   visibility: "hidden",
                   stdin: "\tRen \n",
                   expectedStdout: "Hello, Ren\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "lesson_py1_02_specification_change",
+          chapterId: "chapter_python_grade_1_practical",
+          slug: "specification-change",
+          title: "Lesson 02: specification change",
+          objective: "既存の注文計算へ新しい送料仕様を追加し、古い動作も保つ。",
+          explanationMd: "仕様変更では、今ある動きを壊さずに新しい条件を足します。今回は、これまで全注文に送料500円を足していた処理へ、注文金額が5000円以上なら送料を0円にする新仕様を追加します。",
+          taskMd: "shipping_fee(total) を変更し、total が5000以上なら0、それ以外なら500を返してください。order_total(total) は shipping_fee(total) を使い、注文金額と送料を足した合計を返してください。",
+          starterCode: specificationChangeStarterCode,
+          sampleInput: "6000\n",
+          sampleOutput: "6000\n",
+          constraints: [
+            "shipping_fee(total) 関数を残してください。",
+            "total が5000以上の場合は送料0円にしてください。",
+            "total が5000未満の場合はこれまで通り送料500円にしてください。",
+            "order_total(total) は shipping_fee(total) を呼び出して合計を計算してください。",
+          ],
+          difficulty: 4,
+          estimatedMinutes: 18,
+          order: 2,
+          status: "published",
+          hints: [
+            "条件分岐は if total >= 5000: の形で書けます。",
+            "送料だけを shipping_fee で決めると、order_total の役割を小さく保てます。",
+            "古い仕様の500円送料も残すため、else 側では return 500 にしましょう。",
+          ],
+          exercises: [
+            {
+              id: "ex_py1_02_01",
+              lessonId: "lesson_py1_02_specification_change",
+              type: "code",
+              promptMd: "既存の注文合計計算へ、5000円以上送料無料という仕様変更を追加します。",
+              starterCode: specificationChangeStarterCode,
+              project: {
+                entryFilePath: "main.py",
+                files: [
+                  {
+                    path: "main.py",
+                    language: "python",
+                    content: specificationChangeStarterCode,
+                    editable: true,
+                    purpose: "entry",
+                  },
+                  {
+                    path: "tests/test_order_total.py",
+                    language: "python",
+                    content: "assert shipping_fee(1200) == 500\nassert shipping_fee(7000) == 0\nassert order_total(7000) == 7000\n",
+                    editable: false,
+                    purpose: "test",
+                  },
+                ],
+              },
+              gradingMode: "stdout",
+              timeoutMs: 3000,
+              completionCriteria: "5000円未満と5000円以上の注文で、新しい送料仕様に沿った合計を出力する。",
+              testCases: [
+                {
+                  id: "tc_py1_02_public_free_shipping",
+                  order: 1,
+                  visibility: "public",
+                  stdin: "6000\n",
+                  expectedStdout: "6000\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_02_public_standard_shipping",
+                  order: 2,
+                  visibility: "public",
+                  stdin: "1200\n",
+                  expectedStdout: "1700\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_02_hidden_free_shipping",
+                  order: 3,
+                  visibility: "hidden",
+                  stdin: "5100\n",
+                  expectedStdout: "5100\n",
                   comparator: "trimmed_text",
                   weight: 1,
                   required: true,
