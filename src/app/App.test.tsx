@@ -13,6 +13,8 @@ describe("App routes", () => {
     [routePaths.home, "Programming Trainer"],
     [routePaths.languages, "Language Select"],
     [routePaths.python, "Python Level Select"],
+    [routePaths.pythonGrade1, "Python 1級"],
+    [routePaths.pythonGrade1Lesson("lesson_py1_01_bug_fix"), "Lesson 01: bug fix"],
     [routePaths.pythonGrade2, "Python 2級"],
     [routePaths.pythonGrade2Lesson("lesson_py2_01_function_return"), "Lesson 01: 関数の戻り値"],
     [routePaths.pythonGrade2Lesson("lesson_py2_02_classes"), "Lesson 02: class"],

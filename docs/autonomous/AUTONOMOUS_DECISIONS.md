@@ -95,3 +95,11 @@ Decision: Add optional project metadata to exercises and helper functions that c
 Reason: Optional metadata lets future Python 1級 tasks represent entry/support/test files without forcing a migration or breaking current Lesson Workspace, Challenge Workspace, Mock Exam, progress, or grading behavior.
 Alternatives: Replace `starterCode` with a files array everywhere; add a separate exercise type immediately; wait until the UI work. These were rejected because they either create broad churn or fail to establish the P5-01 model checkpoint.
 Risk: The current editor still renders only the entry source. P5-02/P5-03 must add UI/grading behavior carefully before expecting learners to edit multiple files directly.
+
+## 2026-09-05: First Python 1級 Bug Fix Through Existing Workspace
+Date: 2026-09-05
+Context: P5-02 requires existing-code repair exercises, and P5-01 has introduced optional project metadata. The product currently has a stable single-editor Lesson Workspace and stdout grading path.
+Decision: Enable Python 1級 with one routeable bug fix lesson that attaches project metadata while editing and grading the entry source through the existing Lesson Workspace.
+Reason: This delivers a real repair workflow with public/hidden coverage without broadening the editor, persistence, or grading architecture before the next 1級 checkpoints need it.
+Alternatives: Build a multi-file editor immediately; keep Python 1級 planned until the full practical UI exists; represent bug fix tasks as a new exercise type. These were rejected because they would either widen P5-02 or leave the checkpoint without a usable learner flow.
+Risk: Learners do not yet see the support test file in the UI. Future Python 1級 tasks should expose project files deliberately, while keeping hidden test values outside visible metadata.

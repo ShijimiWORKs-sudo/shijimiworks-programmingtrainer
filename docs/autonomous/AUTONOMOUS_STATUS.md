@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 01:21 +09:00
+Updated: 2026-09-05 01:50 +09:00
 
 Current Phase: Phase 5 / Python 1級
 Current Branch: codex/phase-5-python-grade1
-Current Commit: 80b1e8782891400c99ed352d4b5bd83e03d856b0
+Current Commit: pending P5-02 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -149,12 +149,19 @@ Current Commit: 80b1e8782891400c99ed352d4b5bd83e03d856b0
 - Added optional project exercise metadata for entry/support/test files without changing existing single-file exercise requirements.
 - Added project helper functions for safe relative path validation, entry file lookup, editable file listing, and single-file-compatible snapshots.
 - Verified existing grading and Chrome/Edge learning flows remain unchanged.
+- Completed `P5-02 Bug Fix Tasks`.
+- Enabled Python 1級 as a routeable level with `/languages/python/grade-1` and `/languages/python/grade-1/lessons/lesson_py1_01_bug_fix`.
+- Added the first Python 1級 bug fix lesson with starter code, public and hidden grading cases, and project metadata for `main.py` plus a read-only support test file.
+- Made Lesson Workspace return/next-lesson routing aware of Python 1級 while preserving Python 2級 and 3級 behavior.
+- Added catalog, route, curriculum, level select, project metadata, and Chrome/Edge E2E coverage for the Python 1級 bug fix flow.
+- Replaced a support-test example value that overlapped with the hidden test case so future multi-file UI work cannot accidentally expose the hidden case through project metadata.
+- Completed full P5-02 regression successfully.
 
 ## In Progress
-- P5-02 Bug Fix Tasks planning.
+- P5-03 Specification Change Tasks planning.
 
 ## Next
-- Add Python 1級 bug fix task content and routeable learner flow using the project model where practical.
+- Add Python 1級 specification-change task content and routeable learner flow using the existing Lesson Workspace and project metadata where practical.
 
 ## Tests
 - `npm run lint`: passed.
@@ -216,6 +223,8 @@ Current Commit: 80b1e8782891400c99ed352d4b5bd83e03d856b0
 - PR #5 Phase 4 GitHub Actions: `CI / verify` passed on head `41b624284b429c26a878d017ff7ef14e09ecde39`; PR merged to `main` as `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
 - P5-01 targeted checks on 2026-09-05: typecheck passed; project helper/catalog/grading unit tests passed (3 files / 10 tests).
 - P5-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (18 files / 80 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities.
+- P5-02 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 30 tests), then hidden-value support metadata adjustment tests passed (2 files / 5 tests); Chrome/Edge Python 1級 bug fix E2E passed (4 tests).
+- P5-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 84 tests), build passed, Chrome/Edge E2E passed (52 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

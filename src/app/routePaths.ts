@@ -2,6 +2,8 @@ export const routePaths = {
   home: "/",
   languages: "/languages",
   python: "/languages/python",
+  pythonGrade1: "/languages/python/grade-1",
+  pythonGrade1Lesson: (lessonId: string) => "/languages/python/grade-1/lessons/" + lessonId,
   pythonGrade2: "/languages/python/grade-2",
   pythonGrade2Lesson: (lessonId: string) => "/languages/python/grade-2/lessons/" + lessonId,
   pythonGrade3: "/languages/python/grade-3",

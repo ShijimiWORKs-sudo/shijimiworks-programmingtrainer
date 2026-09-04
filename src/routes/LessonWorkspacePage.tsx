@@ -253,10 +253,14 @@ export function LessonWorkspacePage() {
   }, [code, exercise, lesson, persistProgress, progress]);
 
   const nextLesson = useMemo(() => (lesson ? findNextLesson(lesson.id) : undefined), [lesson]);
-  const curriculumPath = course?.levelId === "level_python_2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3;
-  const nextLessonPath = nextLesson && course?.levelId === "level_python_2"
-    ? routePaths.pythonGrade2Lesson(nextLesson.id)
-    : nextLesson ? routePaths.pythonGrade3Lesson(nextLesson.id) : undefined;
+  const curriculumPath = course?.levelId === "level_python_1"
+    ? routePaths.pythonGrade1
+    : course?.levelId === "level_python_2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3;
+  const nextLessonPath = nextLesson && course?.levelId === "level_python_1"
+    ? routePaths.pythonGrade1Lesson(nextLesson.id)
+    : nextLesson && course?.levelId === "level_python_2"
+      ? routePaths.pythonGrade2Lesson(nextLesson.id)
+      : nextLesson ? routePaths.pythonGrade3Lesson(nextLesson.id) : undefined;
 
   if (!lesson) {
     return (

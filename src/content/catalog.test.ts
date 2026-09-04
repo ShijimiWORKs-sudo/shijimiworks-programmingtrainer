@@ -20,18 +20,18 @@ describe("content catalog", () => {
     expect(findLessonById("mock_exam_py3_trial")).toBeUndefined();
   });
 
-  it("enables only Python grade 2 as the next routeable skeleton level", () => {
+  it("enables Python grade 1 and grade 2 as routeable levels", () => {
     const python = languages.find((language) => language.slug === "python");
-    const grade2 = python?.levels.find((level) => level.code === "grade-2");
     const grade1 = python?.levels.find((level) => level.code === "grade-1");
+    const grade2 = python?.levels.find((level) => level.code === "grade-2");
 
+    expect(grade1).toMatchObject({
+      status: "available",
+      courses: [{ id: "course_python_grade_1" }],
+    });
     expect(grade2).toMatchObject({
       status: "available",
       courses: [{ id: "course_python_grade_2" }],
-    });
-    expect(grade1).toMatchObject({
-      status: "planned",
-      courses: [],
     });
     expect(findLessonById("lesson_py3_01_print")?.title).toBe("Lesson 01: print / 出力");
   });
@@ -59,5 +59,14 @@ describe("content catalog", () => {
     });
     expect(findNextLesson("lesson_py2_06_small_project")).toBeUndefined();
     expect(findNextLesson("lesson_py3_10_functions")).toBeUndefined();
+  });
+
+  it("finds Python grade 1 lessons without crossing next-lesson course boundaries", () => {
+    expect(findLessonById("lesson_py1_01_bug_fix")).toMatchObject({
+      title: "Lesson 01: bug fix",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_py1_01_bug_fix")?.id).toBe("course_python_grade_1");
+    expect(findNextLesson("lesson_py1_01_bug_fix")).toBeUndefined();
   });
 });
