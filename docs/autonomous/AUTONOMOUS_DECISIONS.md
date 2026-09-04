@@ -47,3 +47,11 @@ Decision: Add a non-destructive IndexedDB version 2 migration with a separate `c
 Reason: A dedicated store keeps challenge state queryable by user/challenge without weakening or overloading lesson progress semantics.
 Alternatives: Store challenges as pseudo-lessons; delay persistence until the UI phase; add challenge fields to lesson progress. These were rejected because they either blur domain boundaries or force P3-02 to retrofit persistence.
 Risk: Versioned DB migration must preserve existing version 1 lesson progress. Tests now cover saving challenge progress alongside lesson progress.
+
+## 2026-09-04: Mock Exam Session Store Before Scoring
+Date: 2026-09-04
+Context: P3-03 is scoped to mock exam navigation, timer shell, and pause/save recovery. P3-04 will add final scoring and result presentation.
+Decision: Add a non-destructive IndexedDB version 3 migration with a dedicated `mockExamSessions` store and persist answers, active problem, status, and remaining seconds before adding scoring.
+Reason: The shell needs reliable recovery across reloads and problem navigation, but scoring state should stay out of scope until the next checkpoint.
+Alternatives: Reuse lesson or challenge progress; wait to persist exam sessions until scoring; store the shell only in component state. These were rejected because they either mix separate product concepts or fail pause/reload recovery.
+Risk: P3-04 must extend the existing session model carefully so submitted results remain compatible with sessions created by P3-03.

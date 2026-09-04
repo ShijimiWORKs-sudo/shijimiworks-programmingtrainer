@@ -1,4 +1,13 @@
-import type { ChallengeProgress, ChallengeProgressStatus, ExerciseProgress, LessonProgress, LessonProgressStatus } from "../../domain/progress";
+import type {
+  ChallengeProgress,
+  ChallengeProgressStatus,
+  ExerciseProgress,
+  LessonProgress,
+  LessonProgressStatus,
+  MockExamAnswer,
+  MockExamSession,
+  MockExamSessionStatus,
+} from "../../domain/progress";
 
 export function createInitialProgress(userId: string, lessonId: string, starterCode: string): LessonProgress {
   const now = new Date().toISOString();
@@ -37,6 +46,32 @@ export function createInitialChallengeProgress(userId: string, challengeId: stri
     gradeCount: 0,
     passedRequiredCount: 0,
     totalRequiredCount: 0,
+    updatedAt: now,
+  };
+}
+
+export function createInitialMockExamSession(
+  userId: string,
+  examId: string,
+  firstProblemId: string,
+  starterCode: string,
+  timeLimitMinutes: number
+): MockExamSession {
+  const now = new Date().toISOString();
+  return {
+    id: userId + ":" + examId,
+    userId,
+    examId,
+    status: "not_started",
+    activeProblemId: firstProblemId,
+    remainingSeconds: timeLimitMinutes * 60,
+    answers: {
+      [firstProblemId]: {
+        problemId: firstProblemId,
+        sourceCode: starterCode,
+        updatedAt: now,
+      },
+    },
     updatedAt: now,
   };
 }
@@ -147,6 +182,43 @@ export function touchChallengeExerciseProgress(
     exerciseProgress: {
       ...progress.exerciseProgress,
       [exerciseId]: nextExerciseProgress,
+    },
+  });
+}
+
+export function getMockExamAnswer(session: MockExamSession, problemId: string, starterCode: string): MockExamAnswer {
+  return session.answers[problemId] ?? {
+    problemId,
+    sourceCode: starterCode,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function touchMockExamSession(
+  session: MockExamSession,
+  changes: Partial<MockExamSession> & { status?: MockExamSessionStatus }
+): MockExamSession {
+  return {
+    ...session,
+    ...changes,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function saveMockExamAnswer(
+  session: MockExamSession,
+  problemId: string,
+  sourceCode: string
+): MockExamSession {
+  const now = new Date().toISOString();
+  return touchMockExamSession(session, {
+    answers: {
+      ...session.answers,
+      [problemId]: {
+        problemId,
+        sourceCode,
+        updatedAt: now,
+      },
     },
   });
 }

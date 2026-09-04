@@ -50,6 +50,28 @@ export interface ChallengeProgress {
   updatedAt: string;
 }
 
+export type MockExamSessionStatus = "not_started" | "in_progress" | "paused" | "submitted";
+
+export interface MockExamAnswer {
+  problemId: string;
+  sourceCode: string;
+  updatedAt: string;
+}
+
+export interface MockExamSession {
+  id: string;
+  userId: string;
+  examId: string;
+  status: MockExamSessionStatus;
+  activeProblemId: string;
+  startedAt?: string;
+  pausedAt?: string;
+  submittedAt?: string;
+  remainingSeconds: number;
+  answers: Record<string, MockExamAnswer>;
+  updatedAt: string;
+}
+
 export interface AttemptTestResult {
   id: string;
   attemptId: string;

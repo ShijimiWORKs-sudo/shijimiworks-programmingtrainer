@@ -59,6 +59,24 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "hidden"]);
   });
 
+  it("adds a Python 3 mock exam shell seed with ordered problems", () => {
+    const exam = pythonGrade3Course.mockExams[0];
+    const lessonIds = new Set(pythonGrade3Course.chapters.flatMap((chapter) => chapter.lessons).map((lesson) => lesson.id));
+
+    expect(exam).toMatchObject({
+      id: "mock_exam_py3_trial",
+      title: "Python 3級 模擬試験",
+      status: "published",
+      timeLimitMinutes: 25,
+    });
+    expect(exam.problems.map((problem) => problem.order)).toEqual([1, 2]);
+    for (const problem of exam.problems) {
+      expect(problem.examId).toBe(exam.id);
+      expect(problem.sourceLessonIds.every((lessonId) => lessonIds.has(lessonId))).toBe(true);
+      expect(problem.testCases.length).toBeGreaterThanOrEqual(1);
+    }
+  });
+
   it("publishes Lesson 4 with public and hidden arithmetic test cases", () => {
     const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_04_types_operators");
     const exercise = lesson?.exercises[0];

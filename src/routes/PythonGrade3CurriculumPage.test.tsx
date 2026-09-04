@@ -15,6 +15,7 @@ vi.mock("../repositories", () => ({
   progressRepository: {
     listLessonProgress: vi.fn(() => Promise.resolve(repositoryState.progressList)),
     listChallengeProgress: vi.fn(() => Promise.resolve([])),
+    listMockExamSessions: vi.fn(() => Promise.resolve([])),
   },
 }));
 
@@ -37,6 +38,7 @@ describe("PythonGrade3CurriculumPage", () => {
     expect(await screen.findByText("0 / 10 Lessons completed")).toBeInTheDocument();
     expect(screen.getByText("0%")).toBeInTheDocument();
     expect(screen.getByLabelText("Python 3級 chapter progress")).toHaveTextContent("Not started");
+    expect(screen.getByRole("link", { name: /Python 3級 模擬試験/ })).toHaveTextContent("Ready");
   });
 
   it("shows chapter complete when every Python 3 lesson passed", async () => {

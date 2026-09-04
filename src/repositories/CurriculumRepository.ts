@@ -1,4 +1,4 @@
-import type { ChapterChallenge, Course, Language, Lesson } from "../domain/curriculum";
+import type { ChapterChallenge, Course, Language, Lesson, MockExam } from "../domain/curriculum";
 
 export interface CurriculumRepository {
   listLanguages(): Promise<Language[]>;
@@ -6,4 +6,5 @@ export interface CurriculumRepository {
   findCourse(courseId: string): Promise<Course | undefined>;
   findLesson(lessonId: string): Promise<Lesson | undefined>;
   findChallenge(challengeId: string): Promise<ChapterChallenge | undefined>;
+  findMockExam(examId: string): Promise<MockExam | undefined>;
 }

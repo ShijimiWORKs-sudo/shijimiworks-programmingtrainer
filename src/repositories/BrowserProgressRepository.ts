@@ -1,4 +1,4 @@
-import type { Attempt, ChallengeProgress, ExerciseProgress, LessonProgress } from "../domain/progress";
+import type { Attempt, ChallengeProgress, ExerciseProgress, LessonProgress, MockExamSession } from "../domain/progress";
 import type { ProgressRepository } from "./ProgressRepository";
 import { getProgrammingTrainerDb } from "./db";
 
@@ -96,6 +96,7 @@ function mergeChallengeProgress(existing: ChallengeProgress | undefined, next: C
 export class BrowserProgressRepository implements ProgressRepository {
   private readonly progressSaveQueues = new Map<string, Promise<void>>();
   private readonly challengeProgressSaveQueues = new Map<string, Promise<void>>();
+  private readonly mockExamSessionSaveQueues = new Map<string, Promise<void>>();
 
   async getLessonProgress(userId: string, lessonId: string) {
     const db = await getProgrammingTrainerDb();
@@ -155,6 +156,35 @@ export class BrowserProgressRepository implements ProgressRepository {
     const db = await getProgrammingTrainerDb();
     const progress = await db.getAllFromIndex("challengeProgress", "by-user", userId);
     return progress.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  }
+
+  async getMockExamSession(userId: string, examId: string) {
+    const db = await getProgrammingTrainerDb();
+    return db.getFromIndex("mockExamSessions", "by-user-exam", [userId, examId]);
+  }
+
+  async saveMockExamSession(session: MockExamSession) {
+    const key = `${session.userId}:${session.examId}`;
+    const previousSave = this.mockExamSessionSaveQueues.get(key) ?? Promise.resolve();
+    const nextSave = previousSave.catch(() => undefined).then(async () => {
+      const db = await getProgrammingTrainerDb();
+      await db.put("mockExamSessions", session);
+    });
+
+    this.mockExamSessionSaveQueues.set(key, nextSave);
+    try {
+      await nextSave;
+    } finally {
+      if (this.mockExamSessionSaveQueues.get(key) === nextSave) {
+        this.mockExamSessionSaveQueues.delete(key);
+      }
+    }
+  }
+
+  async listMockExamSessions(userId: string) {
+    const db = await getProgrammingTrainerDb();
+    const sessions = await db.getAllFromIndex("mockExamSessions", "by-user", userId);
+    return sessions.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
 
   async listRecentLessonProgress(userId: string, limit: number) {

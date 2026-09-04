@@ -3,9 +3,12 @@ import { deleteDB } from "idb";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   createInitialChallengeProgress,
+  createInitialMockExamSession,
   createInitialProgress,
   markPassed,
+  saveMockExamAnswer,
   touchChallengeProgress,
+  touchMockExamSession,
   touchExerciseProgress,
   touchProgress,
 } from "../features/progress/progressModel";
@@ -147,5 +150,28 @@ describe("BrowserProgressRepository", () => {
       lessonId: "lesson_py3_01_print",
       status: "passed",
     });
+  });
+
+  it("saves and restores mock exam sessions", async () => {
+    const repository = new BrowserProgressRepository();
+    const initial = createInitialMockExamSession("user", "mock_exam_py3_trial", "problem-1", "starter", 25);
+    const answered = saveMockExamAnswer(touchMockExamSession(initial, {
+      status: "paused",
+      remainingSeconds: 1198,
+    }), "problem-1", "print('saved')");
+
+    await repository.saveMockExamSession(answered);
+
+    await expect(repository.getMockExamSession("user", "mock_exam_py3_trial")).resolves.toMatchObject({
+      examId: "mock_exam_py3_trial",
+      status: "paused",
+      remainingSeconds: 1198,
+      answers: {
+        "problem-1": {
+          sourceCode: "print('saved')",
+        },
+      },
+    });
+    await expect(repository.listMockExamSessions("user")).resolves.toHaveLength(1);
   });
 });

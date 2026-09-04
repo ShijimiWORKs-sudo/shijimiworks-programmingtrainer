@@ -1,4 +1,4 @@
-import type { Attempt, ChallengeProgress, LessonProgress } from "../domain/progress";
+import type { Attempt, ChallengeProgress, LessonProgress, MockExamSession } from "../domain/progress";
 
 export interface ProgressRepository {
   getLessonProgress(userId: string, lessonId: string): Promise<LessonProgress | undefined>;
@@ -7,6 +7,9 @@ export interface ProgressRepository {
   getChallengeProgress(userId: string, challengeId: string): Promise<ChallengeProgress | undefined>;
   saveChallengeProgress(progress: ChallengeProgress): Promise<void>;
   listChallengeProgress(userId: string): Promise<ChallengeProgress[]>;
+  getMockExamSession(userId: string, examId: string): Promise<MockExamSession | undefined>;
+  saveMockExamSession(session: MockExamSession): Promise<void>;
+  listMockExamSessions(userId: string): Promise<MockExamSession[]>;
   listRecentLessonProgress(userId: string, limit: number): Promise<LessonProgress[]>;
   getLastLessonProgress(userId: string): Promise<LessonProgress | undefined>;
   recordAttempt(attempt: Attempt): Promise<void>;

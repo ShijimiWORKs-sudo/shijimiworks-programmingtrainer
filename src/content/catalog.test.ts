@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findChallengeById, findLessonById, getAllChallenges } from "./catalog";
+import { findChallengeById, findLessonById, findMockExamById, getAllChallenges, getAllMockExams } from "./catalog";
 
 describe("content catalog", () => {
   it("finds Python grade 3 chapter challenges without affecting lesson lookup", () => {
@@ -9,5 +9,14 @@ describe("content catalog", () => {
       title: "Python 3級 章末課題: 基礎総復習",
       status: "published",
     });
+  });
+
+  it("finds Python grade 3 mock exams without affecting lesson lookup", () => {
+    expect(getAllMockExams().map((exam) => exam.id)).toContain("mock_exam_py3_trial");
+    expect(findMockExamById("mock_exam_py3_trial")).toMatchObject({
+      title: "Python 3級 模擬試験",
+      status: "published",
+    });
+    expect(findLessonById("mock_exam_py3_trial")).toBeUndefined();
   });
 });

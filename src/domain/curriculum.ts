@@ -7,6 +7,7 @@ export type TestCaseVisibility = "public" | "hidden";
 export type OutputComparator = "exact_text" | "trimmed_text" | "normalized_lines";
 export type ChallengePublicationStatus = "draft" | "published";
 export type ChallengeKind = "chapter_challenge";
+export type MockExamPublicationStatus = "draft" | "published";
 
 export interface TestCase {
   id: string;
@@ -74,6 +75,22 @@ export interface ChapterChallenge {
   exercises: ChallengeExercise[];
 }
 
+export interface MockExamProblem extends Omit<ChallengeExercise, "challengeId"> {
+  examId: string;
+  order: number;
+}
+
+export interface MockExam {
+  id: string;
+  courseId: string;
+  slug: string;
+  title: string;
+  descriptionMd: string;
+  status: MockExamPublicationStatus;
+  timeLimitMinutes: number;
+  problems: MockExamProblem[];
+}
+
 export interface Chapter {
   id: string;
   courseId: string;
@@ -94,6 +111,7 @@ export interface Course {
   validFrom: string;
   validTo?: string;
   chapters: Chapter[];
+  mockExams: MockExam[];
 }
 
 export interface Level {

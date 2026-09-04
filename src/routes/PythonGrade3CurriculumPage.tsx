@@ -4,7 +4,7 @@ import { routePaths } from "../app/routePaths";
 import { PageHeader } from "../components/PageHeader";
 import { StatusBadge } from "../components/StatusBadge";
 import { pythonGrade3Course } from "../content/python/grade-3";
-import type { ChallengeProgress, LessonProgress } from "../domain/progress";
+import type { ChallengeProgress, LessonProgress, MockExamSession } from "../domain/progress";
 import { summarizeChapterProgress, type ChapterProgressStatus } from "../features/progress/chapterProgress";
 import { localUserId, progressRepository } from "../repositories";
 
@@ -17,14 +17,17 @@ const chapterStatusLabels: Record<ChapterProgressStatus, string> = {
 export function PythonGrade3CurriculumPage() {
   const [progressByLessonId, setProgressByLessonId] = useState<Record<string, LessonProgress>>({});
   const [progressByChallengeId, setProgressByChallengeId] = useState<Record<string, ChallengeProgress>>({});
+  const [sessionByExamId, setSessionByExamId] = useState<Record<string, MockExamSession>>({});
 
   useEffect(() => {
     void Promise.all([
       progressRepository.listLessonProgress(localUserId),
       progressRepository.listChallengeProgress(localUserId),
-    ]).then(([lessonProgressList, challengeProgressList]) => {
+      progressRepository.listMockExamSessions(localUserId),
+    ]).then(([lessonProgressList, challengeProgressList, mockExamSessions]) => {
       setProgressByLessonId(Object.fromEntries(lessonProgressList.map((progress) => [progress.lessonId, progress])));
       setProgressByChallengeId(Object.fromEntries(challengeProgressList.map((progress) => [progress.challengeId, progress])));
+      setSessionByExamId(Object.fromEntries(mockExamSessions.map((session) => [session.examId, session])));
     });
   }, []);
 
@@ -116,6 +119,24 @@ export function PythonGrade3CurriculumPage() {
           );
         })}
       </div>
+      {pythonGrade3Course.mockExams.length > 0 ? (
+        <section className="mock-exam-list" aria-label="Mock exams">
+          <h2>Mock Exam</h2>
+          {pythonGrade3Course.mockExams.map((exam) => {
+            const session = sessionByExamId[exam.id];
+            return (
+              <Link
+                key={exam.id}
+                className="lesson-row challenge-row"
+                to={routePaths.pythonGrade3MockExam(exam.id)}
+              >
+                <span>{exam.title}</span>
+                <StatusBadge status={session?.status ?? exam.status} />
+              </Link>
+            );
+          })}
+        </section>
+      ) : null}
     </section>
   );
 }

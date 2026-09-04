@@ -63,12 +63,23 @@ export function getAllChallenges() {
     .flatMap((chapter) => chapter.challenges);
 }
 
+export function getAllMockExams() {
+  return languages
+    .flatMap((language) => language.levels)
+    .flatMap((level) => level.courses)
+    .flatMap((course) => course.mockExams);
+}
+
 export function findLessonById(lessonId: string) {
   return getAllLessons().find((lesson) => lesson.id === lessonId);
 }
 
 export function findChallengeById(challengeId: string) {
   return getAllChallenges().find((challenge) => challenge.id === challengeId);
+}
+
+export function findMockExamById(examId: string) {
+  return getAllMockExams().find((exam) => exam.id === examId);
 }
 
 export function findNextLesson(lessonId: string) {
