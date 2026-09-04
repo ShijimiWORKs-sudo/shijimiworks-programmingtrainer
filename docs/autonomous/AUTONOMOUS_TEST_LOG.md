@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P5-03 Specification Change Tasks
 Datetime: 2026-09-05 02:07 +09:00
-Commit: pending P5-03 checkpoint commit
+Commit: e22b523db87a0d05ec5c2c6e0a3d3d7c2f31575e
 Target: Add a Python 1級 specification-change lesson that preserves old behavior while implementing a new shipping-fee rule.
 Test Command: `npm run typecheck`
 Result: Passed.
