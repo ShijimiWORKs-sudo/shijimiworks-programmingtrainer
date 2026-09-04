@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findChallengeById, findLessonById, findMockExamById, getAllChallenges, getAllMockExams, languages } from "./catalog";
+import { findChallengeById, findCourseByLessonId, findLessonById, findMockExamById, findNextLesson, getAllChallenges, getAllMockExams, languages } from "./catalog";
 
 describe("content catalog", () => {
   it("finds Python grade 3 chapter challenges without affecting lesson lookup", () => {
@@ -34,5 +34,15 @@ describe("content catalog", () => {
       courses: [],
     });
     expect(findLessonById("lesson_py3_01_print")?.title).toBe("Lesson 01: print / 出力");
+  });
+
+  it("finds Python grade 2 lessons without crossing next-lesson course boundaries", () => {
+    expect(findLessonById("lesson_py2_01_function_return")).toMatchObject({
+      title: "Lesson 01: 関数の戻り値",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_py2_01_function_return")?.id).toBe("course_python_grade_2");
+    expect(findNextLesson("lesson_py2_01_function_return")).toBeUndefined();
+    expect(findNextLesson("lesson_py3_10_functions")).toBeUndefined();
   });
 });

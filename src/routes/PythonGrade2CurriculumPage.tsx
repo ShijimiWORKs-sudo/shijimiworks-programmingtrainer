@@ -22,10 +22,23 @@ export function PythonGrade2CurriculumPage() {
               </span>
             </div>
             <div className="lesson-list">
-              <div className="lesson-row muted" aria-disabled="true">
-                <span>P4-02 Function Deepening</span>
-                <StatusBadge status="planned" />
-              </div>
+              {chapter.lessons.length > 0 ? (
+                chapter.lessons.map((lesson) => (
+                  <Link
+                    key={lesson.id}
+                    className="lesson-row"
+                    to={routePaths.pythonGrade2Lesson(lesson.id)}
+                  >
+                    <span>{lesson.title}</span>
+                    <StatusBadge status={lesson.status === "published" ? "not_started" : "draft"} />
+                  </Link>
+                ))
+              ) : (
+                <div className="lesson-row muted" aria-disabled="true">
+                  <span>P4-02 Function Deepening</span>
+                  <StatusBadge status="planned" />
+                </div>
+              )}
             </div>
           </article>
         ))}

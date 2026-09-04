@@ -14,6 +14,7 @@ describe("App routes", () => {
     [routePaths.languages, "Language Select"],
     [routePaths.python, "Python Level Select"],
     [routePaths.pythonGrade2, "Python 2級"],
+    [routePaths.pythonGrade2Lesson("lesson_py2_01_function_return"), "Lesson 01: 関数の戻り値"],
     [routePaths.pythonGrade3, "Python 3級"],
     [routePaths.pythonGrade3Challenge("challenge_py3_basic_review"), "Python 3級 章末課題: 基礎総復習"],
     [routePaths.pythonGrade3MockExam("mock_exam_py3_trial"), "Python 3級 模擬試験"],

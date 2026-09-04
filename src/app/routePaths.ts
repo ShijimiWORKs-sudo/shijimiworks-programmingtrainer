@@ -3,6 +3,7 @@ export const routePaths = {
   languages: "/languages",
   python: "/languages/python",
   pythonGrade2: "/languages/python/grade-2",
+  pythonGrade2Lesson: (lessonId: string) => "/languages/python/grade-2/lessons/" + lessonId,
   pythonGrade3: "/languages/python/grade-3",
   pythonGrade3Lesson: (lessonId: string) => "/languages/python/grade-3/lessons/" + lessonId,
   pythonGrade3Challenge: (challengeId: string) => "/languages/python/grade-3/challenges/" + challengeId,

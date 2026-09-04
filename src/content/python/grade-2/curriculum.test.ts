@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { pythonGrade2Course } from "./curriculum";
 
 describe("python grade 2 curriculum seed", () => {
-  it("adds a routeable course skeleton without publishing lessons early", () => {
+  it("adds a routeable course skeleton with function deepening as the first lesson", () => {
     expect(pythonGrade2Course).toMatchObject({
       id: "course_python_grade_2",
       languageId: "lang_python",
@@ -14,9 +14,18 @@ describe("python grade 2 curriculum seed", () => {
     expect(pythonGrade2Course.chapters[0]).toMatchObject({
       id: "chapter_python_grade_2_foundation",
       order: 1,
-      lessons: [],
       challenges: [],
     });
+    expect(pythonGrade2Course.chapters[0].lessons[0]).toMatchObject({
+      id: "lesson_py2_01_function_return",
+      title: "Lesson 01: 関数の戻り値",
+      status: "published",
+      order: 1,
+    });
+    expect(pythonGrade2Course.chapters[0].lessons[0].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
+      "public",
+      "hidden",
+    ]);
     expect(pythonGrade2Course.mockExams).toEqual([]);
   });
 });
