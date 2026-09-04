@@ -252,6 +252,16 @@ Failure: npm audit endpoint returned `503 Service Unavailable` twice.
 Fix: No code fix available; retry when npm registry audit endpoint recovers.
 Retest Result: Still blocked by `503 Service Unavailable`.
 
+## 2026-09-04 Checkpoint: P2-09 Audit Blocker Recovery
+Datetime: 2026-09-04 19:58 +09:00
+Commit: 9a859e59cc55fa019e29cf78f91b4e451a24ff8b
+Target: Recheck P2-09 security/audit blocker and finalize checkpoint.
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Initially failed twice with npm audit endpoint `503 Service Unavailable`, then passed with 0 vulnerabilities on the third retry.
+Failure: External npm audit bulk advisories endpoint returned 503 during the first two retry attempts.
+Fix: No code or dependency change. Waited between retries and checked registry reachability.
+Retest Result: `npm ping --registry=https://registry.npmjs.org/` passed, `npm view npm version --registry=https://registry.npmjs.org/` returned `12.0.2`, and the third audit retry passed with 0 vulnerabilities.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
