@@ -415,7 +415,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P7-02 DOM Validator
 Datetime: 2026-09-05 07:13 +09:00
-Commit: pending checkpoint commit on `codex/phase-7-html-css`
+Commit: 475cbff180cd7e4f6185c9f1a7bbb3bd85d40f51
 Target: Add HTML DOM requirement grading, integrate it into the HTML/CSS workspace, persist progress/attempts, and verify hidden DOM requirement details stay private.
 
 Test Command: `npm run typecheck`
