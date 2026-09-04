@@ -4,7 +4,7 @@ Updated: 2026-09-05 06:33 +09:00
 
 Current Phase: Phase 7 / HTML/CSS - P7-01 Split Editor and Preview Foundation completed; P7-02 planning
 Current Branch: codex/phase-7-html-css
-Current Commit: pending P7-01 checkpoint commit
+Current Commit: aa17db6cd2c705062f67085dc8e4c9f5718c1b89
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
