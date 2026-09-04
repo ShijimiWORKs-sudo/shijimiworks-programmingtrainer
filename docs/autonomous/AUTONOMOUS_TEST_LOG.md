@@ -408,7 +408,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P3-02 Chapter Challenge UI and Grading
 Datetime: 2026-09-04 21:42 +09:00
-Commit: pending checkpoint commit on `codex/phase-3-python-grade3-challenge`
+Commit: 0498cd4af4892bbbefd20076e34956b946bb0a86
 Target: Build the chapter challenge workflow using the P3-01 data model.
 Test Command: `npm run typecheck`
 Result: Passed.
