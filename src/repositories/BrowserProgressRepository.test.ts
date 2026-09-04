@@ -1,7 +1,7 @@
 import "fake-indexeddb/auto";
 import { deleteDB } from "idb";
 import { beforeEach, describe, expect, it } from "vitest";
-import { createInitialProgress, markPassed, touchProgress } from "../features/progress/progressModel";
+import { createInitialProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
 import { BrowserProgressRepository } from "./BrowserProgressRepository";
 import { resetDbConnectionForTests } from "./db";
 
@@ -61,5 +61,58 @@ describe("BrowserProgressRepository", () => {
 
     expect(restored?.lastCode).toBe("print('new')");
     expect(restored?.updatedAt).toBe("2026-01-02T00:00:00.000Z");
+  });
+
+  it("merges exercise progress without overwriting newer exercise code", async () => {
+    const repository = new BrowserProgressRepository();
+    const initial = createInitialProgress("user", "lesson_multi", "starter");
+    const older = {
+      ...touchExerciseProgress(initial, "exercise-1", "starter", {
+        lastCode: "print('old')",
+        status: "in_progress",
+      }),
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      lastStudiedAt: "2026-01-01T00:00:00.000Z",
+      exerciseProgress: {
+        "exercise-1": {
+          exerciseId: "exercise-1",
+          status: "in_progress" as const,
+          lastCode: "print('old')",
+          runCount: 1,
+          gradeCount: 0,
+          updatedAt: "2026-01-01T00:00:00.000Z",
+        },
+      },
+    };
+    const newer = {
+      ...touchExerciseProgress(initial, "exercise-1", "starter", {
+        lastCode: "print('new')",
+        status: "passed",
+      }),
+      updatedAt: "2026-01-02T00:00:00.000Z",
+      lastStudiedAt: "2026-01-02T00:00:00.000Z",
+      exerciseProgress: {
+        "exercise-1": {
+          exerciseId: "exercise-1",
+          status: "passed" as const,
+          lastCode: "print('new')",
+          runCount: 0,
+          gradeCount: 1,
+          updatedAt: "2026-01-02T00:00:00.000Z",
+        },
+      },
+    };
+
+    await repository.saveLessonProgress(newer);
+    await repository.saveLessonProgress(older);
+
+    const restored = await repository.getLessonProgress("user", "lesson_multi");
+
+    expect(restored?.exerciseProgress?.["exercise-1"]).toMatchObject({
+      lastCode: "print('new')",
+      status: "passed",
+      runCount: 1,
+      gradeCount: 1,
+    });
   });
 });

@@ -5,9 +5,9 @@ import { StatusBadge } from "../components/StatusBadge";
 import { findLessonById, findNextLesson } from "../content/catalog";
 import type { AppSettings, LessonProgress } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
-import { GradingEngine, type GradeResult } from "../features/grading";
+import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
-import { markPassed, createInitialProgress, touchProgress } from "../features/progress/progressModel";
+import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
 import { PythonRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
@@ -22,7 +22,11 @@ declare global {
 export function LessonWorkspacePage() {
   const { lessonId } = useParams();
   const lesson = lessonId ? findLessonById(lessonId) : undefined;
-  const exercise = lesson?.exercises[0];
+  const [selectedExerciseId, setSelectedExerciseId] = useState("");
+  const exercise = useMemo(
+    () => lesson?.exercises.find((candidate) => candidate.id === selectedExerciseId) ?? lesson?.exercises[0],
+    [lesson, selectedExerciseId]
+  );
   const runnerRef = useRef<PythonRunner | undefined>(undefined);
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
   const [progress, setProgress] = useState<LessonProgress | undefined>();
@@ -82,10 +86,13 @@ export function LessonWorkspacePage() {
         return;
       }
 
-      const nextProgress = storedProgress ?? createInitialProgress(localUserId, lesson.id, lesson.starterCode);
+      const firstExercise = lesson.exercises[0];
+      const nextProgress = storedProgress ?? createInitialProgress(localUserId, lesson.id, firstExercise?.starterCode ?? lesson.starterCode);
+      const nextExercise = lesson.exercises.find((candidate) => candidate.id === nextProgress.activeExerciseId) ?? firstExercise;
       setSettings(storedSettings);
       setProgress(nextProgress);
-      setCode(nextProgress.lastCode || lesson.starterCode);
+      setSelectedExerciseId(nextExercise?.id ?? "");
+      setCode(nextExercise ? getExerciseProgress(nextProgress, nextExercise.id, nextExercise.starterCode).lastCode : lesson.starterCode);
       setVisibleHintCount(Math.min(nextProgress.hintCount, lesson.hints.length));
       setRunResult(undefined);
       setGradeResult(undefined);
@@ -110,14 +117,21 @@ export function LessonWorkspacePage() {
 
   const handleCodeChange = useCallback((nextCode: string) => {
     setCode(nextCode);
-    if (!lesson || !progress) {
+    if (!lesson || !exercise || !progress) {
       return;
     }
-    void persistProgress(touchProgress(progress, {
-      status: progress.status === "passed" ? "passed" : "in_progress",
-      lastCode: nextCode,
-    }));
-  }, [lesson, persistProgress, progress]);
+    const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);
+    void persistProgress(touchExerciseProgress(
+      progress,
+      exercise.id,
+      exercise.starterCode,
+      {
+        status: exerciseProgress.status === "passed" ? "passed" : "in_progress",
+        lastCode: nextCode,
+      },
+      { status: progress.status === "passed" ? "passed" : "in_progress" }
+    ));
+  }, [exercise, lesson, persistProgress, progress]);
 
   const canRun = Boolean(lesson && exercise && code.trim().length > 0 && runtimeState === "idle");
 
@@ -135,7 +149,12 @@ export function LessonWorkspacePage() {
       setRuntimeState("running");
       const result = await runnerRef.current.run({ sourceCode: code, stdin, timeoutMs: exercise.timeoutMs });
       setRunResult(result);
-      const nextProgress = touchProgress(progress, {
+      const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);
+      const nextProgress = touchExerciseProgress(progress, exercise.id, exercise.starterCode, {
+        status: exerciseProgress.status === "passed" ? "passed" : "in_progress",
+        lastCode: code,
+        runCount: exerciseProgress.runCount + 1,
+      }, {
         status: progress.status === "passed" ? "passed" : "in_progress",
         lastCode: code,
         runCount: progress.runCount + 1,
@@ -162,12 +181,17 @@ export function LessonWorkspacePage() {
       setRuntimeState("grading");
       const grade = await new GradingEngine(runnerRef.current).gradeExercise(exercise, code);
       const summaryResult = createGradeSummaryResult(grade);
-      const baseProgress = touchProgress(progress, {
+      const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);
+      const baseProgress = touchExerciseProgress(progress, exercise.id, exercise.starterCode, {
+        status: grade.passed ? "passed" : (exerciseProgress.status === "passed" ? "passed" : "in_progress"),
+        lastCode: code,
+        gradeCount: exerciseProgress.gradeCount + 1,
+      }, {
         status: progress.status === "passed" ? "passed" : "in_progress",
         lastCode: code,
         gradeCount: progress.gradeCount + 1,
       });
-      const nextProgress = grade.passed ? markPassed(baseProgress) : baseProgress;
+      const nextProgress = grade.passed && allExercisesPassed(baseProgress, lesson.exercises.map((candidate) => candidate.id)) ? markPassed(baseProgress) : baseProgress;
       await persistProgress(nextProgress);
       await progressRepository.recordAttempt(createAttempt(lesson.id, exercise.id, code, "", summaryResult, grade.passed, grade));
       setGradeResult(grade);
@@ -192,14 +216,40 @@ export function LessonWorkspacePage() {
   }, [code, lesson, persistProgress, progress, visibleHintCount]);
 
   const resetCode = useCallback(async () => {
-    if (!lesson || !progress) {
+    if (!lesson || !exercise || !progress) {
       return;
     }
-    setCode(lesson.starterCode);
+    setCode(exercise.starterCode);
     setRunResult(undefined);
     setGradeResult(undefined);
-    await persistProgress(touchProgress(progress, { lastCode: lesson.starterCode }));
-  }, [lesson, persistProgress, progress]);
+    await persistProgress(touchExerciseProgress(progress, exercise.id, exercise.starterCode, { lastCode: exercise.starterCode }));
+  }, [exercise, lesson, persistProgress, progress]);
+
+  const selectExercise = useCallback(async (exerciseId: string) => {
+    if (!lesson || !progress || exercise?.id === exerciseId) {
+      return;
+    }
+    const nextExercise = lesson.exercises.find((candidate) => candidate.id === exerciseId);
+    if (!nextExercise) {
+      return;
+    }
+
+    const progressWithCurrentCode = exercise
+      ? touchExerciseProgress(progress, exercise.id, exercise.starterCode, { lastCode: code })
+      : progress;
+    const nextExerciseProgress = getExerciseProgress(progressWithCurrentCode, nextExercise.id, nextExercise.starterCode);
+    const nextProgress = touchProgress(progressWithCurrentCode, {
+      activeExerciseId: nextExercise.id,
+      lastCode: nextExerciseProgress.lastCode,
+    });
+    setSelectedExerciseId(nextExercise.id);
+    setCode(nextExerciseProgress.lastCode);
+    setRunResult(undefined);
+    setGradeResult(undefined);
+    setStdin(lesson.sampleInput);
+    setErrorMessage("");
+    await persistProgress(nextProgress);
+  }, [code, exercise, lesson, persistProgress, progress]);
 
   const nextLesson = useMemo(() => (lesson ? findNextLesson(lesson.id) : undefined), [lesson]);
 
@@ -250,6 +300,29 @@ export function LessonWorkspacePage() {
             <dd>{lesson.estimatedMinutes}分</dd>
           </div>
         </dl>
+        {lesson.exercises.length > 1 ? (
+          <section aria-label="Exercises">
+            <h2>Exercises</h2>
+            <div className="exercise-switcher">
+              {lesson.exercises.map((candidate, index) => {
+                const candidateProgress = progress ? getExerciseProgress(progress, candidate.id, candidate.starterCode) : undefined;
+                const isSelected = candidate.id === exercise.id;
+                return (
+                  <button
+                    key={candidate.id}
+                    className={isSelected ? "exercise-tab active" : "exercise-tab"}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => { void selectExercise(candidate.id); }}
+                  >
+                    <span>Exercise {index + 1}</span>
+                    <StatusBadge status={candidateProgress?.status ?? "not_started"} />
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
         <section>
           <h2>説明</h2>
           <p>{lesson.explanationMd}</p>
@@ -328,6 +401,7 @@ export function LessonWorkspacePage() {
                 {gradeResult.results.map((result) => (
                   <article key={result.testCaseId} className="test-result-row">
                     <strong>{result.visibility === "hidden" ? "Hidden Test" : "Public Test"} #{result.order}: {result.passed ? "pass" : "fail"}</strong>
+                    <p className="test-explanation">{explainTestCaseResult(result)}</p>
                     {result.visibility === "public" ? (
                       <div className="test-detail">
                         <span>input</span>

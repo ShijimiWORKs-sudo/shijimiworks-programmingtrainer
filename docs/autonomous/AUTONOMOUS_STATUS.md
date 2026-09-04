@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04
+Updated: 2026-09-04 20:51 +09:00
 
-Current Phase: Phase 2 Planning / Python 3級 Curriculum Complete
-Current Branch: main
-Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
+Current Phase: Phase 2 / Python 3級 Curriculum Complete
+Current Branch: codex/phase-2-python-grade3-curriculum
+Current Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -23,14 +23,65 @@ Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
 - Marked PR #2 ready for review.
 - Merged PR #2 into `main` with merge commit `df3f9c186ec183cf216a4244f9a5f290e0b1bdbc`.
 - Fast-forwarded local `main` to `origin/main`.
+- Created Phase 2 branch `codex/phase-2-python-grade3-curriculum`.
+- Completed `P2-01 Lesson 4 Types and Operators`.
+- Added a published Lesson 4 for reading two integers and printing their sum and product, with public and hidden grading coverage.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 4.
+- Fixed Python worker batched stdout/stderr capture so multi-line `print` output preserves line breaks for run and grade results.
+- Completed full P2-01 regression successfully.
+- Committed and pushed `P2-01 Lesson 4 Types and Operators` as `08ff435cb96197abfe402c8881081ad580a21da5`.
+- Completed `P2-02 Lesson 5 if`.
+- Added a published Lesson 5 for reading a score and printing `pass` or `retry` with public and hidden grading coverage.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 5.
+- Completed full P2-02 regression successfully.
+- Committed and pushed `P2-02 Lesson 5 if` as `c2c23d2d1f838174d78cd207a2c59b8d5b9a1dfa`.
+- Completed `P2-03 Lesson 6 for`.
+- Added a published Lesson 6 for printing 1 through n with `for` and `range(1, n + 1)`, with public and hidden grading coverage.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 6.
+- Completed full P2-03 regression successfully.
+- Committed and pushed `P2-03 Lesson 6 for` as `50e09478dca174e34f8eb780e0417e8d5b8ec762`.
+- Completed `P2-04 Lesson 7 while`.
+- Added a published Lesson 7 for countdown output using `while`, including an explicit decrement to avoid infinite-loop patterns.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 7.
+- Completed full P2-04 regression successfully.
+- Committed and pushed `P2-04 Lesson 7 while` as `cdeb40584fdfca604ccd3d13868f51ee076736ef`.
+- Completed `P2-05 Lesson 8 list`.
+- Added a published Lesson 8 for list creation, index update, and ordered output.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 8.
+- Completed full P2-05 regression successfully.
+- Committed and pushed `P2-05 Lesson 8 list` as `3e4b8e6d89b11c8fcf5f398691f264759813412d`.
+- Completed `P2-06 Lesson 9 dict`.
+- Added a published Lesson 9 for dict key lookup/update and updated-value output.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 9.
+- Completed full P2-06 regression successfully.
+- Committed and pushed `P2-06 Lesson 9 dict` as `33f22e52e3f0e57211d560292fa5af3ee0858e1c`.
+- Completed `P2-07 Lesson 10 function`.
+- Added a published Lesson 10 for defining and calling `double(number)`.
+- Removed the now-unused draft lesson helper after all 10 Python 3級 lessons became published.
+- Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 10.
+- Completed full P2-07 regression successfully.
+- Committed and pushed `P2-07 Lesson 10 function` as `dbe0991229b6d1400cc9d641f9ab3c6f05c3e29d`.
+- Completed `P2-08 Multiple Exercises Per Lesson`.
+- Added exercise-level progress state while preserving existing lesson-level progress records.
+- Added Lesson Workspace exercise switching that appears only for lessons with multiple exercises.
+- Added a second Lesson 10 function exercise and verified exercise-specific editor persistence and grading.
+- Completed full P2-08 regression successfully.
+- Committed and pushed `P2-08 Multiple Exercises Per Lesson` as `a6fe16d4957fbf9b0b46943315540d37a39042f4`.
+- Completed `P2-09 Hint Quality and Error Explanation`.
+- Added grading explanation helper and UI messages for public wrong answers, runtime errors, timeouts, cancellation, internal errors, and hidden test generic feedback.
+- Added content quality assertions that all 10 published lessons have staged hints, runnable exercises, and public/hidden coverage.
+- Targeted tests and full regression passed through Chrome/Edge E2E.
+- Rechecked the npm audit blocker: two additional retries returned audit endpoint `503 Service Unavailable`, registry ping/package lookup succeeded, and the third retry passed with 0 vulnerabilities.
+- Completed `P2-10 Chapter Progress`.
+- Added lesson-level chapter progress aggregation for Python 3級, including completed, in-progress, and not-started counts.
+- Displayed chapter progress on the Curriculum screen as completed lesson count, percentage, progressbar, detail counts, and chapter state.
+- Verified reload recalculation, Lesson 10 multi-exercise single-lesson counting, and passed-lesson re-edit preservation.
 
 ## In Progress
-- Preparing Phase 2 branch `codex/phase-2-python-grade3-curriculum`.
+- P2-11 Phase 2 Regression Checkpoint preparation.
 
 ## Next
-- Start Phase 2 on `codex/phase-2-python-grade3-curriculum`.
-- Select `P2-01 Lesson 4 Types and Operators` from `AUTONOMOUS_PLAN.md`.
-- Implement, test, review, checkpoint, commit, push, and open/update the Phase 2 PR.
+- Self-review the full Phase 2 branch, run/confirm full regression as needed, create or update the Phase 2 Draft PR, and continue the Phase 2 completion gate.
 
 ## Tests
 - `npm run lint`: passed.
@@ -41,6 +92,26 @@ Current Commit: df3f9c186ec183cf216a4244f9a5f290e0b1bdbc
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
+- P2-01 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4 E2E passed.
+- P2-01 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-02 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5 E2E passed.
+- P2-02 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-03 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6 E2E passed.
+- P2-03 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-04 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6/7 E2E passed.
+- P2-04 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-05 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6/7/8 E2E passed.
+- P2-05 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-06 targeted checks on 2026-09-04: lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6/7/8/9 E2E passed.
+- P2-06 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-07 targeted checks on 2026-09-04: initial lint failed on unused `draftLesson`, fixed; lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6/7/8/9/10 E2E passed.
+- P2-07 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-08 targeted checks on 2026-09-04: lint passed, initial typecheck failed on repository status inference and was fixed, related unit tests passed, initial E2E locator assertions were fixed, Chrome/Edge Lesson 4-10 plus exercise switching E2E passed.
+- P2-08 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-09 targeted checks on 2026-09-04: lint passed, typecheck passed, grading/content unit tests passed, Chrome/Edge Phase 1 hidden leakage plus Phase 2 E2E passed.
+- P2-09 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed; audit initially failed with npm registry 503 and later passed with 0 vulnerabilities on retry.
+- P2-10 targeted checks on 2026-09-04: chapter progress/progress model/repository unit tests passed, Curriculum page component tests passed, Chrome/Edge chapter progress E2E passed.
+- P2-10 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (12 files / 48 tests), build passed, Chrome/Edge E2E passed (28 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
-- None currently.
+- None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

@@ -27,6 +27,10 @@ function classifyError(error: unknown): RunErrorType {
   return "runtime_error";
 }
 
+function appendBatchedLine(buffer: string, output: string) {
+  return buffer + output + (output.endsWith("\n") ? "" : "\n");
+}
+
 async function runPython(sourceCode: string, stdin: string): Promise<RunResult> {
   const pyodide = await getPyodide();
   const startedAt = performance.now();
@@ -42,8 +46,8 @@ async function runPython(sourceCode: string, stdin: string): Promise<RunResult> 
       return line;
     },
   });
-  pyodide.setStdout({ batched: (output) => { stdout += output; } });
-  pyodide.setStderr({ batched: (output) => { stderr += output; } });
+  pyodide.setStdout({ batched: (output) => { stdout = appendBatchedLine(stdout, output); } });
+  pyodide.setStderr({ batched: (output) => { stderr = appendBatchedLine(stderr, output); } });
 
   try {
     await pyodide.runPythonAsync(sourceCode);
