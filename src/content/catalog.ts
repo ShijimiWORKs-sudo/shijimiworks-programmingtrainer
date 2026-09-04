@@ -1,4 +1,5 @@
 import type { Language } from "../domain/curriculum";
+import { javascriptGrade1Course } from "./javascript/grade-1";
 import { javascriptGrade2Course } from "./javascript/grade-2";
 import { javascriptGrade3Course } from "./javascript/grade-3";
 import { pythonGrade1Course } from "./python/grade-1";
@@ -69,6 +70,15 @@ export const languages: Language[] = [
         order: 2,
         status: "available",
         courses: [javascriptGrade2Course],
+      },
+      {
+        id: "level_javascript_1",
+        languageId: "lang_javascript",
+        code: "grade-1",
+        name: "1級",
+        order: 3,
+        status: "available",
+        courses: [javascriptGrade1Course],
       },
     ],
   },

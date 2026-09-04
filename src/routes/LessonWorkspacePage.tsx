@@ -33,6 +33,9 @@ function runtimeLabelForCourse(course: Course | undefined) {
 }
 
 function curriculumPathForCourse(course: Course | undefined) {
+  if (course?.levelId === "level_javascript_1") {
+    return routePaths.javascriptGrade1;
+  }
   if (course?.levelId === "level_javascript_2") {
     return routePaths.javascriptGrade2;
   }
@@ -49,6 +52,9 @@ function curriculumPathForCourse(course: Course | undefined) {
 }
 
 function lessonPathForCourse(course: Course | undefined, lessonId: string) {
+  if (course?.levelId === "level_javascript_1") {
+    return routePaths.javascriptGrade1Lesson(lessonId);
+  }
   if (course?.levelId === "level_javascript_2") {
     return routePaths.javascriptGrade2Lesson(lessonId);
   }

@@ -159,3 +159,11 @@ Decision: Use JavaScript-native 2級 tasks for functions, classes, `throw`/`try`
 Reason: This preserves the current browser-worker runner contract, avoids inventing file APIs mid-checkpoint, and still gives learners a complete Grade 2 progression.
 Alternatives: Emulate `localStorage` or virtual files in the JavaScript runner now; copy the Python virtual file lesson directly; omit the practical small project. These were rejected because they either broaden P6-03 or leave the level less useful.
 Risk: JavaScript 2級 differs from Python 2級's file I/O checkpoint. A future JavaScript or release-hardening pass can add a dedicated virtual storage exercise if the product wants parity.
+
+## 2026-09-05: JavaScript Grade 1 Mirrors Practical Maintenance Tasks
+Date: 2026-09-05
+Context: P6-04 requires JavaScript 1級 practical tasks, but the product docs do not define JavaScript-specific 1級 lesson scenarios.
+Decision: Mirror the proven Python 1級 practical maintenance structure with JavaScript-specific code: bug fix, specification change, test-oriented repair, and behavior-preserving refactoring. Use visible project support files as learner guidance while grading through the existing stdout runner.
+Reason: This creates a complete grade path quickly, reuses established product semantics, and keeps the checkpoint inside the stable single-entry-file Lesson Workspace.
+Alternatives: Build a full JavaScript multi-file execution harness now; invent unrelated advanced browser/API tasks; leave JavaScript 1級 as planned. These were rejected because they broaden scope or fail P6-04 acceptance.
+Risk: Visible support files are instructional and not executed by the runner yet. Future advanced JavaScript project phases can add multi-file execution without invalidating these stdout-graded tasks.

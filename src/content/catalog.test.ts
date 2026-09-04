@@ -94,7 +94,7 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_py1_04_refactoring")).toBeUndefined();
   });
 
-  it("enables JavaScript grade 2 and grade 3 and keeps next-lesson routing within each JavaScript course", () => {
+  it("enables JavaScript grade 1, grade 2, and grade 3 and keeps next-lesson routing within each JavaScript course", () => {
     const javascript = languages.find((language) => language.slug === "javascript");
 
     expect(javascript).toMatchObject({
@@ -102,6 +102,7 @@ describe("content catalog", () => {
       levels: [
         { code: "grade-3", status: "available", courses: [{ id: "course_javascript_grade_3_foundation" }] },
         { code: "grade-2", status: "available", courses: [{ id: "course_javascript_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_javascript_grade_1" }] },
       ],
     });
     expect(findLessonById("lesson_js3_01_console_log")).toMatchObject({
@@ -118,5 +119,16 @@ describe("content catalog", () => {
       id: "lesson_js2_02_classes",
     });
     expect(findNextLesson("lesson_js2_06_small_project")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_js1_01_bug_fix")?.id).toBe("course_javascript_grade_1");
+    expect(findNextLesson("lesson_js1_01_bug_fix")).toMatchObject({
+      id: "lesson_js1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_js1_02_specification_change")).toMatchObject({
+      id: "lesson_js1_03_test_oriented",
+    });
+    expect(findNextLesson("lesson_js1_03_test_oriented")).toMatchObject({
+      id: "lesson_js1_04_refactoring",
+    });
+    expect(findNextLesson("lesson_js1_04_refactoring")).toBeUndefined();
   });
 });

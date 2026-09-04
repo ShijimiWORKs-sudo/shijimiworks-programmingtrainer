@@ -12,6 +12,8 @@ export const routePaths = {
   pythonGrade3MockExam: (examId: string) => "/languages/python/grade-3/mock-exams/" + examId,
   pythonGrade3MockExamResult: (examId: string) => "/languages/python/grade-3/mock-exams/" + examId + "/result",
   javascript: "/languages/javascript",
+  javascriptGrade1: "/languages/javascript/grade-1",
+  javascriptGrade1Lesson: (lessonId: string) => "/languages/javascript/grade-1/lessons/" + lessonId,
   javascriptGrade2: "/languages/javascript/grade-2",
   javascriptGrade2Lesson: (lessonId: string) => "/languages/javascript/grade-2/lessons/" + lessonId,
   javascriptGrade3: "/languages/javascript/grade-3",
