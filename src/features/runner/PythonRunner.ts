@@ -21,7 +21,12 @@ function nextRequestId() {
 export class PythonRunner implements LanguageRunner {
   private worker: RunnerWorker;
   private initialized = false;
-  private activeReject: ((reason?: unknown) => void) | undefined;
+  private activeRequest:
+    | {
+        cleanup: () => void;
+        reject: (reason?: unknown) => void;
+      }
+    | undefined;
 
   constructor(private readonly workerFactory: WorkerFactory = createDefaultWorker) {
     this.worker = this.workerFactory();
@@ -84,6 +89,16 @@ export class PythonRunner implements LanguageRunner {
         };
       }
 
+      if (error instanceof Error && error.message === "cancelled") {
+        return {
+          status: "cancelled",
+          stdout: "",
+          stderr: "Execution was cancelled and the Python worker was restarted.",
+          durationMs: Math.round(performance.now() - startedAt),
+          errorType: "cancelled",
+        };
+      }
+
       return {
         status: "internal_error",
         stdout: "",
@@ -95,7 +110,9 @@ export class PythonRunner implements LanguageRunner {
   }
 
   async cancel() {
-    this.activeReject?.(new Error("cancelled"));
+    const activeRequest = this.activeRequest;
+    activeRequest?.cleanup();
+    activeRequest?.reject(new Error("cancelled"));
     this.recreateWorker();
   }
 
@@ -105,7 +122,9 @@ export class PythonRunner implements LanguageRunner {
   }
 
   async dispose() {
-    this.activeReject?.(new Error("cancelled"));
+    const activeRequest = this.activeRequest;
+    activeRequest?.cleanup();
+    activeRequest?.reject(new Error("cancelled"));
     this.worker.terminate();
     this.initialized = false;
   }
@@ -114,7 +133,7 @@ export class PythonRunner implements LanguageRunner {
     this.worker.terminate();
     this.worker = this.workerFactory();
     this.initialized = false;
-    this.activeReject = undefined;
+    this.activeRequest = undefined;
   }
 
   private sendAndWait(
@@ -124,12 +143,15 @@ export class PythonRunner implements LanguageRunner {
   ): Promise<PythonWorkerResponse> {
     const id = nextRequestId();
     const message = { id, type, ...payload } as PythonWorkerRequest;
+    const worker = this.worker;
 
     return new Promise((resolve, reject) => {
       const cleanup = () => {
         window.clearTimeout(timer);
-        this.worker.removeEventListener("message", handleMessage);
-        this.activeReject = undefined;
+        worker.removeEventListener("message", handleMessage);
+        if (this.activeRequest?.cleanup === cleanup) {
+          this.activeRequest = undefined;
+        }
       };
       const handleMessage = (event: MessageEvent<PythonWorkerResponse>) => {
         if (event.data.id !== id) {
@@ -143,9 +165,9 @@ export class PythonRunner implements LanguageRunner {
         reject(new Error("timeout"));
       }, timeoutMs);
 
-      this.activeReject = reject;
-      this.worker.addEventListener("message", handleMessage);
-      this.worker.postMessage(message);
+      this.activeRequest = { cleanup, reject };
+      worker.addEventListener("message", handleMessage);
+      worker.postMessage(message);
     });
   }
 }

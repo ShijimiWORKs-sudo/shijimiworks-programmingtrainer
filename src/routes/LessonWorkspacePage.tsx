@@ -3,39 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
 import { findLessonById, findNextLesson } from "../content/catalog";
-import type { Attempt, AppSettings, LessonProgress } from "../domain/progress";
+import type { AppSettings, LessonProgress } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { GradingEngine, type GradeResult } from "../features/grading";
+import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { markPassed, createInitialProgress, touchProgress } from "../features/progress/progressModel";
 import { PythonRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
-
-function createAttempt(lessonId: string, exerciseId: string, code: string, stdin: string, result: RunResult, passed: boolean, grade?: GradeResult): Attempt {
-  const now = new Date().toISOString();
-  return {
-    id: "attempt:" + crypto.randomUUID(),
-    userId: localUserId,
-    lessonId,
-    exerciseId,
-    sourceCode: code,
-    stdin,
-    executionStatus: result.status,
-    stdout: result.stdout,
-    stderr: result.stderr,
-    passed,
-    durationMs: result.durationMs,
-    createdAt: now,
-    testResults: grade?.results.map((testResult) => ({
-      id: "attempt-test:" + crypto.randomUUID(),
-      attemptId: "",
-      testCaseId: testResult.testCaseId,
-      passed: testResult.passed,
-      actualStdout: testResult.actualStdout,
-      errorType: testResult.errorType,
-      durationMs: testResult.durationMs,
-    })),
-  };
-}
 
 export function LessonWorkspacePage() {
   const { lessonId } = useParams();
@@ -152,13 +126,7 @@ export function LessonWorkspacePage() {
       await runnerRef.current.initialize();
       setRuntimeState("grading");
       const grade = await new GradingEngine(runnerRef.current).gradeExercise(exercise, code);
-      const summaryResult: RunResult = {
-        status: grade.passed ? "success" : "runtime_error",
-        stdout: grade.results.map((result) => result.actualStdout).join("\n"),
-        stderr: grade.results.map((result) => result.stderr).filter(Boolean).join("\n"),
-        durationMs: grade.results.reduce((total, result) => total + result.durationMs, 0),
-        errorType: grade.results.find((result) => result.errorType)?.errorType,
-      };
+      const summaryResult = createGradeSummaryResult(grade);
       const baseProgress = touchProgress(progress, {
         status: progress.status === "passed" ? "passed" : "in_progress",
         lastCode: code,
@@ -331,12 +299,12 @@ export function LessonWorkspacePage() {
                         <pre>{result.stdin || "なし"}</pre>
                         <span>expected</span>
                         <pre>{result.expectedStdout}</pre>
+                        <span>actual</span>
+                        <pre>{result.actualStdout || result.stderr}</pre>
                       </div>
                     ) : (
-                      <p>hidden testの期待出力は表示しません。</p>
+                      <p>非公開テストのため詳細は表示されません。</p>
                     )}
-                    <span>actual</span>
-                    <pre>{result.actualStdout || result.stderr}</pre>
                   </article>
                 ))}
               </div>

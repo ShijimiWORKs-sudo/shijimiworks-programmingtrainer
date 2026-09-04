@@ -7,30 +7,48 @@ function mergeProgress(existing: LessonProgress | undefined, next: LessonProgres
     return next;
   }
 
+  const nextIsNewer = next.updatedAt >= existing.updatedAt;
+
   return {
     ...existing,
     ...next,
+    lastCode: nextIsNewer ? next.lastCode : existing.lastCode,
     status: existing.status === "passed" || next.status === "passed" ? "passed" : next.status,
     runCount: Math.max(existing.runCount, next.runCount),
     gradeCount: Math.max(existing.gradeCount, next.gradeCount),
     hintCount: Math.max(existing.hintCount, next.hintCount),
     firstStartedAt: existing.firstStartedAt ?? next.firstStartedAt,
     firstPassedAt: existing.firstPassedAt ?? next.firstPassedAt,
-    lastStudiedAt: next.lastStudiedAt ?? existing.lastStudiedAt,
-    updatedAt: next.updatedAt > existing.updatedAt ? next.updatedAt : existing.updatedAt,
+    lastStudiedAt: nextIsNewer ? (next.lastStudiedAt ?? existing.lastStudiedAt) : existing.lastStudiedAt,
+    updatedAt: nextIsNewer ? next.updatedAt : existing.updatedAt,
   };
 }
 
 export class BrowserProgressRepository implements ProgressRepository {
+  private readonly progressSaveQueues = new Map<string, Promise<void>>();
+
   async getLessonProgress(userId: string, lessonId: string) {
     const db = await getProgrammingTrainerDb();
     return db.getFromIndex("lessonProgress", "by-user-lesson", [userId, lessonId]);
   }
 
   async saveLessonProgress(progress: LessonProgress) {
-    const db = await getProgrammingTrainerDb();
-    const existing = await db.getFromIndex("lessonProgress", "by-user-lesson", [progress.userId, progress.lessonId]);
-    await db.put("lessonProgress", mergeProgress(existing, progress));
+    const key = `${progress.userId}:${progress.lessonId}`;
+    const previousSave = this.progressSaveQueues.get(key) ?? Promise.resolve();
+    const nextSave = previousSave.catch(() => undefined).then(async () => {
+      const db = await getProgrammingTrainerDb();
+      const existing = await db.getFromIndex("lessonProgress", "by-user-lesson", [progress.userId, progress.lessonId]);
+      await db.put("lessonProgress", mergeProgress(existing, progress));
+    });
+
+    this.progressSaveQueues.set(key, nextSave);
+    try {
+      await nextSave;
+    } finally {
+      if (this.progressSaveQueues.get(key) === nextSave) {
+        this.progressSaveQueues.delete(key);
+      }
+    }
   }
 
   async listLessonProgress(userId: string) {

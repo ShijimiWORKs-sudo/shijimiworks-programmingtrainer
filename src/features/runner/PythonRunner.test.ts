@@ -1,16 +1,18 @@
 import { describe, expect, it, vi } from "vitest";
 import { PythonRunner, type PythonWorkerRequest, type PythonWorkerResponse } from ".";
 
+type FakeWorkerMode = "all" | "none" | "initialize-only";
+
 class FakeWorker {
   messages: PythonWorkerRequest[] = [];
   terminated = false;
   listener: ((event: MessageEvent<PythonWorkerResponse>) => void) | undefined;
 
-  constructor(private readonly shouldRespond = true) {}
+  constructor(private readonly mode: FakeWorkerMode = "all") {}
 
   postMessage(message: PythonWorkerRequest) {
     this.messages.push(message);
-    if (!this.shouldRespond) {
+    if (this.mode === "none" || (this.mode === "initialize-only" && message.type === "run")) {
       return;
     }
     const response: PythonWorkerResponse =
@@ -50,8 +52,8 @@ describe("PythonRunner protocol", () => {
 
   it("terminates and recreates the worker on timeout", async () => {
     vi.useFakeTimers();
-    const workers = [new FakeWorker(false), new FakeWorker(true)];
-    const runner = new PythonRunner(() => workers.shift() ?? new FakeWorker(true));
+    const workers = [new FakeWorker("none"), new FakeWorker("all")];
+    const runner = new PythonRunner(() => workers.shift() ?? new FakeWorker("all"));
 
     const runPromise = runner.run({ sourceCode: "while True:\n    pass", stdin: "", timeoutMs: 10 });
     await vi.runAllTimersAsync();
@@ -60,5 +62,28 @@ describe("PythonRunner protocol", () => {
     expect(result.status).toBe("timeout");
     expect(workers.length).toBe(0);
     vi.useRealTimers();
+  });
+
+  it("cleans up a cancelled run and executes on the recreated worker", async () => {
+    const createdWorkers: FakeWorker[] = [];
+    const runner = new PythonRunner(() => {
+      const worker = new FakeWorker(createdWorkers.length === 0 ? "initialize-only" : "all");
+      createdWorkers.push(worker);
+      return worker;
+    });
+
+    const runPromise = runner.run({ sourceCode: "while True:\n    pass", stdin: "", timeoutMs: 1000 });
+    await vi.waitFor(() => expect(createdWorkers[0].messages.map((message) => message.type)).toContain("run"));
+
+    await runner.cancel();
+    const cancelledResult = await runPromise;
+    const recoveredResult = await runner.run({ sourceCode: "print('ok')", stdin: "", timeoutMs: 1000 });
+
+    expect(cancelledResult.status).toBe("cancelled");
+    expect(createdWorkers[0].terminated).toBe(true);
+    expect(createdWorkers[0].listener).toBeUndefined();
+    expect(recoveredResult.status).toBe("success");
+    expect(recoveredResult.stdout).toBe("ok\n");
+    expect(createdWorkers).toHaveLength(2);
   });
 });

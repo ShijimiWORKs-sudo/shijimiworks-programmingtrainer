@@ -56,3 +56,26 @@ test("grades Lesson 2 and Lesson 3", async ({ page }) => {
   await page.getByRole("button", { name: "採点" }).click();
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
 });
+
+test("hides hidden test details while keeping public details visible", async ({ page }) => {
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_03_input");
+  await setEditorValue(page, 'name = input()\nif name == "Yosuke":\n    print("Hello Yosuke")\nelse:\n    print("SECRET_HIDDEN_STDOUT")\n');
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("未合格", { timeout: 90000 });
+
+  const publicRow = page.locator(".test-result-row").filter({ hasText: "Public Test #1" });
+  await expect(publicRow).toContainText("Yosuke");
+  await expect(publicRow).toContainText("Hello Yosuke");
+
+  const hiddenRow = page.locator(".test-result-row").filter({ hasText: "Hidden Test #2" });
+  await expect(hiddenRow).toContainText("fail");
+  await expect(hiddenRow).toContainText("非公開テストのため詳細は表示されません。");
+  await expect(hiddenRow).not.toContainText("Python");
+  await expect(hiddenRow).not.toContainText("Hello Python");
+  await expect(hiddenRow).not.toContainText("SECRET_HIDDEN_STDOUT");
+
+  await setEditorValue(page, 'name = input()\nif name == "Yosuke":\n    print("Hello Yosuke")\nelse:\n    raise Exception("SECRET_HIDDEN_STDERR")\n');
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("未合格", { timeout: 90000 });
+  await expect(page.locator(".test-result-row").filter({ hasText: "Hidden Test #2" })).not.toContainText("SECRET_HIDDEN_STDERR");
+});

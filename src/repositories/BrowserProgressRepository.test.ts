@@ -39,4 +39,27 @@ describe("BrowserProgressRepository", () => {
 
     await expect(repository.getLastLessonProgress("user")).resolves.toMatchObject({ lessonId: "new" });
   });
+
+  it("does not overwrite newer last code with an older progress save", async () => {
+    const repository = new BrowserProgressRepository();
+    const initial = createInitialProgress("user", "lesson_py3_01_print", "starter");
+    const older = {
+      ...touchProgress(initial, { lastCode: "print('old')", status: "in_progress" }),
+      updatedAt: "2026-01-01T00:00:00.000Z",
+      lastStudiedAt: "2026-01-01T00:00:00.000Z",
+    };
+    const newer = {
+      ...touchProgress(initial, { lastCode: "print('new')", status: "in_progress" }),
+      updatedAt: "2026-01-02T00:00:00.000Z",
+      lastStudiedAt: "2026-01-02T00:00:00.000Z",
+    };
+
+    await repository.saveLessonProgress(newer);
+    await repository.saveLessonProgress(older);
+
+    const restored = await repository.getLessonProgress("user", "lesson_py3_01_print");
+
+    expect(restored?.lastCode).toBe("print('new')");
+    expect(restored?.updatedAt).toBe("2026-01-02T00:00:00.000Z");
+  });
 });
