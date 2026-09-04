@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P2-05 Lesson 8 list
 Datetime: 2026-09-04 15:08 +09:00
-Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
 Target: Publish Python 3級 Lesson 8 and verify list creation/update run and grade behavior.
 Test Command: `npm run lint`
 Result: Passed.
