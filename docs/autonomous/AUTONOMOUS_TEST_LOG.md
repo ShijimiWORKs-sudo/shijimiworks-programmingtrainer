@@ -96,6 +96,83 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
+Datetime: 2026-09-05 03:54 +09:00
+Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Target: Add JavaScript execution behind `LanguageRunner` with browser worker execution, stdout/console capture, stdin helpers, syntax/runtime error classification, and timeout/cancel recovery.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts src/features/runner/PythonRunner.test.ts src/features/grading/GradingEngine.test.ts`
+Result: Passed, 4 files / 11 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `git diff --check`
+Result: Passed with only the existing Git line-ending warning for `src/features/runner/index.ts`.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "new Function|fetch|XMLHttpRequest|WebSocket|importScripts|postMessage|globalThis|self|window|document|C:\\|/Users|/home" src/features/runner docs/autonomous tests`
+Result: Reviewed expected JavaScript worker/runtime references, existing dev-only E2E hooks, and historical autonomous-doc path records. No host OS execution path or hidden test leakage was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm test`
+Result: Passed, 21 files / 96 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; the new JavaScript worker emitted as a production asset.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial full run passed 57 / 58 tests; Edge failed once waiting for `合格 (2/2)` in the Python 2級 algorithm debug lesson while the page snapshot showed runner initialization. Targeted rerun of that test passed, indicating an intermittent Edge/Pyodide timing issue.
+Failure: Intermittent Edge timing during the full browser matrix.
+Fix: No product code change; targeted rerun confirmed the lesson still passed.
+Retest Result: Targeted Edge algorithm debug retest passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Second full run passed 57 / 58 tests; Edge mock exam review-suggestion test timed out in `setEditorValue` immediately after switching to Problem 2.
+Failure: The test set editor content before asynchronous problem-switch state recovery had loaded Problem 2 starter code, so the editor value could be overwritten.
+Fix: Added an explicit wait for Problem 2 starter code before setting the Problem 2 answer in `tests/e2e/phase3-mock-exam.spec.ts`.
+Retest Result: Targeted Edge mock exam review-suggestion test passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 58 tests.
+Failure: None after readiness wait fix.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: Phase 5 PR #6 Merge and Phase 6 Prep
 Datetime: 2026-09-05 03:03 +09:00
 Commit: e1e716ea749e4e9615aaff7209ef1b6a1987faf5

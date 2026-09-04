@@ -127,3 +127,19 @@ Decision: Use duplicated grade-label printing as the first refactoring task and 
 Reason: This gives learners a concrete refactoring target and keeps the checkpoint inside the stable grading architecture.
 Alternatives: Add AST/static checks for function extraction; build a separate refactoring exercise type; accept behavior-only refactoring with no visible helper tests. These were rejected because they either broaden scope or make the refactoring intent too weak.
 Risk: The grader cannot yet prove the learner actually removed duplication. Future advanced grading can add structural checks without invalidating the behavioral contract.
+
+## 2026-09-05: JavaScript Runner Worker Sandbox Scope
+Date: 2026-09-05
+Context: P6-01 requires JavaScript execution behind `LanguageRunner` with stdout capture, timeout recovery, and no new dependency unless clearly needed.
+Decision: Execute JavaScript in a dedicated browser Web Worker with a small `new Function` runtime, capture `console.log`, expose `readline()` / `input()`, shadow obvious browser/global/network APIs in the runner function parameters, and terminate/recreate the worker for timeout and cancel recovery.
+Reason: This keeps JavaScript execution browser-contained, preserves the existing runner architecture, avoids host OS execution, and provides the smallest useful foundation for the JavaScript curriculum.
+Alternatives: Add a hardened SES-style sandbox dependency now; run learner JavaScript on the main UI thread; delay execution until curriculum content exists. These were rejected because they either broaden P6-01, risk UI blocking, or fail the foundation acceptance condition.
+Risk: This is not a complete hardened JavaScript security sandbox against every language escape pattern. Before broad untrusted JavaScript project tasks, Release Hardening or a future JavaScript checkpoint should revisit whether a stronger isolation layer is required.
+
+## 2026-09-05: Mock Exam E2E Problem Switch Readiness Wait
+Date: 2026-09-05
+Context: During the P6-01 full E2E gate, Edge intermittently timed out in the mock exam review-suggestion test after switching from Problem 1 to Problem 2. The page showed Problem 2, but the editor value could still be the old problem value or be overwritten by delayed problem-state recovery.
+Decision: Add the same explicit wait already used in the passing mock exam shell test: after clicking `次の問題`, wait until the editor contains Problem 2 starter code before setting the test answer.
+Reason: The test should validate mock exam grading and hidden-detail behavior, not race the asynchronous editor/session recovery after problem switching.
+Alternatives: Increase global test timeouts; retry the whole test; weaken the result assertions. These were rejected because they do not address the actual readiness condition.
+Risk: The helper remains a dev-only test surface. Future editor state changes should keep the readiness hook aligned with visible workspace recovery.
