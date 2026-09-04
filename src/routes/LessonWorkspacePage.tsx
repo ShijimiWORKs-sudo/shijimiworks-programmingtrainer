@@ -3,12 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
 import { findCourseByLessonId, findLessonById, findNextLesson } from "../content/catalog";
+import type { Course } from "../domain/curriculum";
 import type { AppSettings, LessonProgress } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { PythonRunner, type RunResult } from "../features/runner";
+import { JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -17,6 +18,44 @@ declare global {
     __programmingTrainerEditorValue?: string;
     __programmingTrainerLoadedLessonId?: string;
   }
+}
+
+function createRunnerForCourse(course: Course | undefined): LanguageRunner {
+  return course?.languageId === "lang_javascript" ? new JavaScriptRunner() : new PythonRunner();
+}
+
+function editorLanguageForCourse(course: Course | undefined) {
+  return course?.languageId === "lang_javascript" ? "javascript" : "python";
+}
+
+function runtimeLabelForCourse(course: Course | undefined) {
+  return course?.languageId === "lang_javascript" ? "JavaScript" : "Python";
+}
+
+function curriculumPathForCourse(course: Course | undefined) {
+  if (course?.levelId === "level_javascript_3") {
+    return routePaths.javascriptGrade3;
+  }
+  if (course?.levelId === "level_python_1") {
+    return routePaths.pythonGrade1;
+  }
+  if (course?.levelId === "level_python_2") {
+    return routePaths.pythonGrade2;
+  }
+  return routePaths.pythonGrade3;
+}
+
+function lessonPathForCourse(course: Course | undefined, lessonId: string) {
+  if (course?.levelId === "level_javascript_3") {
+    return routePaths.javascriptGrade3Lesson(lessonId);
+  }
+  if (course?.levelId === "level_python_1") {
+    return routePaths.pythonGrade1Lesson(lessonId);
+  }
+  if (course?.levelId === "level_python_2") {
+    return routePaths.pythonGrade2Lesson(lessonId);
+  }
+  return routePaths.pythonGrade3Lesson(lessonId);
 }
 
 export function LessonWorkspacePage() {
@@ -28,7 +67,7 @@ export function LessonWorkspacePage() {
     () => lesson?.exercises.find((candidate) => candidate.id === selectedExerciseId) ?? lesson?.exercises[0],
     [lesson, selectedExerciseId]
   );
-  const runnerRef = useRef<PythonRunner | undefined>(undefined);
+  const runnerRef = useRef<LanguageRunner | undefined>(undefined);
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
   const [progress, setProgress] = useState<LessonProgress | undefined>();
   const [code, setCode] = useState("");
@@ -61,12 +100,12 @@ export function LessonWorkspacePage() {
   }, [code]);
 
   useEffect(() => {
-    runnerRef.current = new PythonRunner();
+    runnerRef.current = createRunnerForCourse(course);
     return () => {
       void runnerRef.current?.dispose();
       runnerRef.current = undefined;
     };
-  }, []);
+  }, [course]);
 
   useEffect(() => {
     let active = true;
@@ -253,14 +292,9 @@ export function LessonWorkspacePage() {
   }, [code, exercise, lesson, persistProgress, progress]);
 
   const nextLesson = useMemo(() => (lesson ? findNextLesson(lesson.id) : undefined), [lesson]);
-  const curriculumPath = course?.levelId === "level_python_1"
-    ? routePaths.pythonGrade1
-    : course?.levelId === "level_python_2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3;
-  const nextLessonPath = nextLesson && course?.levelId === "level_python_1"
-    ? routePaths.pythonGrade1Lesson(nextLesson.id)
-    : nextLesson && course?.levelId === "level_python_2"
-      ? routePaths.pythonGrade2Lesson(nextLesson.id)
-      : nextLesson ? routePaths.pythonGrade3Lesson(nextLesson.id) : undefined;
+  const curriculumPath = curriculumPathForCourse(course);
+  const nextLessonPath = nextLesson ? lessonPathForCourse(course, nextLesson.id) : undefined;
+  const runtimeLabel = runtimeLabelForCourse(course);
 
   if (!lesson) {
     return (
@@ -386,7 +420,7 @@ export function LessonWorkspacePage() {
       </aside>
       <div className="editor-pane">
         <div className="editor-toolbar">
-          <span>Python</span>
+          <span>{runtimeLabel}</span>
           <span className="runtime-state">{runtimeState === "idle" ? "ready" : runtimeState}</span>
           <button type="button" onClick={runCurrentCode} disabled={!canRun}>
             実行
@@ -399,7 +433,14 @@ export function LessonWorkspacePage() {
           </button>
         </div>
         <div className="monaco-host">
-          <CodeEditor value={code} fontSize={settings.editorFontSize} tabSize={settings.tabSize} onChange={handleCodeChange} />
+          <CodeEditor
+            value={code}
+            language={editorLanguageForCourse(course)}
+            ariaLabel={`${runtimeLabel} code editor`}
+            fontSize={settings.editorFontSize}
+            tabSize={settings.tabSize}
+            onChange={handleCodeChange}
+          />
         </div>
         <div className="console-pane" aria-label="Console">
           <div className="stdin-area">

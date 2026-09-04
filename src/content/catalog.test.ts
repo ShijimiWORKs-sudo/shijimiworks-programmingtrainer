@@ -93,4 +93,22 @@ describe("content catalog", () => {
     });
     expect(findNextLesson("lesson_py1_04_refactoring")).toBeUndefined();
   });
+
+  it("enables JavaScript grade 3 and keeps next-lesson routing within the JavaScript course", () => {
+    const javascript = languages.find((language) => language.slug === "javascript");
+
+    expect(javascript).toMatchObject({
+      status: "available",
+      levels: [{ code: "grade-3", status: "available", courses: [{ id: "course_javascript_grade_3_foundation" }] }],
+    });
+    expect(findLessonById("lesson_js3_01_console_log")).toMatchObject({
+      title: "Lesson 01: console.log / 出力",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_js3_01_console_log")?.id).toBe("course_javascript_grade_3_foundation");
+    expect(findNextLesson("lesson_js3_01_console_log")).toMatchObject({
+      id: "lesson_js3_02_variables",
+    });
+    expect(findNextLesson("lesson_js3_10_functions")).toBeUndefined();
+  });
 });

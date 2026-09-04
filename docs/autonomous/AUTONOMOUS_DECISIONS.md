@@ -143,3 +143,11 @@ Decision: Add the same explicit wait already used in the passing mock exam shell
 Reason: The test should validate mock exam grading and hidden-detail behavior, not race the asynchronous editor/session recovery after problem switching.
 Alternatives: Increase global test timeouts; retry the whole test; weaken the result assertions. These were rejected because they do not address the actual readiness condition.
 Risk: The helper remains a dev-only test surface. Future editor state changes should keep the readiness hook aligned with visible workspace recovery.
+
+## 2026-09-05: JavaScript Grade 3 Mirrors Python Grade 3 Fundamentals
+Date: 2026-09-05
+Context: P6-02 requires a JavaScript 3級 curriculum, but product docs do not enumerate JavaScript-specific lesson titles or challenge/mock exam scope.
+Decision: Create 10 JavaScript 3級 lessons that mirror the proven Python 3級 fundamentals: output, variables, input, operators, `if`, `for`, `while`, arrays, objects, and functions. Keep challenge and mock exam entities empty for JavaScript in this checkpoint.
+Reason: This provides a complete beginner JavaScript run/grade/progress path while staying inside the P6-02 curriculum scope and reusing the existing chapter progress model.
+Alternatives: Add only three smoke lessons; add JavaScript challenge/mock exam immediately; invent a different grade structure. These were rejected because they either under-deliver the grade path or expand beyond the active checkpoint.
+Risk: The JavaScript 3級 content is intentionally foundational. Future content QA can tune wording and add richer exercises without changing the route/progress contract.

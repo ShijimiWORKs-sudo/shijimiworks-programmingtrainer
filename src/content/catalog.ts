@@ -1,4 +1,5 @@
 import type { Language } from "../domain/curriculum";
+import { javascriptGrade3Course } from "./javascript/grade-3";
 import { pythonGrade1Course } from "./python/grade-1";
 import { pythonGrade2Course } from "./python/grade-2";
 import { pythonGrade3Course } from "./python/grade-3";
@@ -43,7 +44,24 @@ export const languages: Language[] = [
   { id: "lang_java", slug: "java", name: "Java", order: 2, status: "planned", levels: [] },
   { id: "lang_cpp", slug: "cpp", name: "C++", order: 3, status: "planned", levels: [] },
   { id: "lang_ruby", slug: "ruby", name: "Ruby", order: 4, status: "planned", levels: [] },
-  { id: "lang_javascript", slug: "javascript", name: "JavaScript", order: 5, status: "planned", levels: [] },
+  {
+    id: "lang_javascript",
+    slug: "javascript",
+    name: "JavaScript",
+    order: 5,
+    status: "available",
+    levels: [
+      {
+        id: "level_javascript_3",
+        languageId: "lang_javascript",
+        code: "grade-3",
+        name: "3級",
+        order: 1,
+        status: "available",
+        courses: [javascriptGrade3Course],
+      },
+    ],
+  },
   { id: "lang_html_css", slug: "html-css", name: "HTML/CSS", order: 6, status: "planned", levels: [] },
   { id: "lang_command", slug: "command", name: "Command", order: 7, status: "planned", levels: [] },
   { id: "lang_powershell", slug: "powershell", name: "PowerShell", order: 8, status: "planned", levels: [] },

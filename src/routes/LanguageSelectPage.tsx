@@ -4,6 +4,16 @@ import { PageHeader } from "../components/PageHeader";
 import { StatusBadge } from "../components/StatusBadge";
 import { languages } from "../content/catalog";
 
+function routeForLanguage(slug: string) {
+  if (slug === "python") {
+    return routePaths.python;
+  }
+  if (slug === "javascript") {
+    return routePaths.javascript;
+  }
+  return undefined;
+}
+
 export function LanguageSelectPage() {
   return (
     <section className="page-panel">
@@ -17,8 +27,10 @@ export function LanguageSelectPage() {
             </>
           );
 
-          return language.slug === "python" ? (
-            <Link key={language.id} className="select-card interactive" to={routePaths.python}>
+          const languagePath = routeForLanguage(language.slug);
+
+          return language.status === "available" && languagePath ? (
+            <Link key={language.id} className="select-card interactive" to={languagePath}>
               {content}
             </Link>
           ) : (
