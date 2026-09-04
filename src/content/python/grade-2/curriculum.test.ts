@@ -19,6 +19,7 @@ describe("python grade 2 curriculum seed", () => {
     expect(pythonGrade2Course.chapters[0].lessons.map((lesson) => lesson.id)).toEqual([
       "lesson_py2_01_function_return",
       "lesson_py2_02_classes",
+      "lesson_py2_03_exceptions",
     ]);
     expect(pythonGrade2Course.chapters[0].lessons[0]).toMatchObject({
       id: "lesson_py2_01_function_return",
@@ -37,6 +38,16 @@ describe("python grade 2 curriculum seed", () => {
       order: 2,
     });
     expect(pythonGrade2Course.chapters[0].lessons[1].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
+      "public",
+      "hidden",
+    ]);
+    expect(pythonGrade2Course.chapters[0].lessons[2]).toMatchObject({
+      id: "lesson_py2_03_exceptions",
+      title: "Lesson 03: exception",
+      status: "published",
+      order: 3,
+    });
+    expect(pythonGrade2Course.chapters[0].lessons[2].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
       "public",
       "hidden",
     ]);

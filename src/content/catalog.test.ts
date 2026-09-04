@@ -45,7 +45,10 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_py2_01_function_return")).toMatchObject({
       id: "lesson_py2_02_classes",
     });
-    expect(findNextLesson("lesson_py2_02_classes")).toBeUndefined();
+    expect(findNextLesson("lesson_py2_02_classes")).toMatchObject({
+      id: "lesson_py2_03_exceptions",
+    });
+    expect(findNextLesson("lesson_py2_03_exceptions")).toBeUndefined();
     expect(findNextLesson("lesson_py3_10_functions")).toBeUndefined();
   });
 });
