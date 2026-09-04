@@ -656,7 +656,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P4-04 Exceptions
 Datetime: 2026-09-05 00:07 +09:00
-Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Commit: e7384a867638e58f92acfa6db3d015672f14be29
 Target: Add Python 2級 exception handling lesson with valid and invalid input grading.
 Test Command: `npm run typecheck`
 Result: Passed.
