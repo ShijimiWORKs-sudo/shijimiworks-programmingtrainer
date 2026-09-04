@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P5-05 Refactoring Tasks
 Datetime: 2026-09-05 02:44 +09:00
-Commit: pending P5-05 checkpoint commit
+Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f
 Target: Add a Python 1級 refactoring lesson that extracts duplicated behavior while preserving output.
 Test Command: `npm run typecheck`
 Result: Passed.
