@@ -2,6 +2,21 @@ import { describe, expect, it } from "vitest";
 import { pythonGrade3Course } from "./curriculum";
 
 describe("python grade 3 curriculum seed", () => {
+  it("keeps published lessons with staged hints and runnable exercises", () => {
+    const lessons = pythonGrade3Course.chapters.flatMap((chapter) => chapter.lessons);
+
+    expect(lessons).toHaveLength(10);
+    for (const lesson of lessons) {
+      expect(lesson.status).toBe("published");
+      expect(lesson.hints.length).toBeGreaterThanOrEqual(2);
+      expect(lesson.exercises.length).toBeGreaterThanOrEqual(1);
+      for (const exercise of lesson.exercises) {
+        expect(exercise.testCases.some((testCase) => testCase.visibility === "public")).toBe(true);
+        expect(exercise.testCases.some((testCase) => testCase.visibility === "hidden")).toBe(true);
+      }
+    }
+  });
+
   it("keeps the Language > Level > Course > Chapter > Lesson > Exercise > TestCase shape", () => {
     const chapter = pythonGrade3Course.chapters[0];
     const lesson = chapter.lessons[0];

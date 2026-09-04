@@ -5,7 +5,7 @@ import { StatusBadge } from "../components/StatusBadge";
 import { findLessonById, findNextLesson } from "../content/catalog";
 import type { AppSettings, LessonProgress } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
-import { GradingEngine, type GradeResult } from "../features/grading";
+import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
 import { PythonRunner, type RunResult } from "../features/runner";
@@ -401,6 +401,7 @@ export function LessonWorkspacePage() {
                 {gradeResult.results.map((result) => (
                   <article key={result.testCaseId} className="test-result-row">
                     <strong>{result.visibility === "hidden" ? "Hidden Test" : "Public Test"} #{result.order}: {result.passed ? "pass" : "fail"}</strong>
+                    <p className="test-explanation">{explainTestCaseResult(result)}</p>
                     {result.visibility === "public" ? (
                       <div className="test-detail">
                         <span>input</span>

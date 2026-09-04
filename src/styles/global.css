@@ -456,6 +456,11 @@ pre {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.test-explanation {
+  margin: 6px 0 0;
+  color: #d6dee6;
+}
+
 .test-detail {
   display: grid;
   grid-template-columns: 80px 1fr;
