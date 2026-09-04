@@ -96,6 +96,46 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P5-06 Python 1級 Checkpoint
+Datetime: 2026-09-05 02:57 +09:00
+Commit: pending P5-06 checkpoint commit
+Target: Verify the completed Python 1級 route after P5-01 through P5-05 and prepare the Phase 5 PR.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 90 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 58 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P5-05 Refactoring Tasks
 Datetime: 2026-09-05 02:44 +09:00
 Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f

@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 02:44 +09:00
+Updated: 2026-09-05 02:57 +09:00
 
 Current Phase: Phase 5 / Python 1級
 Current Branch: codex/phase-5-python-grade1
-Current Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f
+Current Commit: pending P5-06 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -174,12 +174,17 @@ Current Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f
 - Verified Lesson 03 next-lesson routing now links to the refactoring lesson.
 - Ensured hidden-specific `Nia/Kai` data is absent from project support test metadata and remains hidden in the grading UI.
 - Completed full P5-05 regression successfully.
+- Completed `P5-06 Python 1級 Checkpoint`.
+- Re-ran the full Phase 5 checkpoint gate on the latest branch after P5-01 through P5-05.
+- Verified Python 1級 route, bug fix task, specification change task, test-oriented task, project support test display, and refactoring task across Chrome and Edge.
+- Verified hidden-specific data remains excluded from visible project support files and grading UI details.
+- Completed security audit with 0 vulnerabilities.
 
 ## In Progress
-- P5-06 Python 1級 Checkpoint planning.
+- Phase 5 PR creation and self-review.
 
 ## Next
-- Complete Phase 5 regression checkpoint, create/update Phase 5 PR, self-review, confirm CI, and prepare for merge when green.
+- Create or update the Phase 5 PR, complete self-review, confirm GitHub Actions green, merge to main, then start Phase 6 JavaScript from latest main.
 
 ## Tests
 - `npm run lint`: passed.
@@ -249,6 +254,7 @@ Current Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f
 - P5-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 88 tests), build passed, Chrome/Edge E2E passed (56 tests), audit passed with 0 vulnerabilities.
 - P5-05 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 36 tests); Chrome/Edge Python 1級 E2E passed (10 tests).
 - P5-05 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
+- P5-06 Phase 5 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.
