@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 05:44 +09:00
+Updated: 2026-09-05 05:51 +09:00
 
-Current Phase: Phase 6 / JavaScript
-Current Branch: codex/phase-6-javascript
-Current Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
+Current Phase: Phase 6 / JavaScript merged; preparing Phase 7 / HTML/CSS
+Current Branch: main
+Current Commit: df4d0786433400624e6e3f2c35db6043c6a859ba
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -211,12 +211,14 @@ Current Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
 - Completed `P6-05 JavaScript Checkpoint` local stabilization gate.
 - Re-ran Phase 6 full regression after JavaScript 3級, 2級, and 1級 were present.
 - Self-reviewed JavaScript hidden test detail suppression, browser-worker runner boundary, progress persistence, route isolation, and scope.
+- Created Phase 6 PR #7 as draft, confirmed GitHub Actions `CI` success on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`, marked it ready, and merged it to `main`.
+- Fast-forwarded local `main` to merge commit `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 
 ## In Progress
-- Phase 6 PR preparation.
+- Phase 7 branch setup.
 
 ## Next
-- Create the Phase 6 PR, wait for GitHub Actions `CI / verify`, mark ready, merge to `main`, and start Phase 7.
+- Record the post-merge Phase 6 checkpoint on `main`, create Phase 7 branch, and start `P7-01 Split Editor and Preview Foundation`.
 
 ## Tests
 - `npm run lint`: passed.
@@ -297,6 +299,7 @@ Current Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
 - P6-04 targeted checks on 2026-09-05: typecheck passed; JavaScript Grade 1/2/3 curriculum, catalog, level select, curriculum page, and language select tests passed (9 files / 23 tests); Chrome/Edge JavaScript E2E passed (22 tests).
 - P6-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 - P6-05 Phase 6 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
+- PR #7 Phase 6 GitHub Actions: `CI` passed on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`; PR merged to `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.
