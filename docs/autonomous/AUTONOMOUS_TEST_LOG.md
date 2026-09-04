@@ -708,7 +708,7 @@ Retest Result: Hidden values were found only in curriculum seed data and a non-v
 
 ## 2026-09-05 Checkpoint: P4-07 Small Project Checkpoint
 Datetime: 2026-09-05 00:45 +09:00
-Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Commit: f2442c0a0a2a91a7fb7c325f33a828eabac50e08
 Target: Complete the Python 2級 small project path and local Phase 4 gate.
 Test Command: `npm run typecheck`
 Result: Passed.
