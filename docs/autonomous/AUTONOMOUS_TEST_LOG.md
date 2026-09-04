@@ -718,7 +718,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P4-02 Function Deepening
 Datetime: 2026-09-04 23:39 +09:00
-Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Commit: a583258be1fe9ad76d0d447f941ee20098555ee2
 Target: Add deeper Python function lessons with multiple grading cases.
 Test Command: `npm run typecheck`
 Result: Passed.
