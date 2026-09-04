@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findChallengeById, findLessonById, findMockExamById, getAllChallenges, getAllMockExams } from "./catalog";
+import { findChallengeById, findLessonById, findMockExamById, getAllChallenges, getAllMockExams, languages } from "./catalog";
 
 describe("content catalog", () => {
   it("finds Python grade 3 chapter challenges without affecting lesson lookup", () => {
@@ -18,5 +18,21 @@ describe("content catalog", () => {
       status: "published",
     });
     expect(findLessonById("mock_exam_py3_trial")).toBeUndefined();
+  });
+
+  it("enables only Python grade 2 as the next routeable skeleton level", () => {
+    const python = languages.find((language) => language.slug === "python");
+    const grade2 = python?.levels.find((level) => level.code === "grade-2");
+    const grade1 = python?.levels.find((level) => level.code === "grade-1");
+
+    expect(grade2).toMatchObject({
+      status: "available",
+      courses: [{ id: "course_python_grade_2" }],
+    });
+    expect(grade1).toMatchObject({
+      status: "planned",
+      courses: [],
+    });
+    expect(findLessonById("lesson_py3_01_print")?.title).toBe("Lesson 01: print / 出力");
   });
 });

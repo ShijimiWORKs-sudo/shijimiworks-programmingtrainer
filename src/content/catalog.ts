@@ -1,4 +1,5 @@
 import type { Language } from "../domain/curriculum";
+import { pythonGrade2Course } from "./python/grade-2";
 import { pythonGrade3Course } from "./python/grade-3";
 
 export const languages: Language[] = [
@@ -24,8 +25,8 @@ export const languages: Language[] = [
         code: "grade-2",
         name: "2級",
         order: 2,
-        status: "planned",
-        courses: [],
+        status: "available",
+        courses: [pythonGrade2Course],
       },
       {
         id: "level_python_1",

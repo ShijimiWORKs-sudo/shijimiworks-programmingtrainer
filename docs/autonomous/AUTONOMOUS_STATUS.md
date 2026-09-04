@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 23:11 +09:00
+Updated: 2026-09-04 23:25 +09:00
 
 Current Phase: Phase 4 / Python 2級
 Current Branch: codex/phase-4-python-grade2
-Current Commit: 86f025e99a6502b02777ae1a9364e6d47de16460
+Current Commit: pending P4-01 checkpoint commit after green regression
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -111,12 +111,16 @@ Current Commit: 86f025e99a6502b02777ae1a9364e6d47de16460
 - Created Phase 3 PR #4 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `7d35a604bf79de745de08b53a66890ad376dabb2`.
 - Created Phase 4 branch `codex/phase-4-python-grade2`.
+- Completed `P4-01 Python 2級 Course Foundation`.
+- Added a routeable Python 2級 course skeleton with a foundation chapter and no lessons published early.
+- Enabled Python 2級 from the Python Level Select while keeping Python 1級 planned.
+- Added `/languages/python/grade-2` route, component tests, catalog tests, and Chrome/Edge E2E smoke coverage.
 
 ## In Progress
-- P4-01 Python 2級 Course Foundation planning.
+- P4-02 Function Deepening planning.
 
 ## Next
-- Add Python 2級 routing and curriculum skeleton without breaking Python 3級.
+- Add the first Python 2級 function-deepening lesson with grading and targeted E2E.
 
 ## Tests
 - `npm run lint`: passed.
@@ -160,6 +164,8 @@ Current Commit: 86f025e99a6502b02777ae1a9364e6d47de16460
 - P3-05 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (15 files / 65 tests), build passed, Chrome/Edge E2E passed (34 tests), audit passed with 0 vulnerabilities.
 - P3-06 Phase 3 candidate gate on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (15 files / 65 tests), build passed, Chrome/Edge E2E passed (34 tests), audit passed with 0 vulnerabilities.
 - PR #4 Phase 3 GitHub Actions: `CI / verify` passed on head `4b86410a257e0403e3544890ae9e136ccbc59a62`; PR merged to `main` as `7d35a604bf79de745de08b53a66890ad376dabb2`.
+- P4-01 targeted checks on 2026-09-04: typecheck passed; grade-2 curriculum/catalog/level route tests passed (4 files / 16 tests); Chrome/Edge Python 2級 skeleton E2E initially failed on partial heading match, then passed (2 tests).
+- P4-01 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (17 files / 69 tests), build passed, Chrome/Edge E2E passed (36 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.
