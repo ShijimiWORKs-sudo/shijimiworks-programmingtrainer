@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 22:54 +09:00
+Updated: 2026-09-04 23:04 +09:00
 
 Current Phase: Phase 3 / Python 3級 Challenge and Mock Exam
 Current Branch: codex/phase-3-python-grade3-challenge
-Current Commit: b82d84054e25f45d03de1955238048138592cc0f
+Current Commit: pending P3-06 checkpoint commit after green regression
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -105,12 +105,15 @@ Current Commit: b82d84054e25f45d03de1955238048138592cc0f
 - Added source-lesson based mock exam review suggestion analytics.
 - Displayed review suggestions on the Mock Exam Result screen with direct Lesson links.
 - Verified failed mock exam results recommend relevant input/if lessons while keeping hidden test details private.
+- Completed `P3-06 Python 3級 v1.0 Candidate Checkpoint`.
+- Added `docs/release/PYTHON_GRADE3_V1_CANDIDATE.md` with shipped scope, verification gate, security notes, and known limitations.
+- Re-ran the full Phase 3 candidate gate successfully.
 
 ## In Progress
-- P3-06 Python 3級 v1.0 Candidate Checkpoint planning.
+- Phase 3 PR self-review, CI, and merge preparation.
 
 ## Next
-- Stabilize Python 3級 candidate with full regression, PR review, CI, and merge readiness.
+- Open or update the Phase 3 PR, self-review it, confirm CI green, merge to `main`, then start Phase 4.
 
 ## Tests
 - `npm run lint`: passed.
@@ -152,6 +155,7 @@ Current Commit: b82d84054e25f45d03de1955238048138592cc0f
 - P3-04 full regression on 2026-09-04: initial lint failed on synchronous submit call from an effect; fixed with a next-tick timer. lint passed, typecheck passed, unit/component tests passed (14 files / 63 tests), build passed, Chrome/Edge E2E passed (32 tests), audit passed with 0 vulnerabilities.
 - P3-05 targeted checks on 2026-09-04: typecheck passed; analytics/scoring/route tests passed (3 files / 14 tests); Chrome/Edge Mock Exam pass/fail result and review suggestion E2E passed (4 tests).
 - P3-05 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (15 files / 65 tests), build passed, Chrome/Edge E2E passed (34 tests), audit passed with 0 vulnerabilities.
+- P3-06 Phase 3 candidate gate on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (15 files / 65 tests), build passed, Chrome/Edge E2E passed (34 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

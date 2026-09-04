@@ -614,6 +614,46 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-04 Checkpoint: P3-06 Python 3級 v1.0 Candidate
+Datetime: 2026-09-04 23:04 +09:00
+Commit: pending checkpoint commit on `codex/phase-3-python-grade3-challenge`
+Target: Stabilize the Python 3級 v1.0 candidate and record known limitations.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 15 files / 65 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
