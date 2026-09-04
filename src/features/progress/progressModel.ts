@@ -1,4 +1,4 @@
-import type { ExerciseProgress, LessonProgress, LessonProgressStatus } from "../../domain/progress";
+import type { ChallengeProgress, ChallengeProgressStatus, ExerciseProgress, LessonProgress, LessonProgressStatus } from "../../domain/progress";
 
 export function createInitialProgress(userId: string, lessonId: string, starterCode: string): LessonProgress {
   const now = new Date().toISOString();
@@ -23,6 +23,21 @@ export function createInitialExerciseProgress(exerciseId: string, starterCode: s
     runCount: 0,
     gradeCount: 0,
     updatedAt: new Date().toISOString(),
+  };
+}
+
+export function createInitialChallengeProgress(userId: string, challengeId: string): ChallengeProgress {
+  const now = new Date().toISOString();
+  return {
+    id: userId + ":" + challengeId,
+    userId,
+    challengeId,
+    status: "not_started",
+    runCount: 0,
+    gradeCount: 0,
+    passedRequiredCount: 0,
+    totalRequiredCount: 0,
+    updatedAt: now,
   };
 }
 
@@ -78,6 +93,23 @@ export function touchExerciseProgress(
 
 export function allExercisesPassed(progress: LessonProgress, exerciseIds: string[]): boolean {
   return exerciseIds.length > 0 && exerciseIds.every((exerciseId) => progress.exerciseProgress?.[exerciseId]?.status === "passed");
+}
+
+export function touchChallengeProgress(
+  progress: ChallengeProgress,
+  changes: Partial<ChallengeProgress> & { status?: ChallengeProgressStatus }
+): ChallengeProgress {
+  const now = new Date().toISOString();
+  const status = progress.status === "passed" || changes.status === "passed" ? "passed" : (changes.status ?? progress.status);
+  return {
+    ...progress,
+    ...changes,
+    status,
+    firstStartedAt: progress.firstStartedAt ?? now,
+    firstPassedAt: status === "passed" ? (progress.firstPassedAt ?? now) : progress.firstPassedAt,
+    lastStudiedAt: now,
+    updatedAt: now,
+  };
 }
 
 export function markPassed(progress: LessonProgress): LessonProgress {

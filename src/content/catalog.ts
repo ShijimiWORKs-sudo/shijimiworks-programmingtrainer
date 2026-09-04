@@ -55,8 +55,20 @@ export function getAllLessons() {
     .flatMap((chapter) => chapter.lessons);
 }
 
+export function getAllChallenges() {
+  return languages
+    .flatMap((language) => language.levels)
+    .flatMap((level) => level.courses)
+    .flatMap((course) => course.chapters)
+    .flatMap((chapter) => chapter.challenges);
+}
+
 export function findLessonById(lessonId: string) {
   return getAllLessons().find((lesson) => lesson.id === lessonId);
+}
+
+export function findChallengeById(challengeId: string) {
+  return getAllChallenges().find((challenge) => challenge.id === challengeId);
 }
 
 export function findNextLesson(lessonId: string) {

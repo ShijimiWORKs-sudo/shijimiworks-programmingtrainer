@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { allExercisesPassed, createInitialProgress, markPassed, touchExerciseProgress, touchProgress } from "./progressModel";
+import {
+  allExercisesPassed,
+  createInitialChallengeProgress,
+  createInitialProgress,
+  markPassed,
+  touchChallengeProgress,
+  touchExerciseProgress,
+  touchProgress,
+} from "./progressModel";
 
 describe("progress model", () => {
   it("increments progress and marks passed", () => {
@@ -39,5 +47,25 @@ describe("progress model", () => {
     const allPassed = touchExerciseProgress(firstPassed, "exercise-2", "", { status: "passed" });
 
     expect(allExercisesPassed(allPassed, ["exercise-1", "exercise-2"])).toBe(true);
+  });
+
+  it("tracks chapter challenge progress without dropping passed state", () => {
+    const initial = createInitialChallengeProgress("user", "challenge");
+    const passed = touchChallengeProgress(initial, {
+      status: "passed",
+      gradeCount: 1,
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+    });
+    const reviewed = touchChallengeProgress(passed, {
+      status: "in_progress",
+      runCount: 2,
+    });
+
+    expect(reviewed.status).toBe("passed");
+    expect(reviewed.firstStartedAt).toBeDefined();
+    expect(reviewed.firstPassedAt).toBeDefined();
+    expect(reviewed.runCount).toBe(2);
+    expect(reviewed.gradeCount).toBe(1);
   });
 });

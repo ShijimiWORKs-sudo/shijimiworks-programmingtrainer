@@ -31,6 +31,25 @@ export interface LessonProgress {
   updatedAt: string;
 }
 
+export type ChallengeProgressStatus = "not_started" | "in_progress" | "passed";
+
+export interface ChallengeProgress {
+  id: string;
+  userId: string;
+  challengeId: string;
+  status: ChallengeProgressStatus;
+  activeExerciseId?: string;
+  exerciseProgress?: Record<string, ExerciseProgress>;
+  runCount: number;
+  gradeCount: number;
+  passedRequiredCount: number;
+  totalRequiredCount: number;
+  firstStartedAt?: string;
+  firstPassedAt?: string;
+  lastStudiedAt?: string;
+  updatedAt: string;
+}
+
 export interface AttemptTestResult {
   id: string;
   attemptId: string;

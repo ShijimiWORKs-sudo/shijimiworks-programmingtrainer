@@ -1,7 +1,14 @@
 import "fake-indexeddb/auto";
 import { deleteDB } from "idb";
 import { beforeEach, describe, expect, it } from "vitest";
-import { createInitialProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
+import {
+  createInitialChallengeProgress,
+  createInitialProgress,
+  markPassed,
+  touchChallengeProgress,
+  touchExerciseProgress,
+  touchProgress,
+} from "../features/progress/progressModel";
 import { BrowserProgressRepository } from "./BrowserProgressRepository";
 import { resetDbConnectionForTests } from "./db";
 
@@ -113,6 +120,32 @@ describe("BrowserProgressRepository", () => {
       status: "passed",
       runCount: 1,
       gradeCount: 1,
+    });
+  });
+
+  it("saves and restores challenge progress without affecting lesson progress", async () => {
+    const repository = new BrowserProgressRepository();
+    const challenge = touchChallengeProgress(createInitialChallengeProgress("user", "challenge_py3_basic_review"), {
+      status: "passed",
+      gradeCount: 1,
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+    });
+    const lesson = markPassed(createInitialProgress("user", "lesson_py3_01_print", "starter"));
+
+    await repository.saveChallengeProgress(challenge);
+    await repository.saveLessonProgress(lesson);
+
+    await expect(repository.getChallengeProgress("user", "challenge_py3_basic_review")).resolves.toMatchObject({
+      challengeId: "challenge_py3_basic_review",
+      status: "passed",
+      passedRequiredCount: 2,
+      totalRequiredCount: 2,
+    });
+    await expect(repository.listChallengeProgress("user")).resolves.toHaveLength(1);
+    await expect(repository.getLessonProgress("user", "lesson_py3_01_print")).resolves.toMatchObject({
+      lessonId: "lesson_py3_01_print",
+      status: "passed",
     });
   });
 });

@@ -39,3 +39,11 @@ Decision: Extend `LessonProgress` values with optional `activeExerciseId` and `e
 Reason: IndexedDB can store the extended value shape in the existing store, and old records remain readable because the new fields are optional. This avoids a destructive or unnecessary migration while enabling exercise-level code/status/run/grade tracking.
 Alternatives: Add a new `exerciseProgress` object store and migrate old progress; keep only one lesson-level `lastCode`; encode exercise state into attempts only. These were rejected because they either increase migration risk or fail the persistence acceptance condition.
 Risk: Lesson-level aggregate status and exercise-level status now coexist. The UI and progress helpers must keep them synchronized, especially when a lesson has more than one exercise.
+
+## 2026-09-04: Challenge Progress IndexedDB Store
+Date: 2026-09-04
+Context: P3-01 requires challenge entities compatible with the existing progress architecture. Lesson progress and attempts already live in IndexedDB version 1, but challenge progress should not be mixed into lesson records because challenges are not lessons.
+Decision: Add a non-destructive IndexedDB version 2 migration with a separate `challengeProgress` object store and repository methods for challenge progress.
+Reason: A dedicated store keeps challenge state queryable by user/challenge without weakening or overloading lesson progress semantics.
+Alternatives: Store challenges as pseudo-lessons; delay persistence until the UI phase; add challenge fields to lesson progress. These were rejected because they either blur domain boundaries or force P3-02 to retrofit persistence.
+Risk: Versioned DB migration must preserve existing version 1 lesson progress. Tests now cover saving challenge progress alongside lesson progress.
