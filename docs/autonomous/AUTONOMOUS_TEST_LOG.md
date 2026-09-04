@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
-Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
 Target: Add JavaScript 3級 route, curriculum, shared Lesson Workspace runner selection, grading, progress, hidden-test protection, and Chrome/Edge coverage.
 
 Test Command: `npm run typecheck`
