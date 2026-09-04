@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 05:28 +09:00
+Updated: 2026-09-05 05:44 +09:00
 
 Current Phase: Phase 6 / JavaScript
 Current Branch: codex/phase-6-javascript
-Current Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
+Current Commit: pending P6-05 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -208,12 +208,15 @@ Current Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
 - Added 4 published JavaScript 1級 practical maintenance lessons covering bug fix, specification change, test-oriented repair, and behavior-preserving refactoring.
 - Added visible project support files for JavaScript 1級 tasks while keeping hidden grading values out of learner-visible metadata.
 - Verified JavaScript 1級 grading, project file display, progress persistence/reload, hidden test detail suppression, and JavaScript 2級/3級 regression in Chrome and Edge.
+- Completed `P6-05 JavaScript Checkpoint` local stabilization gate.
+- Re-ran Phase 6 full regression after JavaScript 3級, 2級, and 1級 were present.
+- Self-reviewed JavaScript hidden test detail suppression, browser-worker runner boundary, progress persistence, route isolation, and scope.
 
 ## In Progress
-- P6-05 JavaScript Checkpoint planning.
+- Phase 6 PR preparation.
 
 ## Next
-- Stabilize the JavaScript language path, re-run the Phase 6 full gate, create/update the Phase 6 PR, self-review, and merge when green.
+- Create the Phase 6 PR, wait for GitHub Actions `CI / verify`, mark ready, merge to `main`, and start Phase 7.
 
 ## Tests
 - `npm run lint`: passed.
@@ -293,6 +296,7 @@ Current Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
 - P6-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (27 files / 109 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (72 tests), audit passed with 0 vulnerabilities.
 - P6-04 targeted checks on 2026-09-05: typecheck passed; JavaScript Grade 1/2/3 curriculum, catalog, level select, curriculum page, and language select tests passed (9 files / 23 tests); Chrome/Edge JavaScript E2E passed (22 tests).
 - P6-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
+- P6-05 Phase 6 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

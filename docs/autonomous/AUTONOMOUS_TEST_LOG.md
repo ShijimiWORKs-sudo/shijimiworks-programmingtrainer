@@ -291,6 +291,53 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P6-05 JavaScript Checkpoint
+Datetime: 2026-09-05 05:44 +09:00
+Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Target: Stabilize the complete JavaScript language path after runner foundation plus 3級, 2級, and 1級 curricula.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 29 files / 114 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 80 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "tc_js[123]_.*hidden|2500|5100|100,no,40,75|100,no,85,95|Nia|Kai|\tRen|Hello, Ren|child_process|node:fs|eval\(" src tests docs/autonomous`
+Result: JavaScript hidden values appear in hidden test case definitions and non-visibility assertions only; visible lesson text and project support files use public examples. No new host filesystem or child-process access was introduced beyond existing Pyodide dependency warnings in build output.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
