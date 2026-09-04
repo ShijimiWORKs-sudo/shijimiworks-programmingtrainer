@@ -262,6 +262,58 @@ Failure: External npm audit bulk advisories endpoint returned 503 during the fir
 Fix: No code or dependency change. Waited between retries and checked registry reachability.
 Retest Result: `npm ping --registry=https://registry.npmjs.org/` passed, `npm view npm version --registry=https://registry.npmjs.org/` returned `12.0.2`, and the third audit retry passed with 0 vulnerabilities.
 
+## 2026-09-04 Checkpoint: P2-10 Chapter Progress
+Datetime: 2026-09-04 20:51 +09:00
+Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Target: Show reliable Python 3級 chapter-level progress on the Curriculum screen.
+Test Command: `npm test -- --run src/features/progress/chapterProgress.test.ts src/routes/PythonGrade3CurriculumPage.test.tsx src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts`
+Result: Initially failed after adding a component test, then passed, 4 files / 17 tests.
+Failure: The first component test queried duplicate `Not started` text, and direct IndexedDB use in the component test could collide with repository tests during parallel runs.
+Fix: Scoped the status assertion to the chapter progress region and mocked the repository in the Curriculum page component test so UI assertions do not share the IndexedDB fixture.
+Retest Result: Passed, 4 files / 17 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase2-curriculum.spec.ts -g "shows chapter progress"`
+Result: Initially failed, then passed, 2 tests.
+Failure: The new progressbar had an accessible name ending in `completion`, while the E2E locator searched for `progress`.
+Fix: Renamed the progressbar accessibility label to include `progress completion`.
+Retest Result: Passed in Chrome and Edge, 2 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 12 files / 48 tests.
+Failure: None after targeted fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 28 tests.
+Failure: None after targeted fixes above.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`

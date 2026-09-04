@@ -141,3 +141,23 @@ test("switches Lesson 10 exercises and persists each editor state", async ({ pag
   await page.getByRole("button", { name: "採点" }).click();
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
 });
+
+test("shows chapter progress on the curriculum after pass and reload", async ({ page }) => {
+  await page.goto("/languages/python/grade-3");
+  await expect(page.getByLabel("Python 3級 chapter progress")).toContainText("0 / 10 Lessons completed");
+  await expect(page.getByRole("progressbar", { name: /progress/i })).toHaveAttribute("aria-valuenow", "0");
+
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_01_print");
+  await setEditorValue(page, 'print("Hello, Programming Trainer!")\n');
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
+
+  await page.goto("/languages/python/grade-3");
+  await expect(page.getByLabel("Python 3級 chapter progress")).toContainText("1 / 10 Lessons completed");
+  await expect(page.getByLabel("Python 3級 chapter progress")).toContainText("10%");
+  await expect(page.getByRole("progressbar", { name: /progress/i })).toHaveAttribute("aria-valuenow", "10");
+
+  await page.reload();
+  await expect(page.getByLabel("Python 3級 chapter progress")).toContainText("1 / 10 Lessons completed");
+  await expect(page.getByRole("progressbar", { name: /progress/i })).toHaveAttribute("aria-valuenow", "10");
+});

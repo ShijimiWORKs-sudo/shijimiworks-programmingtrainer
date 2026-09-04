@@ -209,6 +209,71 @@ pre {
   margin: 0 0 8px;
 }
 
+.chapter-overview {
+  min-width: 0;
+}
+
+.chapter-progress-summary {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.chapter-progress-heading,
+.chapter-progress-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.chapter-progress-heading {
+  color: #182026;
+  font-weight: 700;
+}
+
+.chapter-progress-detail {
+  color: #53606b;
+  font-size: 0.82rem;
+}
+
+.chapter-progress-meter {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dbe4e9;
+}
+
+.chapter-progress-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #176b87;
+}
+
+.chapter-progress-state {
+  justify-self: start;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.chapter-progress-completed {
+  color: #0d4f3c;
+  background: #d9f3ea;
+}
+
+.chapter-progress-in_progress {
+  color: #154d73;
+  background: #dcedff;
+}
+
+.chapter-progress-not_started {
+  color: #665017;
+  background: #fff0c7;
+}
+
 .lesson-list {
   display: grid;
   gap: 10px;
