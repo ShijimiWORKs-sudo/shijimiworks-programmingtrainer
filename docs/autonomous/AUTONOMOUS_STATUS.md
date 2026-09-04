@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 07:13 +09:00
+Updated: 2026-09-05 07:59 +09:00
 
-Current Phase: Phase 7 / HTML/CSS - P7-02 DOM Validator completed; P7-03 planning
+Current Phase: Phase 7 / HTML/CSS - P7-03 Style Validator completed; P7-04 planning
 Current Branch: codex/phase-7-html-css
-Current Commit: 475cbff180cd7e4f6185c9f1a7bbb3bd85d40f51
+Current Commit: pending P7-03 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -229,12 +229,18 @@ Current Commit: 475cbff180cd7e4f6185c9f1a7bbb3bd85d40f51
 - Integrated HTML/CSS workspace grading, result presentation, lesson progress updates, and attempt recording.
 - Added public and hidden DOM requirements to the HTML/CSS 3級 split-preview lesson while keeping hidden requirement details out of the UI.
 - Verified DOM grading pass flow, hidden DOM detail suppression, chapter progress completion, and reload persistence in Chrome and Edge.
+- Completed `P7-03 Style Validator`.
+- Added HTML/CSS style requirement types for normal CSS declarations and media-query declarations.
+- Added CSSOM-based style validation and a combined HTML/CSS grader that evaluates DOM and style requirements together.
+- Added public style and hidden responsive style requirements to the HTML/CSS 3級 lesson.
+- Updated result explanations so DOM and CSS failures use beginner-friendly messages without exposing hidden selectors or media-query details.
+- Verified CSS/style grading, responsive requirement coverage, hidden style detail suppression, preview persistence, and full Chrome/Edge regression.
 
 ## In Progress
-- `P7-03 Style Validator` planning.
+- `P7-04 HTML/CSS Grade 3-1 Curriculum` planning.
 
 ## Next
-- Start `P7-03 Style Validator`: add CSS/responsive requirement validation while preserving the sandboxed preview boundary.
+- Start `P7-04 HTML/CSS Grade 3-1 Curriculum`: expand HTML/CSS lessons across 3級, 2級, and 1級 while preserving preview, DOM/style validation, and progress behavior.
 
 ## Tests
 - `npm run lint`: passed.
@@ -320,6 +326,8 @@ Current Commit: 475cbff180cd7e4f6185c9f1a7bbb3bd85d40f51
 - P7-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (34 files / 124 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (88 tests), audit passed with 0 vulnerabilities.
 - P7-02 targeted checks on 2026-09-05: typecheck passed; HTML/CSS DOM validator, preview helper, curriculum, catalog, explanation, curriculum page, and workspace tests passed (7 files / 22 tests); after DOM hidden explanation polish, focused retest passed (3 files / 11 tests); Chrome/Edge P7 E2E passed (10 tests).
 - P7-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (35 files / 129 tests), build passed with existing Pyodide/chunk warnings, initial Chrome/Edge E2E passed 89/90 with one existing Edge Python 1級 timing miss, targeted Edge retest passed, final full Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
+- P7-03 targeted checks on 2026-09-05: typecheck passed; style validator, combined HTML/CSS grader, DOM validator, curriculum, explanation, and workspace tests initially failed one duplicate hidden-detail assertion after adding a second hidden result, then passed (6 files / 16 tests); initial P7 Chrome/Edge E2E failed because hidden leak assertion searched the whole page including the CSS editor, then passed after scoping to Grading result (10 tests).
+- P7-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (37 files / 133 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

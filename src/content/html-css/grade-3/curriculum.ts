@@ -1,7 +1,7 @@
 import type { Course } from "../../../domain/curriculum";
 
 const htmlStarterCode = "<main class=\"profile-card\">\n  <h1>Programming Trainer</h1>\n  <p>HTMLとCSSで、見出しと説明のある小さなカードを作ります。</p>\n</main>\n";
-const cssStarterCode = ".profile-card {\n  padding: 24px;\n  border: 2px solid #176b87;\n}\n\n.profile-card h1 {\n  color: #176b87;\n}\n";
+const cssStarterCode = ".profile-card {\n  padding: 24px;\n  border: 2px solid #176b87;\n}\n\n.profile-card h1 {\n  color: #176b87;\n}\n\n@media (max-width: 700px) {\n  .profile-card {\n    padding: 16px;\n  }\n}\n";
 
 const courseId = "course_html_css_grade_3_foundation";
 const chapterId = "chapter_html_css_grade_3_preview";
@@ -33,7 +33,7 @@ export const htmlCssGrade3Course: Course = {
           starterCode: htmlStarterCode,
           sampleInput: "",
           sampleOutput: "previewにHTML/CSSの変更が表示されます。",
-          constraints: ["index.html には見出しと説明文を残してください。", "styles.css で色、余白、枠線のいずれかを変更してください。", "previewはアプリ本体とは分離されたiframeで表示されます。"],
+          constraints: ["index.html には見出しと説明文を残してください。", "styles.css で余白と見出し色を指定してください。", "responsive用のmedia queryでは狭い画面向けに余白を小さくしてください。", "previewはアプリ本体とは分離されたiframeで表示されます。"],
           difficulty: 1,
           estimatedMinutes: 12,
           order: 1,
@@ -84,6 +84,31 @@ export const htmlCssGrade3Course: Course = {
                   kind: "selector_exists",
                   selector: "main.profile-card p",
                   description: "profile-card内に説明文のpタグがある。",
+                  required: true,
+                },
+              ],
+              styleRequirements: [
+                {
+                  id: "profile-card-padding",
+                  order: 4,
+                  visibility: "public",
+                  kind: "declaration_equals",
+                  selector: ".profile-card",
+                  property: "padding",
+                  expectedValue: "24px",
+                  description: "profile-card の通常時の padding が 24px である。",
+                  required: true,
+                },
+                {
+                  id: "profile-card-responsive-padding",
+                  order: 5,
+                  visibility: "hidden",
+                  kind: "media_declaration_equals",
+                  mediaQuery: "(max-width: 700px)",
+                  selector: ".profile-card",
+                  property: "padding",
+                  expectedValue: "16px",
+                  description: "狭い画面向けの profile-card padding が調整されている。",
                   required: true,
                 },
               ],

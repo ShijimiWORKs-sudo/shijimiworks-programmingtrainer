@@ -183,3 +183,11 @@ Decision: Add `html_dom` grading mode and DOM requirement metadata, then return 
 Reason: This keeps lesson progress, hidden-result display rules, and attempt history consistent without forcing a broad grading UI rewrite before CSS validation.
 Alternatives: Create a separate HTML/CSS result domain and duplicate result UI; run learner HTML in the preview iframe to inspect DOM; postpone progress/attempt persistence for HTML/CSS. These were rejected because they either broaden scope, weaken the sandbox boundary, or leave grading less resumable.
 Risk: `GradeResult` now represents both stdout execution and static DOM validation. Result explanation code checks `dom:` IDs so beginner-facing messages stay accurate, but future validators should avoid overloading stdout terms further.
+
+## 2026-09-05: CSS Style Validator Uses Browser CSSOM
+Date: 2026-09-05
+Context: P7-03 requires CSS and responsive validation. The app already creates a sandboxed preview iframe, but grading should not depend on executing learner scripts or granting preview script permissions.
+Decision: Parse learner CSS through a temporary `style` element and inspect CSSOM rules for selector/property/value requirements, including nested media-query rules.
+Reason: CSSOM parsing validates the CSS source with browser semantics, keeps grading independent from preview execution, avoids new dependencies, and preserves the `sandbox=""` preview boundary.
+Alternatives: Use a new CSS parser dependency; inspect computed styles inside the preview iframe; validate CSS with string includes only. These were rejected because they add dependency surface, couple grading to iframe access, or make style validation too brittle.
+Risk: CSSOM declaration checks validate authored declarations, not every cascade/computed-style outcome. Future responsive tasks may need viewport-specific computed-style assertions, but this checkpoint establishes the safe requirement model.

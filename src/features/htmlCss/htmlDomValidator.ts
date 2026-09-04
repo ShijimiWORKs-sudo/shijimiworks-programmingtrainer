@@ -64,10 +64,7 @@ function createResult(requirement: HtmlDomRequirement, document: Document): Test
   };
 }
 
-export function gradeHtmlDomExercise(exercise: Exercise, files: HtmlCssFiles): GradeResult {
-  const requirements = [...(exercise.domRequirements ?? [])].sort((a, b) => a.order - b.order);
-  const document = createDocument(files.html);
-  const results = requirements.map((requirement) => createResult(requirement, document));
+export function summarizeHtmlCssValidation(results: TestCaseGradeResult[]): GradeResult {
   const requiredResults = results.filter((result) => result.required);
   const passedRequired = requiredResults.filter((result) => result.passed).length;
 
@@ -75,6 +72,16 @@ export function gradeHtmlDomExercise(exercise: Exercise, files: HtmlCssFiles): G
     passed: requiredResults.length > 0 && passedRequired === requiredResults.length,
     totalRequired: requiredResults.length,
     passedRequired,
-    results,
+    results: [...results].sort((a, b) => a.order - b.order),
   };
+}
+
+export function gradeHtmlDomRequirements(exercise: Exercise, files: HtmlCssFiles): TestCaseGradeResult[] {
+  const requirements = [...(exercise.domRequirements ?? [])].sort((a, b) => a.order - b.order);
+  const document = createDocument(files.html);
+  return requirements.map((requirement) => createResult(requirement, document));
+}
+
+export function gradeHtmlDomExercise(exercise: Exercise, files: HtmlCssFiles): GradeResult {
+  return summarizeHtmlCssValidation(gradeHtmlDomRequirements(exercise, files));
 }

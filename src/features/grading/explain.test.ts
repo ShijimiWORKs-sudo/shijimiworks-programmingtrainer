@@ -57,4 +57,19 @@ describe("explainTestCaseResult", () => {
     expect(explanation).toContain("非公開DOM条件");
     expect(explanation).not.toContain("main.profile-card p");
   });
+
+  it("explains style results without leaking hidden CSS details", () => {
+    expect(explainTestCaseResult(result({ testCaseId: "style:padding", passed: false }))).toContain("CSS");
+
+    const explanation = explainTestCaseResult(result({
+      testCaseId: "style:responsive-padding",
+      visibility: "hidden",
+      stdin: undefined,
+      expectedStdout: undefined,
+      actualStdout: "@media (max-width: 700px)",
+    }));
+
+    expect(explanation).toContain("非公開CSS条件");
+    expect(explanation).not.toContain("@media");
+  });
 });

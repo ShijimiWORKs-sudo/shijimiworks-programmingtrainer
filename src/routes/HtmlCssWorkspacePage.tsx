@@ -5,7 +5,7 @@ import { StatusBadge } from "../components/StatusBadge";
 import { findLessonById } from "../content/catalog";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, type GradeResult } from "../features/grading";
-import { gradeHtmlDomExercise } from "../features/htmlCss/htmlDomValidator";
+import { gradeHtmlCssExercise } from "../features/htmlCss/htmlCssGrading";
 import { buildHtmlCssPreviewDocument, getHtmlCssStarterFiles, parseHtmlCssFiles, serializeHtmlCssFiles, type HtmlCssFiles } from "../features/htmlCss/htmlCssProject";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { createInitialProgress, markPassed, touchProgress } from "../features/progress/progressModel";
@@ -121,7 +121,7 @@ export function HtmlCssWorkspacePage() {
     setErrorMessage("");
 
     try {
-      const grade = gradeHtmlDomExercise(exercise, files);
+      const grade = gradeHtmlCssExercise(exercise, files);
       const storedProgress = await progressRepository.getLessonProgress(localUserId, lesson.id);
       const baseProgress = storedProgress ?? createInitialProgress(localUserId, lesson.id, serializeHtmlCssFiles(starterFiles));
       const touchedProgress = touchProgress(baseProgress, {

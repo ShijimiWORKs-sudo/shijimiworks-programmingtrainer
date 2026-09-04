@@ -81,10 +81,11 @@ describe("HtmlCssWorkspacePage", () => {
 
     fireEvent.click(await screen.findByRole("button", { name: "採点" }));
 
-    expect(await screen.findByLabelText("Grading result")).toHaveTextContent("合格 (3/3)");
+    expect(await screen.findByLabelText("Grading result")).toHaveTextContent("合格 (5/5)");
     expect(screen.getByText("Public Test #1: pass")).toBeInTheDocument();
     expect(screen.getByText("Hidden Test #3: pass")).toBeInTheDocument();
-    expect(screen.getByText("非公開テストのため詳細は表示されません。")).toBeInTheDocument();
+    expect(screen.getByText("Hidden Test #5: pass")).toBeInTheDocument();
+    expect(screen.getAllByText("非公開テストのため詳細は表示されません。")).toHaveLength(2);
     await waitFor(() =>
       expect(repositoryState.saveLessonProgress).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -100,6 +101,7 @@ describe("HtmlCssWorkspacePage", () => {
         passed: true,
         testResults: expect.arrayContaining([
           expect.objectContaining({ testCaseId: "dom:profile-card-description", passed: true }),
+          expect.objectContaining({ testCaseId: "style:profile-card-responsive-padding", passed: true }),
         ]),
       })
     );

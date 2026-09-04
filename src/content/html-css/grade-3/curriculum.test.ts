@@ -33,7 +33,12 @@ describe("html css grade 3 curriculum seed", () => {
       { id: "profile-card-heading", visibility: "public", selector: "main.profile-card h1", required: true },
       { id: "profile-card-description", visibility: "hidden", selector: "main.profile-card p", required: true },
     ]);
+    expect(exercise.styleRequirements).toMatchObject([
+      { id: "profile-card-padding", visibility: "public", selector: ".profile-card", property: "padding", expectedValue: "24px", required: true },
+      { id: "profile-card-responsive-padding", visibility: "hidden", selector: ".profile-card", property: "padding", expectedValue: "16px", required: true },
+    ]);
     expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
     expect(getHtmlCssStarterFiles(exercise).css).toContain(".profile-card");
+    expect(getHtmlCssStarterFiles(exercise).css).toContain("@media (max-width: 700px)");
   });
 });

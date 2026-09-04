@@ -484,6 +484,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P7-03 Style Validator
+Datetime: 2026-09-05 07:59 +09:00
+Commit: pending checkpoint commit on `codex/phase-7-html-css`
+Target: Add CSS and responsive style requirement validation, combine it with DOM validation, and verify hidden style details stay out of the grading UI.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlStyleValidator.test.ts src/features/htmlCss/htmlCssGrading.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/content/html-css/grade-3/curriculum.test.ts src/features/grading/explain.test.ts src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Initially failed 1 workspace assertion, then passed 6 files / 16 tests.
+Failure: The workspace test still expected one hidden generic detail row after P7-03 added a second hidden responsive style result.
+Fix: Asserted that two generic hidden-detail rows are present and added style hidden-result attempt coverage.
+Retest Result: Passed, 6 files / 16 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed 2 hidden leak assertions, then passed 10 tests.
+Failure: The E2E hidden media-query assertion searched the whole page, where the CSS editor correctly displays the learner's media query.
+Fix: Scoped hidden-detail assertions to the `Grading result` panel.
+Retest Result: Passed, 10 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 37 files / 133 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 90 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review style validator, hidden detail, and sandbox scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs|style:|media_declaration|profile-card-responsive-padding|CSSRule" src tests docs/autonomous`
+Result: Style hidden requirement details appear only in curriculum metadata and tests that assert they are not visible in the grading result. The preview iframe remains `sandbox=""`, style validation uses CSSOM only, and no `allow-scripts`, host filesystem, or child-process access was added.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
