@@ -17,6 +17,7 @@ describe("App routes", () => {
     [routePaths.pythonGrade1Lesson("lesson_py1_01_bug_fix"), "Lesson 01: bug fix"],
     [routePaths.pythonGrade1Lesson("lesson_py1_02_specification_change"), "Lesson 02: specification change"],
     [routePaths.pythonGrade1Lesson("lesson_py1_03_test_oriented"), "Lesson 03: test-oriented task"],
+    [routePaths.pythonGrade1Lesson("lesson_py1_04_refactoring"), "Lesson 04: refactoring"],
     [routePaths.pythonGrade2, "Python 2級"],
     [routePaths.pythonGrade2Lesson("lesson_py2_01_function_return"), "Lesson 01: 関数の戻り値"],
     [routePaths.pythonGrade2Lesson("lesson_py2_02_classes"), "Lesson 02: class"],

@@ -6,6 +6,8 @@ const specificationChangeStarterCode = "def shipping_fee(total):\n    return 500
 
 const testOrientedStarterCode = "def parse_scores(line):\n    return [int(part) for part in line.split(\",\")]\n\n\ndef passed_count(scores):\n    return len(scores)\n\nline = input()\nscores = parse_scores(line)\nprint(passed_count(scores))\n";
 
+const refactoringStarterCode = "name1 = input()\nscore1 = int(input())\nname2 = input()\nscore2 = int(input())\n\nif score1 >= 80:\n    print(name1 + \":A\")\nelse:\n    print(name1 + \":B\")\n\nif score2 >= 80:\n    print(name2 + \":A\")\nelse:\n    print(name2 + \":B\")\n";
+
 const courseId = "course_python_grade_1";
 
 export const pythonGrade1Course: Course = {
@@ -276,6 +278,96 @@ export const pythonGrade1Course: Course = {
                   visibility: "hidden",
                   stdin: "100,no,40,75\n",
                   expectedStdout: "2\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: "lesson_py1_04_refactoring",
+          chapterId: "chapter_python_grade_1_practical",
+          slug: "refactoring",
+          title: "Lesson 04: refactoring",
+          objective: "重複した判定処理を関数へ切り出し、外から見える出力を保つ。",
+          explanationMd: "refactoring は、動きを変えずにコードの形を良くする作業です。重複している条件分岐を関数へ切り出すと、仕様変更やテスト追加に強いコードになります。",
+          taskMd: "2人分の成績ラベル出力を、label_grade(name, score) 関数へ切り出してください。score が80以上なら `name:A`、それ以外なら `name:B` を返し、最終的な2行の出力は元の仕様と同じにしてください。",
+          starterCode: refactoringStarterCode,
+          sampleInput: "Aki\n82\nRen\n71\n",
+          sampleOutput: "Aki:A\nRen:B\n",
+          constraints: [
+            "label_grade(name, score) 関数を定義してください。",
+            "label_grade は文字列を return してください。",
+            "80点以上は A、それ以外は B としてください。",
+            "print は2人分の結果を1行ずつ出力してください。",
+          ],
+          difficulty: 4,
+          estimatedMinutes: 18,
+          order: 4,
+          status: "published",
+          hints: [
+            "まず score >= 80 の条件分岐を関数の中へ移します。",
+            "関数は print ではなく return name + \":A\" のように文字列を返すと使い回しやすくなります。",
+            "最後は print(label_grade(name1, score1)) と print(label_grade(name2, score2)) の2回にできます。",
+          ],
+          exercises: [
+            {
+              id: "ex_py1_04_01",
+              lessonId: "lesson_py1_04_refactoring",
+              type: "code",
+              promptMd: "重複した成績ラベル処理を関数へ切り出し、同じ出力を保つようにrefactoringします。",
+              starterCode: refactoringStarterCode,
+              project: {
+                entryFilePath: "main.py",
+                files: [
+                  {
+                    path: "main.py",
+                    language: "python",
+                    content: refactoringStarterCode,
+                    editable: true,
+                    purpose: "entry",
+                  },
+                  {
+                    path: "tests/test_label_grade.py",
+                    language: "python",
+                    content: "assert label_grade('Aki', 82) == 'Aki:A'\nassert label_grade('Ren', 71) == 'Ren:B'\nassert label_grade('Mio', 80) == 'Mio:A'\n",
+                    editable: false,
+                    purpose: "test",
+                  },
+                ],
+              },
+              gradingMode: "stdout",
+              timeoutMs: 3000,
+              completionCriteria: "重複を関数へ切り出した上で、複数の名前と点数に対して同じラベル出力を保つ。",
+              testCases: [
+                {
+                  id: "tc_py1_04_public_basic",
+                  order: 1,
+                  visibility: "public",
+                  stdin: "Aki\n82\nRen\n71\n",
+                  expectedStdout: "Aki:A\nRen:B\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_04_public_boundary",
+                  order: 2,
+                  visibility: "public",
+                  stdin: "Mio\n80\nKen\n79\n",
+                  expectedStdout: "Mio:A\nKen:B\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py1_04_hidden_names",
+                  order: 3,
+                  visibility: "hidden",
+                  stdin: "Nia\n95\nKai\n60\n",
+                  expectedStdout: "Nia:A\nKai:B\n",
                   comparator: "trimmed_text",
                   weight: 1,
                   required: true,

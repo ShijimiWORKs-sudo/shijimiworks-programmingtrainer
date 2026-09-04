@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 02:26 +09:00
+Updated: 2026-09-05 02:44 +09:00
 
 Current Phase: Phase 5 / Python 1級
 Current Branch: codex/phase-5-python-grade1
-Current Commit: f717b00804468290b4790992b48bb7b16ac7dcd4
+Current Commit: pending P5-05 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -168,12 +168,18 @@ Current Commit: f717b00804468290b4790992b48bb7b16ac7dcd4
 - Added public tests for mixed scores and 70-point boundary behavior plus a hidden invalid-token case.
 - Verified the hidden invalid-token input stays out of support test metadata and remains hidden in the grading UI.
 - Completed full P5-04 regression successfully.
+- Completed `P5-05 Refactoring Tasks`.
+- Added Python 1級 Lesson 04 for extracting duplicated grade-label output into `label_grade(name, score)`.
+- Added visible support tests for the refactored helper and behavioral public/hidden grading cases to prove output is preserved.
+- Verified Lesson 03 next-lesson routing now links to the refactoring lesson.
+- Ensured hidden-specific `Nia/Kai` data is absent from project support test metadata and remains hidden in the grading UI.
+- Completed full P5-05 regression successfully.
 
 ## In Progress
-- P5-05 Refactoring Tasks planning.
+- P5-06 Python 1級 Checkpoint planning.
 
 ## Next
-- Add Python 1級 refactoring practice that validates preserved behavior through existing grading tests.
+- Complete Phase 5 regression checkpoint, create/update Phase 5 PR, self-review, confirm CI, and prepare for merge when green.
 
 ## Tests
 - `npm run lint`: passed.
@@ -241,6 +247,8 @@ Current Commit: f717b00804468290b4790992b48bb7b16ac7dcd4
 - P5-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 86 tests), build passed, Chrome/Edge E2E passed (54 tests), audit passed with 0 vulnerabilities.
 - P5-04 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 34 tests); initial Chrome/Edge Python 1級 E2E failed on a strict locator matching `tests/test_scores.py` in both the task body and file header, then passed after exact-match locator fix (8 tests).
 - P5-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 88 tests), build passed, Chrome/Edge E2E passed (56 tests), audit passed with 0 vulnerabilities.
+- P5-05 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 36 tests); Chrome/Edge Python 1級 E2E passed (10 tests).
+- P5-05 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

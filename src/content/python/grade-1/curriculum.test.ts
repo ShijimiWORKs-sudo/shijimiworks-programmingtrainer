@@ -73,4 +73,26 @@ describe("python grade 1 curriculum seed", () => {
     expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "public", "hidden"]);
     expect(exercise.project?.files.map((file) => file.content).join("\n")).not.toContain("100,no,40,75");
   });
+
+  it("adds a routeable refactoring lesson with behavior-preserving tests", () => {
+    const lesson = pythonGrade1Course.chapters[0].lessons[3];
+    const exercise = lesson.exercises[0];
+
+    expect(lesson).toMatchObject({
+      id: "lesson_py1_04_refactoring",
+      title: "Lesson 04: refactoring",
+      status: "published",
+      order: 4,
+    });
+    expect(exercise.project).toMatchObject({
+      entryFilePath: "main.py",
+      files: [
+        { path: "main.py", editable: true, purpose: "entry" },
+        { path: "tests/test_label_grade.py", editable: false, purpose: "test" },
+      ],
+    });
+    expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
+    expect(exercise.testCases.map((testCase) => testCase.visibility)).toEqual(["public", "public", "hidden"]);
+    expect(exercise.project?.files.map((file) => file.content).join("\n")).not.toContain("Nia");
+  });
 });

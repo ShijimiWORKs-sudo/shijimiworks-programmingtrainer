@@ -119,3 +119,11 @@ Decision: Display project exercise files in the Lesson Workspace, including read
 Reason: This makes test-oriented lessons learnable without changing execution architecture or adding a multi-file editor. Hidden inputs remain private because support files use visible examples only.
 Alternatives: Wait for a full multi-file editor; put test snippets only in prose; expose grading hidden cases as test files. These were rejected because they either delay P5-04, reduce the value of test-oriented practice, or weaken hidden-test privacy.
 Risk: Future project exercises must keep support files free of hidden values because the UI now renders them.
+
+## 2026-09-05: Refactoring Task As Behavior-Preserving Helper Extraction
+Date: 2026-09-05
+Context: P5-05 requires refactoring practice, but the current grader validates program behavior rather than AST structure.
+Decision: Use duplicated grade-label printing as the first refactoring task and validate preserved behavior with public and hidden stdout tests, while visible support tests name the extracted `label_grade` helper.
+Reason: This gives learners a concrete refactoring target and keeps the checkpoint inside the stable grading architecture.
+Alternatives: Add AST/static checks for function extraction; build a separate refactoring exercise type; accept behavior-only refactoring with no visible helper tests. These were rejected because they either broaden scope or make the refactoring intent too weak.
+Risk: The grader cannot yet prove the learner actually removed duplication. Future advanced grading can add structural checks without invalidating the behavioral contract.
