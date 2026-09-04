@@ -7,42 +7,20 @@ function publishedLesson(lesson: Lesson): Lesson {
   return lesson;
 }
 
-function draftLesson(order: number, slug: string, title: string): Lesson {
-  return {
-    id: "lesson_py3_" + String(order).padStart(2, "0") + "_" + slug,
-    chapterId,
-    slug,
-    title,
-    objective: "今後のPhaseで実装します。",
-    explanationMd: "このLessonはPhase 2以降で教材本文を追加します。",
-    taskMd: "準備中です。",
-    starterCode: "",
-    sampleInput: "",
-    sampleOutput: "",
-    constraints: ["Phase 1では未実装です。"],
-    difficulty: 1,
-    estimatedMinutes: 10,
-    order,
-    status: "draft",
-    hints: [],
-    exercises: [],
-  };
-}
-
 export const pythonGrade3Course: Course = {
   id: courseId,
   languageId: "lang_python",
   levelId: "level_python_3",
   title: "Python 3級",
   description: "Pythonの基礎をブラウザ上で実行・採点しながら学びます。",
-  curriculumVersion: "python-grade-3-v0.8.0",
+  curriculumVersion: "python-grade-3-v0.9.0",
   validFrom: "2026-09-03",
   chapters: [
     {
       id: chapterId,
       courseId,
       title: "Python 3級 基礎",
-      description: "出力、変数、入力、型と演算子、if、for、while、list、dictの最初の9Lessonを実装済みです。",
+      description: "Python 3級の基礎10Lessonを実装済みです。",
       order: 1,
       lessons: [
         publishedLesson({
@@ -537,7 +515,62 @@ export const pythonGrade3Course: Course = {
             },
           ],
         }),
-        draftLesson(10, "functions", "Lesson 10: 関数"),
+        publishedLesson({
+          id: "lesson_py3_10_functions",
+          chapterId,
+          slug: "functions",
+          title: "Lesson 10: 関数",
+          objective: "defで関数を定義し、引数と戻り値を使って処理をまとめられる。",
+          explanationMd: "関数は処理に名前を付けて再利用する仕組みです。def double(number): の下に字下げして処理を書き、returnで呼び出し元へ値を返します。",
+          taskMd: "整数を1つ受け取り、その2倍を返す関数 double(number) を使って結果を出力してください。",
+          starterCode: "def double(number):\n    return number\n\nvalue = int(input())\nprint(double(value))\n",
+          sampleInput: "6\n",
+          sampleOutput: "12\n",
+          constraints: ["double(number) という関数を定義してください。", "double() の中で number * 2 を返してください。", "input()で受け取った整数を double() に渡してください。"],
+          difficulty: 2,
+          estimatedMinutes: 18,
+          order: 10,
+          status: "published",
+          hints: [
+            "関数は def double(number): の形で定義します。",
+            "2倍の値を返すには return number * 2 と書きます。",
+            "print(double(value)) と書くと、関数の戻り値を出力できます。",
+          ],
+          exercises: [
+            {
+              id: "ex_py3_10_01",
+              lessonId: "lesson_py3_10_functions",
+              type: "code",
+              promptMd: "関数で2倍の計算をまとめ、入力値へ適用して出力します。",
+              starterCode: "def double(number):\n    return number\n\nvalue = int(input())\nprint(double(value))\n",
+              gradingMode: "stdout",
+              timeoutMs: 3000,
+              completionCriteria: "公開TestCaseとhidden TestCaseの両方で、入力値の2倍を出力する。",
+              testCases: [
+                {
+                  id: "tc_py3_10_public_six",
+                  order: 1,
+                  visibility: "public",
+                  stdin: "6\n",
+                  expectedStdout: "12\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+                {
+                  id: "tc_py3_10_hidden_eleven",
+                  order: 2,
+                  visibility: "hidden",
+                  stdin: "11\n",
+                  expectedStdout: "22\n",
+                  comparator: "trimmed_text",
+                  weight: 1,
+                  required: true,
+                },
+              ],
+            },
+          ],
+        }),
       ],
     },
   ],

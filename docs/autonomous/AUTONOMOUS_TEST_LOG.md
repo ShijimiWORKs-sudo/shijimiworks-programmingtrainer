@@ -148,6 +148,58 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
+Datetime: 2026-09-04 15:46 +09:00
+Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Target: Publish Python 3級 Lesson 10 and verify function definition/call run and grade behavior.
+Test Command: `npm run lint`
+Result: Initially failed, then passed.
+Failure: Publishing Lesson 10 made the `draftLesson` helper unused.
+Fix: Removed the unused `draftLesson` helper.
+Retest Result: Passed in targeted and full regression.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/content/python/grade-3/curriculum.test.ts`
+Result: Passed, 1 file / 8 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase2-curriculum.spec.ts`
+Result: Passed, 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 9 files / 30 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 24 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities after a long registry wait.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-06 Lesson 9 dict
 Datetime: 2026-09-04 15:27 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`

@@ -123,4 +123,22 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["apple\n120\n", "banana\n180\n"]);
     expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["120\n", "180\n"]);
   });
+
+  it("publishes Lesson 10 with function call test cases", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_10_functions");
+    const exercise = lesson?.exercises[0];
+
+    expect(lesson).toMatchObject({
+      title: "Lesson 10: 関数",
+      status: "published",
+      order: 10,
+    });
+    expect(exercise).toMatchObject({
+      id: "ex_py3_10_01",
+      lessonId: "lesson_py3_10_functions",
+      gradingMode: "stdout",
+    });
+    expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["6\n", "11\n"]);
+    expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["12\n", "22\n"]);
+  });
 });

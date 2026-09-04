@@ -102,3 +102,20 @@ test("grades Lesson 9 dict", async ({ page }) => {
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
   await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
 });
+
+test("grades Lesson 10 functions", async ({ page }) => {
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_10_functions");
+  await expect(page.getByRole("heading", { name: "Lesson 10: 関数" })).toBeVisible();
+  await page.getByLabel("stdin").fill("6\n");
+  await setEditorValue(
+    page,
+    "def double(number):\n    return number * 2\n\nvalue = int(input())\nprint(double(value))\n"
+  );
+
+  await page.getByRole("button", { name: "実行" }).click();
+  await expect(page.getByLabel("stdout")).toContainText("12", { timeout: 90000 });
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
+  await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
+});
