@@ -293,7 +293,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P6-05 JavaScript Checkpoint
 Datetime: 2026-09-05 05:44 +09:00
-Commit: pending checkpoint commit on `codex/phase-6-javascript`
+Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
 Target: Stabilize the complete JavaScript language path after runner foundation plus 3級, 2級, and 1級 curricula.
 
 Test Command: `npm run lint`
