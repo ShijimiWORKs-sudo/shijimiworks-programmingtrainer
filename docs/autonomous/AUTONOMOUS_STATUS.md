@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 01:04 +09:00
+Updated: 2026-09-05 02:57 +09:00
 
 Current Phase: Phase 5 / Python 1級
-Current Branch: main
-Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
+Current Branch: codex/phase-5-python-grade1
+Current Commit: 47f896a70e172361887efe2d4dce2501d0aed789
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -143,12 +143,48 @@ Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
 - Completed Phase 4 PR self-review fix: changed the Python 2級 Curriculum chapter state from the old fixed `Preparing` label to `6 Lessons ready` after all six lessons are published.
 - Created Phase 4 PR #5 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
+- Recorded and pushed the post-merge Phase 4 checkpoint on `main` as `718982ac5016555ee82a2a95ad7e80f39e26e28e`.
+- Created Phase 5 branch `codex/phase-5-python-grade1` from latest `main`.
+- Completed `P5-01 Multi-file Project Model`.
+- Added optional project exercise metadata for entry/support/test files without changing existing single-file exercise requirements.
+- Added project helper functions for safe relative path validation, entry file lookup, editable file listing, and single-file-compatible snapshots.
+- Verified existing grading and Chrome/Edge learning flows remain unchanged.
+- Completed `P5-02 Bug Fix Tasks`.
+- Enabled Python 1級 as a routeable level with `/languages/python/grade-1` and `/languages/python/grade-1/lessons/lesson_py1_01_bug_fix`.
+- Added the first Python 1級 bug fix lesson with starter code, public and hidden grading cases, and project metadata for `main.py` plus a read-only support test file.
+- Made Lesson Workspace return/next-lesson routing aware of Python 1級 while preserving Python 2級 and 3級 behavior.
+- Added catalog, route, curriculum, level select, project metadata, and Chrome/Edge E2E coverage for the Python 1級 bug fix flow.
+- Replaced a support-test example value that overlapped with the hidden test case so future multi-file UI work cannot accidentally expose the hidden case through project metadata.
+- Completed full P5-02 regression successfully.
+- Completed `P5-03 Specification Change Tasks`.
+- Added Python 1級 Lesson 02 for applying a new shipping-fee specification while preserving existing standard-shipping behavior.
+- Added public tests for free shipping and standard shipping plus a hidden test for an additional free-shipping amount.
+- Verified Lesson 01 next-lesson routing now links to the specification-change lesson.
+- Ensured hidden-specific `5100` data is absent from project support test metadata and remains hidden in the grading UI.
+- Completed full P5-03 regression successfully.
+- Completed `P5-04 Test-Oriented Tasks`.
+- Added Project files display for project-style exercises so learners can read visible support tests from the Lesson Workspace.
+- Added Python 1級 Lesson 03 for interpreting visible tests and fixing score parsing/counting behavior.
+- Added public tests for mixed scores and 70-point boundary behavior plus a hidden invalid-token case.
+- Verified the hidden invalid-token input stays out of support test metadata and remains hidden in the grading UI.
+- Completed full P5-04 regression successfully.
+- Completed `P5-05 Refactoring Tasks`.
+- Added Python 1級 Lesson 04 for extracting duplicated grade-label output into `label_grade(name, score)`.
+- Added visible support tests for the refactored helper and behavioral public/hidden grading cases to prove output is preserved.
+- Verified Lesson 03 next-lesson routing now links to the refactoring lesson.
+- Ensured hidden-specific `Nia/Kai` data is absent from project support test metadata and remains hidden in the grading UI.
+- Completed full P5-05 regression successfully.
+- Completed `P5-06 Python 1級 Checkpoint`.
+- Re-ran the full Phase 5 checkpoint gate on the latest branch after P5-01 through P5-05.
+- Verified Python 1級 route, bug fix task, specification change task, test-oriented task, project support test display, and refactoring task across Chrome and Edge.
+- Verified hidden-specific data remains excluded from visible project support files and grading UI details.
+- Completed security audit with 0 vulnerabilities.
 
 ## In Progress
-- Phase 5 branch preparation.
+- Phase 5 PR creation and self-review.
 
 ## Next
-- Create the Phase 5 branch and begin `P5-01 Multi-file Project Model`.
+- Create or update the Phase 5 PR, complete self-review, confirm GitHub Actions green, merge to main, then start Phase 6 JavaScript from latest main.
 
 ## Tests
 - `npm run lint`: passed.
@@ -208,6 +244,17 @@ Current Commit: 488f0ebfffd6dcf7a19ef8994c75a2511ac69004
 - P4-07 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 23 tests); Chrome/Edge Python 2級 small project E2E passed (14 tests).
 - P4-07 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 76 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities. After PR self-review fixed the Python 2級 chapter readiness label, targeted checks passed again and the full gate was rerun successfully with the same results.
 - PR #5 Phase 4 GitHub Actions: `CI / verify` passed on head `41b624284b429c26a878d017ff7ef14e09ecde39`; PR merged to `main` as `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`.
+- P5-01 targeted checks on 2026-09-05: typecheck passed; project helper/catalog/grading unit tests passed (3 files / 10 tests).
+- P5-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (18 files / 80 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities.
+- P5-02 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 30 tests), then hidden-value support metadata adjustment tests passed (2 files / 5 tests); Chrome/Edge Python 1級 bug fix E2E passed (4 tests).
+- P5-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 84 tests), build passed, Chrome/Edge E2E passed (52 tests), audit passed with 0 vulnerabilities.
+- P5-03 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 32 tests); Chrome/Edge Python 1級 E2E passed (6 tests).
+- P5-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 86 tests), build passed, Chrome/Edge E2E passed (54 tests), audit passed with 0 vulnerabilities.
+- P5-04 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 34 tests); initial Chrome/Edge Python 1級 E2E failed on a strict locator matching `tests/test_scores.py` in both the task body and file header, then passed after exact-match locator fix (8 tests).
+- P5-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 88 tests), build passed, Chrome/Edge E2E passed (56 tests), audit passed with 0 vulnerabilities.
+- P5-05 targeted checks on 2026-09-05: typecheck passed; related unit/component tests passed (5 files / 36 tests); Chrome/Edge Python 1級 E2E passed (10 tests).
+- P5-05 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
+- P5-06 Phase 5 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

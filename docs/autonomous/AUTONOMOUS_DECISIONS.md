@@ -87,3 +87,43 @@ Decision: Represent the first debug task as a normal code exercise with intentio
 Reason: This keeps the checkpoint small and preserves existing grading/progress behavior while still giving learners a realistic repair workflow.
 Alternatives: Add a new `debug` exercise type and UI affordances now; defer debug practice until a richer domain model exists. These were rejected because they would either broaden P4-06 or leave the roadmap item unimplemented.
 Risk: The UI does not yet visually distinguish debug tasks from code-completion tasks. A future curriculum polish pass can add task-kind presentation without invalidating the current lesson.
+
+## 2026-09-05: Optional Multi-file Project Metadata
+Date: 2026-09-05
+Context: P5-01 requires a multi-file project model, while all existing lessons, challenges, mock exams, progress records, and grading paths still use single `starterCode` strings.
+Decision: Add optional project metadata to exercises and helper functions that can create a project file snapshot while keeping `starterCode` as the existing single-file entry source.
+Reason: Optional metadata lets future Python 1級 tasks represent entry/support/test files without forcing a migration or breaking current Lesson Workspace, Challenge Workspace, Mock Exam, progress, or grading behavior.
+Alternatives: Replace `starterCode` with a files array everywhere; add a separate exercise type immediately; wait until the UI work. These were rejected because they either create broad churn or fail to establish the P5-01 model checkpoint.
+Risk: The current editor still renders only the entry source. P5-02/P5-03 must add UI/grading behavior carefully before expecting learners to edit multiple files directly.
+
+## 2026-09-05: First Python 1級 Bug Fix Through Existing Workspace
+Date: 2026-09-05
+Context: P5-02 requires existing-code repair exercises, and P5-01 has introduced optional project metadata. The product currently has a stable single-editor Lesson Workspace and stdout grading path.
+Decision: Enable Python 1級 with one routeable bug fix lesson that attaches project metadata while editing and grading the entry source through the existing Lesson Workspace.
+Reason: This delivers a real repair workflow with public/hidden coverage without broadening the editor, persistence, or grading architecture before the next 1級 checkpoints need it.
+Alternatives: Build a multi-file editor immediately; keep Python 1級 planned until the full practical UI exists; represent bug fix tasks as a new exercise type. These were rejected because they would either widen P5-02 or leave the checkpoint without a usable learner flow.
+Risk: Learners do not yet see the support test file in the UI. Future Python 1級 tasks should expose project files deliberately, while keeping hidden test values outside visible metadata.
+
+## 2026-09-05: Specification Change Task As Shipping Rule Update
+Date: 2026-09-05
+Context: P5-03 requires change-request exercises, but the product docs do not prescribe the first concrete Python 1級 scenario.
+Decision: Use an order-total calculation where the learner adds a new `5000円以上送料無料` rule while preserving the existing 500円 shipping behavior below the threshold.
+Reason: The task is small enough for a checkpoint, clearly demonstrates specification change work, and can be validated with stdout grading across old and new behavior.
+Alternatives: Add a larger multi-file feature request; require learners to update visible tests; defer specification changes until a richer project UI. These were rejected because they would broaden P5-03 beyond the current stable architecture.
+Risk: The exercise still uses a single visible editor even though project metadata includes a support test file. Future P5-04/P5-05 work should expand test/refactoring affordances without exposing hidden cases.
+
+## 2026-09-05: Project Support Tests Display
+Date: 2026-09-05
+Context: P5-04 requires test-oriented tasks and learner-facing feedback, but the existing Lesson Workspace only displayed the editable starter source and grading results.
+Decision: Display project exercise files in the Lesson Workspace, including read-only support test files, while keeping hidden grading cases only in `testCases`.
+Reason: This makes test-oriented lessons learnable without changing execution architecture or adding a multi-file editor. Hidden inputs remain private because support files use visible examples only.
+Alternatives: Wait for a full multi-file editor; put test snippets only in prose; expose grading hidden cases as test files. These were rejected because they either delay P5-04, reduce the value of test-oriented practice, or weaken hidden-test privacy.
+Risk: Future project exercises must keep support files free of hidden values because the UI now renders them.
+
+## 2026-09-05: Refactoring Task As Behavior-Preserving Helper Extraction
+Date: 2026-09-05
+Context: P5-05 requires refactoring practice, but the current grader validates program behavior rather than AST structure.
+Decision: Use duplicated grade-label printing as the first refactoring task and validate preserved behavior with public and hidden stdout tests, while visible support tests name the extracted `label_grade` helper.
+Reason: This gives learners a concrete refactoring target and keeps the checkpoint inside the stable grading architecture.
+Alternatives: Add AST/static checks for function extraction; build a separate refactoring exercise type; accept behavior-only refactoring with no visible helper tests. These were rejected because they either broaden scope or make the refactoring intent too weak.
+Risk: The grader cannot yet prove the learner actually removed duplication. Future advanced grading can add structural checks without invalidating the behavioral contract.

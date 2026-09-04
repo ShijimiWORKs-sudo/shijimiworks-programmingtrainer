@@ -96,6 +96,278 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P5-06 Python 1級 Checkpoint
+Datetime: 2026-09-05 02:57 +09:00
+Commit: 47f896a70e172361887efe2d4dce2501d0aed789
+Target: Verify the completed Python 1級 route after P5-01 through P5-05 and prepare the Phase 5 PR.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 90 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 58 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P5-05 Refactoring Tasks
+Datetime: 2026-09-05 02:44 +09:00
+Commit: fad22edb0477c451a14720441ab02dbe1f57ce8f
+Target: Add a Python 1級 refactoring lesson that extracts duplicated behavior while preserving output.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 36 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Passed, 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_04_hidden|Nia|Kai|tests/test_label_grade|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden-specific `Nia/Kai` values appeared only in the hidden test case and E2E non-visibility assertion; visible project support tests use separate public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed by full regression.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 90 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 58 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P5-04 Test-Oriented Tasks
+Datetime: 2026-09-05 02:26 +09:00
+Commit: f717b00804468290b4790992b48bb7b16ac7dcd4
+Target: Add visible project support tests and a Python 1級 test-oriented lesson with public/hidden grading coverage.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Initially failed, then passed, 8 tests.
+Failure: `getByText("tests/test_scores.py")` matched both the task body and the project file heading in strict mode.
+Fix: Narrowed the locator to `getByText("tests/test_scores.py", { exact: true })`.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_03_hidden|100,no,40,75|tests/test_scores|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden-specific `100,no,40,75` appeared only in the hidden test case and E2E non-visibility assertion; visible project support tests use separate public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed by full regression.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 88 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 56 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P5-03 Specification Change Tasks
+Datetime: 2026-09-05 02:07 +09:00
+Commit: e22b523db87a0d05ec5c2c6e0a3d3d7c2f31575e
+Target: Add a Python 1級 specification-change lesson that preserves old behavior while implementing a new shipping-fee rule.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 32 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Passed, 6 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_02_hidden|5100|tests/test_order_total|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden-specific `5100` appeared only in the hidden test case and E2E non-visibility assertions; support test metadata uses separate public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed by full regression.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 86 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 54 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P5-02 Bug Fix Tasks
+Datetime: 2026-09-05 01:50 +09:00
+Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea
+Target: Add the first routeable Python 1級 bug fix lesson with project metadata and public/hidden grading coverage.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx src/features/project/projectExercise.test.ts`
+Result: Passed, 5 files / 30 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase5-python-grade1.spec.ts`
+Result: Passed, 4 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: Self-review hidden-data scan with `rg -n "tc_py1_01_hidden|\\tRen|Hello, Ren|tests/test_greeting|C:\\|/Users|/home" src tests docs/autonomous`
+Result: Hidden test values were not present in UI code or E2E visible assertions, but the read-only project support test file used the same `Ren` example as the hidden test.
+Failure: Future multi-file UI work could accidentally expose a value that overlaps with the hidden case if it renders project support files.
+Fix: Changed the read-only support test example from `Ren` to `Mika`, leaving the actual hidden test case private in grading content.
+Retest Result: `npm test -- --run src/content/python/grade-1/curriculum.test.ts src/features/project/projectExercise.test.ts` passed, 2 files / 5 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 19 files / 84 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 52 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-05 Lesson 8 list
 Datetime: 2026-09-04 15:08 +09:00
 Commit: 2ed1870454929ac8141a6a05a41bd202a2cd8c98
@@ -767,6 +1039,62 @@ Result: Passed on PR #5 head `41b624284b429c26a878d017ff7ef14e09ecde39`.
 Failure: None.
 Fix: None.
 Retest Result: PR #5 was marked ready and merged into `main` as `488f0ebfffd6dcf7a19ef8994c75a2511ac69004`; local `main` was fast-forwarded to the merge commit.
+
+## 2026-09-05 Checkpoint: Phase 5 Branch Start
+Datetime: 2026-09-05 01:07 +09:00
+Commit: 57b92bc37d4650d9d2c30f9858ba48700cef2b2f
+Target: Start Phase 5 from latest main after Phase 4 merge.
+Test Command: Not run; documentation-only branch start checkpoint.
+Result: Not applicable.
+Failure: None.
+Fix: None.
+Retest Result: Phase 5 branch `codex/phase-5-python-grade1` created from `main` after `718982ac5016555ee82a2a95ad7e80f39e26e28e`.
+
+## 2026-09-05 Checkpoint: P5-01 Multi-file Project Model
+Datetime: 2026-09-05 01:21 +09:00
+Commit: 80b1e8782891400c99ed352d4b5bd83e03d856b0
+Target: Represent multi-file project exercises without breaking existing single-file lessons.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/project/projectExercise.test.ts src/content/catalog.test.ts src/features/grading/GradingEngine.test.ts`
+Result: Passed, 3 files / 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 18 files / 80 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed. Project path safety review found absolute and parent-directory paths only in explicit rejection tests.
 
 ## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
 Datetime: 2026-09-05 00:19 +09:00

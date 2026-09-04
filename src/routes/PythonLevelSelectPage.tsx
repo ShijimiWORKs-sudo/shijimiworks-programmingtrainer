@@ -12,8 +12,8 @@ export function PythonLevelSelectPage() {
       <PageHeader title="Python Level Select" eyebrow="SCR-020" />
       <div className="card-grid compact">
         {pythonLanguage?.levels.map((level) =>
-          level.code === "grade-3" || level.code === "grade-2" ? (
-            <Link key={level.id} className="select-card interactive" to={level.code === "grade-2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3}>
+          level.code === "grade-3" || level.code === "grade-2" || level.code === "grade-1" ? (
+            <Link key={level.id} className="select-card interactive" to={level.code === "grade-1" ? routePaths.pythonGrade1 : level.code === "grade-2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3}>
               <span>{level.name}</span>
               <StatusBadge status={level.status} />
             </Link>
