@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P5-02 Bug Fix Tasks
 Datetime: 2026-09-05 01:50 +09:00
-Commit: pending P5-02 checkpoint commit
+Commit: 87c48dddaa1bb02fa6221fafaff1e8d8c79372ea
 Target: Add the first routeable Python 1級 bug fix lesson with project metadata and public/hidden grading coverage.
 Test Command: `npm run typecheck`
 Result: Passed.
