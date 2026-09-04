@@ -706,6 +706,58 @@ Failure: None. A separate hidden-leakage `rg` review command initially failed be
 Fix: Re-ran hidden-leakage search with `rg --` so the pattern was treated as text.
 Retest Result: Hidden values were found only in curriculum seed data and a non-visibility E2E assertion.
 
+## 2026-09-05 Checkpoint: P4-07 Small Project Checkpoint
+Datetime: 2026-09-05 00:45 +09:00
+Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Target: Complete the Python 2級 small project path and local Phase 4 gate.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 23 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 76 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed. Hidden values were found only in curriculum seed data and a non-visibility E2E assertion.
+
 ## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
 Datetime: 2026-09-05 00:19 +09:00
 Commit: 3baada3a388c069b8133f497e9dfe5ee9b9ce7a7

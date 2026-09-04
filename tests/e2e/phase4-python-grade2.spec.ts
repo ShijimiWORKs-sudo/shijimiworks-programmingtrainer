@@ -22,6 +22,7 @@ test("opens the Python grade 2 curriculum skeleton from level select", async ({ 
   await expect(page.getByRole("link", { name: /Lesson 03: exception/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_03_exceptions");
   await expect(page.getByRole("link", { name: /Lesson 04: virtual file I\/O/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_04_virtual_file_io");
   await expect(page.getByRole("link", { name: /Lesson 05: algorithm debug/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_05_algorithm_debug");
+  await expect(page.getByRole("link", { name: /Lesson 06: small project/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_06_small_project");
   await expect(page.getByText("Preparing")).toBeVisible();
   await expect(page.getByRole("link", { name: "Level Selectへ戻る" })).toHaveAttribute("href", "/languages/python");
 });
@@ -113,5 +114,23 @@ test("grades the Python grade 2 algorithm debug lesson", async ({ page }) => {
   await expect(page.getByText("合格 (2/2)")).toBeVisible();
   await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
   await expect(page.getByText("-4 -2 -9")).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/python/grade-2");
+  await expect(page.getByRole("link", { name: "次Lessonへ進む" })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_06_small_project");
+});
+
+test("grades the Python grade 2 small project lesson", async ({ page }) => {
+  await page.goto("/languages/python/grade-2/lessons/lesson_py2_06_small_project");
+
+  await expect(page.getByRole("heading", { name: "Lesson 06: small project" })).toBeVisible();
+  await setEditorValue(
+    page,
+    "class ScoreBook:\n    def __init__(self, scores):\n        self.scores = scores\n\n    def count(self):\n        return len(self.scores)\n\n    def max_score(self):\n        best = self.scores[0]\n        for score in self.scores:\n            if score > best:\n                best = score\n        return best\n\n    def average(self):\n        return sum(self.scores) // len(self.scores)\n\n\ndef parse_scores(line):\n    scores = []\n    for part in line.split(','):\n        try:\n            scores.append(int(part))\n        except ValueError:\n            pass\n    return scores\n\nline = input()\nscores = parse_scores(line)\nbook = ScoreBook(scores)\nsummary = 'count:' + str(book.count()) + ',max:' + str(book.max_score()) + ',avg:' + str(book.average())\n\nwith open('summary.txt', 'w', encoding='utf-8') as file:\n    file.write(summary)\n\nwith open('summary.txt', 'r', encoding='utf-8') as file:\n    print(file.read())\n"
+  );
+
+  await page.getByRole("button", { name: "採点" }).click();
+
+  await expect(page.getByText("合格 (2/2)")).toBeVisible();
+  await expect(page.getByText("Hidden Test #2: pass")).toBeVisible();
+  await expect(page.getByText("100,no,85,95")).toHaveCount(0);
   await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/python/grade-2");
 });

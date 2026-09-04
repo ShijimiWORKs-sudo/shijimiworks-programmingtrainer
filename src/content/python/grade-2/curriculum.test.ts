@@ -22,6 +22,7 @@ describe("python grade 2 curriculum seed", () => {
       "lesson_py2_03_exceptions",
       "lesson_py2_04_virtual_file_io",
       "lesson_py2_05_algorithm_debug",
+      "lesson_py2_06_small_project",
     ]);
     expect(pythonGrade2Course.chapters[0].lessons[0]).toMatchObject({
       id: "lesson_py2_01_function_return",
@@ -75,6 +76,18 @@ describe("python grade 2 curriculum seed", () => {
     expect(pythonGrade2Course.chapters[0].lessons[4].starterCode).toContain("best = 0");
     expect(pythonGrade2Course.chapters[0].lessons[4].starterCode).toContain("if score < best");
     expect(pythonGrade2Course.chapters[0].lessons[4].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
+      "public",
+      "hidden",
+    ]);
+    expect(pythonGrade2Course.chapters[0].lessons[5]).toMatchObject({
+      id: "lesson_py2_06_small_project",
+      title: "Lesson 06: small project",
+      status: "published",
+      order: 6,
+    });
+    expect(pythonGrade2Course.chapters[0].lessons[5].starterCode).toContain("class ScoreBook");
+    expect(pythonGrade2Course.chapters[0].lessons[5].starterCode).toContain("open(\"summary.txt\"");
+    expect(pythonGrade2Course.chapters[0].lessons[5].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
       "public",
       "hidden",
     ]);
