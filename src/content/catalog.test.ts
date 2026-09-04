@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findChallengeById, findLessonById, findMockExamById, getAllChallenges, getAllMockExams } from "./catalog";
+import { findChallengeById, findCourseByLessonId, findLessonById, findMockExamById, findNextLesson, getAllChallenges, getAllMockExams, languages } from "./catalog";
 
 describe("content catalog", () => {
   it("finds Python grade 3 chapter challenges without affecting lesson lookup", () => {
@@ -18,5 +18,46 @@ describe("content catalog", () => {
       status: "published",
     });
     expect(findLessonById("mock_exam_py3_trial")).toBeUndefined();
+  });
+
+  it("enables only Python grade 2 as the next routeable skeleton level", () => {
+    const python = languages.find((language) => language.slug === "python");
+    const grade2 = python?.levels.find((level) => level.code === "grade-2");
+    const grade1 = python?.levels.find((level) => level.code === "grade-1");
+
+    expect(grade2).toMatchObject({
+      status: "available",
+      courses: [{ id: "course_python_grade_2" }],
+    });
+    expect(grade1).toMatchObject({
+      status: "planned",
+      courses: [],
+    });
+    expect(findLessonById("lesson_py3_01_print")?.title).toBe("Lesson 01: print / 出力");
+  });
+
+  it("finds Python grade 2 lessons without crossing next-lesson course boundaries", () => {
+    expect(findLessonById("lesson_py2_01_function_return")).toMatchObject({
+      title: "Lesson 01: 関数の戻り値",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_py2_01_function_return")?.id).toBe("course_python_grade_2");
+    expect(findNextLesson("lesson_py2_01_function_return")).toMatchObject({
+      id: "lesson_py2_02_classes",
+    });
+    expect(findNextLesson("lesson_py2_02_classes")).toMatchObject({
+      id: "lesson_py2_03_exceptions",
+    });
+    expect(findNextLesson("lesson_py2_03_exceptions")).toMatchObject({
+      id: "lesson_py2_04_virtual_file_io",
+    });
+    expect(findNextLesson("lesson_py2_04_virtual_file_io")).toMatchObject({
+      id: "lesson_py2_05_algorithm_debug",
+    });
+    expect(findNextLesson("lesson_py2_05_algorithm_debug")).toMatchObject({
+      id: "lesson_py2_06_small_project",
+    });
+    expect(findNextLesson("lesson_py2_06_small_project")).toBeUndefined();
+    expect(findNextLesson("lesson_py3_10_functions")).toBeUndefined();
   });
 });

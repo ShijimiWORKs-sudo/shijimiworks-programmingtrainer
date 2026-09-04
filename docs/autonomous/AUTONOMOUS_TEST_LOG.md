@@ -654,6 +654,386 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P4-06 Algorithms and Debug Tasks
+Datetime: 2026-09-05 00:32 +09:00
+Commit: 4dcfbf91c6dd0b60c363e82fba32fb0f87e18b1e
+Target: Add Python 2級 algorithm/debug practice with hidden coverage for the starter bug.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 12 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 75 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 46 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None. A separate hidden-leakage `rg` review command initially failed because a pattern beginning with `-4` was parsed as an option.
+Fix: Re-ran hidden-leakage search with `rg --` so the pattern was treated as text.
+Retest Result: Hidden values were found only in curriculum seed data and a non-visibility E2E assertion.
+
+## 2026-09-05 Checkpoint: P4-07 Small Project Checkpoint
+Datetime: 2026-09-05 00:45 +09:00
+Commit: f2442c0a0a2a91a7fb7c325f33a828eabac50e08
+Target: Complete the Python 2級 small project path and local Phase 4 gate.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 23 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 76 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 48 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: PR self-review found the Python 2級 Curriculum chapter still showed the old fixed `Preparing` label from the skeleton checkpoint. Updated it to show the published lesson count as `6 Lessons ready`.
+Retest Result: Passed after the UI label fix. Targeted typecheck passed, related unit/component tests passed (4 files / 23 tests), targeted Chrome/Edge E2E passed (14 tests), full lint passed, full typecheck passed, full unit/component tests passed (17 files / 76 tests), build passed, full Chrome/Edge E2E passed (48 tests), and audit passed with 0 vulnerabilities. Hidden values were found only in curriculum seed data and non-visibility E2E assertions.
+
+## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
+Datetime: 2026-09-05 00:19 +09:00
+Commit: 3baada3a388c069b8133f497e9dfe5ee9b9ce7a7
+Target: Add safe browser-sandboxed virtual file I/O practice for Python 2級.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 21 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 74 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 44 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P4-04 Exceptions
+Datetime: 2026-09-05 00:07 +09:00
+Commit: e7384a867638e58f92acfa6db3d015672f14be29
+Target: Add Python 2級 exception handling lesson with valid and invalid input grading.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 20 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 8 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 73 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 42 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: Phase 3 PR #4 Merge and Phase 4 Start
+Datetime: 2026-09-04 23:11 +09:00
+Commit: 86f025e99a6502b02777ae1a9364e6d47de16460
+Target: Merge Phase 3 and prepare Phase 4 from latest main.
+Test Command: GitHub Actions `CI / verify`
+Result: Passed on PR #4 head `4b86410a257e0403e3544890ae9e136ccbc59a62`.
+Failure: None.
+Fix: None.
+Retest Result: PR #4 was marked ready and merged into `main` as `7d35a604bf79de745de08b53a66890ad376dabb2`.
+
+## 2026-09-04 Checkpoint: P4-01 Python 2級 Course Foundation
+Datetime: 2026-09-04 23:25 +09:00
+Commit: f44b2f2e9b2f0e28db5be8374f089f16c1ab2c14
+Target: Add Python 2級 routing and curriculum skeleton without breaking Python 3級.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/routes/PythonLevelSelectPage.test.tsx src/app/App.test.tsx`
+Result: Passed, 4 files / 16 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Initially failed, then passed, 2 tests.
+Failure: The `Python 2級` heading assertion also matched `Python 2級 Foundation`.
+Fix: Made the heading locator exact.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 69 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 36 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P4-02 Function Deepening
+Datetime: 2026-09-04 23:39 +09:00
+Commit: a583258be1fe9ad76d0d447f941ee20098555ee2
+Target: Add deeper Python function lessons with multiple grading cases.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 18 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 4 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 71 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 38 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-04 Checkpoint: P4-03 Classes
+Datetime: 2026-09-04 23:55 +09:00
+Commit: 9154498c816c0ee05bd5798ce0e6049b534837ff
+Target: Add Python 2級 class/object lesson with public and hidden grading coverage.
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities during recovery blocker recheck.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in the final checkpoint gate.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 19 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 6 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 72 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 40 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`

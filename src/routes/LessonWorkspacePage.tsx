@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
-import { findLessonById, findNextLesson } from "../content/catalog";
+import { findCourseByLessonId, findLessonById, findNextLesson } from "../content/catalog";
 import type { AppSettings, LessonProgress } from "../domain/progress";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
@@ -22,6 +22,7 @@ declare global {
 export function LessonWorkspacePage() {
   const { lessonId } = useParams();
   const lesson = lessonId ? findLessonById(lessonId) : undefined;
+  const course = lesson ? findCourseByLessonId(lesson.id) : undefined;
   const [selectedExerciseId, setSelectedExerciseId] = useState("");
   const exercise = useMemo(
     () => lesson?.exercises.find((candidate) => candidate.id === selectedExerciseId) ?? lesson?.exercises[0],
@@ -252,6 +253,10 @@ export function LessonWorkspacePage() {
   }, [code, exercise, lesson, persistProgress, progress]);
 
   const nextLesson = useMemo(() => (lesson ? findNextLesson(lesson.id) : undefined), [lesson]);
+  const curriculumPath = course?.levelId === "level_python_2" ? routePaths.pythonGrade2 : routePaths.pythonGrade3;
+  const nextLessonPath = nextLesson && course?.levelId === "level_python_2"
+    ? routePaths.pythonGrade2Lesson(nextLesson.id)
+    : nextLesson ? routePaths.pythonGrade3Lesson(nextLesson.id) : undefined;
 
   if (!lesson) {
     return (
@@ -269,7 +274,7 @@ export function LessonWorkspacePage() {
       <section className="page-panel">
         <h1>{lesson.title}</h1>
         <p>このLessonは準備中です。</p>
-        <Link className="secondary-action inline-action" to={routePaths.pythonGrade3}>
+        <Link className="secondary-action inline-action" to={curriculumPath}>
           Curriculumへ戻る
         </Link>
       </section>
@@ -419,11 +424,11 @@ export function LessonWorkspacePage() {
               </div>
               {gradeResult.passed ? (
                 <div className="completion-actions">
-                  <Link className="secondary-action inline-action" to={routePaths.pythonGrade3}>
+                  <Link className="secondary-action inline-action" to={curriculumPath}>
                     Curriculumへ戻る
                   </Link>
-                  {nextLesson ? (
-                    <Link className="primary-action inline-action" to={routePaths.pythonGrade3Lesson(nextLesson.id)}>
+                  {nextLesson && nextLessonPath ? (
+                    <Link className="primary-action inline-action" to={nextLessonPath}>
                       次Lessonへ進む
                     </Link>
                   ) : null}

@@ -9,6 +9,7 @@ import { MockExamResultPage } from "../routes/MockExamResultPage";
 import { MockExamShellPage } from "../routes/MockExamShellPage";
 import { NotFoundPage } from "../routes/NotFoundPage";
 import { PythonGrade3CurriculumPage } from "../routes/PythonGrade3CurriculumPage";
+import { PythonGrade2CurriculumPage } from "../routes/PythonGrade2CurriculumPage";
 import { PythonLevelSelectPage } from "../routes/PythonLevelSelectPage";
 import { SettingsPage } from "../routes/SettingsPage";
 import { routePaths } from "./routePaths";
@@ -22,6 +23,8 @@ export const appRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "languages", element: <LanguageSelectPage /> },
       { path: "languages/python", element: <PythonLevelSelectPage /> },
+      { path: "languages/python/grade-2", element: <PythonGrade2CurriculumPage /> },
+      { path: "languages/python/grade-2/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/python/grade-3", element: <PythonGrade3CurriculumPage /> },
       { path: "languages/python/grade-3/challenges/:challengeId", element: <ChallengeWorkspacePage /> },
       { path: "languages/python/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },

@@ -1,4 +1,5 @@
 import type { Language } from "../domain/curriculum";
+import { pythonGrade2Course } from "./python/grade-2";
 import { pythonGrade3Course } from "./python/grade-3";
 
 export const languages: Language[] = [
@@ -24,8 +25,8 @@ export const languages: Language[] = [
         code: "grade-2",
         name: "2級",
         order: 2,
-        status: "planned",
-        courses: [],
+        status: "available",
+        courses: [pythonGrade2Course],
       },
       {
         id: "level_python_1",
@@ -74,6 +75,13 @@ export function findLessonById(lessonId: string) {
   return getAllLessons().find((lesson) => lesson.id === lessonId);
 }
 
+export function findCourseByLessonId(lessonId: string) {
+  return languages
+    .flatMap((language) => language.levels)
+    .flatMap((level) => level.courses)
+    .find((course) => course.chapters.some((chapter) => chapter.lessons.some((lesson) => lesson.id === lessonId)));
+}
+
 export function findChallengeById(challengeId: string) {
   return getAllChallenges().find((challenge) => challenge.id === challengeId);
 }
@@ -83,7 +91,8 @@ export function findMockExamById(examId: string) {
 }
 
 export function findNextLesson(lessonId: string) {
-  const lessons = getAllLessons().sort((a, b) => a.order - b.order);
+  const course = findCourseByLessonId(lessonId);
+  const lessons = course?.chapters.flatMap((chapter) => chapter.lessons).sort((a, b) => a.order - b.order) ?? [];
   const index = lessons.findIndex((lesson) => lesson.id === lessonId);
   return lessons.slice(index + 1).find((lesson) => lesson.status === "published");
 }
