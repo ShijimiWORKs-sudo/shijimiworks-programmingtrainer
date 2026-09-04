@@ -131,4 +131,19 @@ describe("content catalog", () => {
     });
     expect(findNextLesson("lesson_js1_04_refactoring")).toBeUndefined();
   });
+
+  it("enables HTML/CSS grade 3 with a routeable split preview lesson", () => {
+    const htmlCss = languages.find((language) => language.slug === "html-css");
+
+    expect(htmlCss).toMatchObject({
+      status: "available",
+      levels: [{ code: "grade-3", status: "available", courses: [{ id: "course_html_css_grade_3_foundation" }] }],
+    });
+    expect(findLessonById("lesson_htmlcss3_01_split_preview")).toMatchObject({
+      title: "Lesson 01: split editor preview",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_htmlcss3_01_split_preview")?.id).toBe("course_html_css_grade_3_foundation");
+    expect(findNextLesson("lesson_htmlcss3_01_split_preview")).toBeUndefined();
+  });
 });

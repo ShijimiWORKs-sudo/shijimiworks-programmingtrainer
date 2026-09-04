@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 05:51 +09:00
+Updated: 2026-09-05 06:33 +09:00
 
-Current Phase: Phase 6 / JavaScript merged; preparing Phase 7 / HTML/CSS
-Current Branch: main
-Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
+Current Phase: Phase 7 / HTML/CSS - P7-01 Split Editor and Preview Foundation completed; P7-02 planning
+Current Branch: codex/phase-7-html-css
+Current Commit: pending P7-01 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -214,12 +214,21 @@ Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
 - Created Phase 6 PR #7 as draft, confirmed GitHub Actions `CI` success on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 - Recorded the post-merge Phase 6 checkpoint on `main` as `08a9814b68da6da230292104ca84b9c18f94c419`.
+- Recorded the latest Phase 6 main checkpoint on `main` as `168aaf211f1e9d1b27286e966e3d8ba6a3144dd0`.
+- Created Phase 7 branch `codex/phase-7-html-css` from latest `main`.
+- Completed `P7-01 Split Editor and Preview Foundation`.
+- Added HTML/CSS as an available language with a routeable `3級` level and one published split-preview lesson.
+- Added `/languages/html-css`, `/languages/html-css/grade-3`, and `/languages/html-css/grade-3/lessons/:lessonId` routes.
+- Added a dedicated HTML/CSS Workspace with split `index.html` / `styles.css` Monaco editors and a live iframe preview.
+- Persisted HTML/CSS editor snapshots through the existing lesson progress repository using serialized `lastCode`.
+- Kept the preview sandboxed with `sandbox=""`, stripped script tags and inline event handlers from preview HTML, and escaped CSS `</style>` breakout sequences.
+- Verified preview update, reload persistence, and app-code isolation in Chrome and Edge.
 
 ## In Progress
-- Phase 7 branch setup.
+- `P7-02 DOM Validator` planning.
 
 ## Next
-- Create Phase 7 branch and start `P7-01 Split Editor and Preview Foundation`.
+- Start `P7-02 DOM Validator`: add DOM requirement validation for HTML/CSS lessons without weakening iframe sandboxing.
 
 ## Tests
 - `npm run lint`: passed.
@@ -301,6 +310,8 @@ Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
 - P6-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 - P6-05 Phase 6 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 - PR #7 Phase 6 GitHub Actions: `CI` passed on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`; PR merged to `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
+- P7-01 targeted checks on 2026-09-05: typecheck passed; HTML/CSS helper, curriculum, catalog, language select, level select, curriculum page, and workspace tests passed (7 files / 17 tests); initial Chrome/Edge P7 E2E failed because tests read sandboxed iframe DOM through `contentDocument` and edited before progress recovery completed, then passed after using Playwright frame locators and a dev-only loaded marker (8 tests).
+- P7-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (34 files / 124 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (88 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

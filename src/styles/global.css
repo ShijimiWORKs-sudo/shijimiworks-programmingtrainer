@@ -377,6 +377,14 @@ pre {
   gap: 20px;
 }
 
+.html-css-workspace {
+  height: calc(100vh - 104px);
+  min-height: 616px;
+  display: grid;
+  grid-template-columns: minmax(320px, 30%) 1fr;
+  gap: 20px;
+}
+
 .lesson-pane,
 .editor-pane {
   min-width: 0;
@@ -547,6 +555,59 @@ pre {
 .monaco-host {
   min-height: 0;
   background: #1e1e1e;
+}
+
+.html-css-editor-pane {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 52px minmax(260px, 1fr) minmax(220px, 38%);
+  overflow: hidden;
+  border: 1px solid #ccd8df;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.split-editor-grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #ccd8df;
+}
+
+.split-editor-panel {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 34px 1fr;
+}
+
+.split-editor-panel + .split-editor-panel {
+  border-left: 1px solid #ccd8df;
+}
+
+.split-editor-heading,
+.preview-heading {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  color: #d6dee6;
+  background: #26313b;
+  font-weight: 700;
+}
+
+.preview-pane {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 34px 1fr;
+  background: #eef2f4;
+}
+
+.preview-pane iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #ffffff;
 }
 
 .console-pane {

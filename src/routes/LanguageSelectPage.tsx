@@ -11,6 +11,9 @@ function routeForLanguage(slug: string) {
   if (slug === "javascript") {
     return routePaths.javascript;
   }
+  if (slug === "html-css") {
+    return routePaths.htmlCss;
+  }
   return undefined;
 }
 

@@ -167,3 +167,11 @@ Decision: Mirror the proven Python 1級 practical maintenance structure with Jav
 Reason: This creates a complete grade path quickly, reuses established product semantics, and keeps the checkpoint inside the stable single-entry-file Lesson Workspace.
 Alternatives: Build a full JavaScript multi-file execution harness now; invent unrelated advanced browser/API tasks; leave JavaScript 1級 as planned. These were rejected because they broaden scope or fail P6-04 acceptance.
 Risk: Visible support files are instructional and not executed by the runner yet. Future advanced JavaScript project phases can add multi-file execution without invalidating these stdout-graded tasks.
+
+## 2026-09-05: HTML/CSS Preview Progress Snapshot in LessonProgress.lastCode
+Date: 2026-09-05
+Context: P7-01 needs two editable files, `index.html` and `styles.css`, while the existing lesson progress model persists one `lastCode` string per lesson and no HTML/CSS grading model exists yet.
+Decision: Serialize the HTML/CSS file snapshot into `LessonProgress.lastCode` with a `programming-trainer:html-css:v1` prefix and parse older plain-string values as HTML fallback.
+Reason: This keeps P7-01 inside the existing repository contract, avoids a database migration, and gives reload persistence for both editors immediately.
+Alternatives: Add a new IndexedDB store for multi-file snapshots; migrate `LessonProgress.lastCode` to structured data; persist only HTML and reset CSS on reload. These were rejected because they add unnecessary migration risk or fail the split-editor persistence expectation.
+Risk: Future multi-file languages may need a first-class structured progress model. The prefixed format isolates this HTML/CSS snapshot so it can be migrated later without corrupting older single-file lesson progress.

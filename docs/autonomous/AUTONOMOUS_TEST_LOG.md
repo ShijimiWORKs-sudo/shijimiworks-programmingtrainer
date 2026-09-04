@@ -348,6 +348,71 @@ Failure: None.
 Fix: None.
 Retest Result: PR #7 was marked ready and merged into `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 
+## 2026-09-05 Checkpoint: P7-01 Split Editor and Preview Foundation
+Datetime: 2026-09-05 06:33 +09:00
+Commit: pending checkpoint commit on `codex/phase-7-html-css`
+Target: Add HTML/CSS route, split HTML/CSS editors, sandboxed live iframe preview, preview persistence, and Chrome/Edge coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlCssProject.test.ts src/content/html-css/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/HtmlCssLevelSelectPage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Initially failed 1 workspace assertion, then passed 7 files / 17 tests.
+Failure: `toHaveValue(expect.stringContaining(...))` was not accepted by the matcher even though the textarea value contained the expected starter HTML.
+Fix: Asserted against the textarea `.value` string directly.
+Retest Result: Passed, 7 files / 17 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed preview text/style reads and one Edge edit wait, then passed 8 tests.
+Failure: The tests read sandboxed iframe content through parent `contentDocument`, and the dev edit hook could run before async progress recovery completed.
+Fix: Used Playwright `frameLocator` for iframe content/style checks and added a dev-only HTML/CSS lesson loaded marker before E2E edits.
+Retest Result: Passed, 8 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 34 files / 124 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 88 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review preview sandbox and dangerous API scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs" src tests docs/autonomous`
+Result: `sandbox=""` is present on the preview iframe; no `allow-scripts` usage was added. Script and inline handler strings appear only in the sanitizer/test paths, and no new host filesystem or child-process access was introduced beyond existing Pyodide build warnings and historical logs.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
