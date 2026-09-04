@@ -654,6 +654,58 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
+Datetime: 2026-09-05 00:19 +09:00
+Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Target: Add safe browser-sandboxed virtual file I/O practice for Python 2級.
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/python/grade-2/curriculum.test.ts src/content/catalog.test.ts src/app/App.test.tsx src/routes/PythonLevelSelectPage.test.tsx`
+Result: Passed, 4 files / 21 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase4-python-grade2.spec.ts`
+Result: Passed, 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 17 files / 74 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 44 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P4-04 Exceptions
 Datetime: 2026-09-05 00:07 +09:00
 Commit: e7384a867638e58f92acfa6db3d015672f14be29

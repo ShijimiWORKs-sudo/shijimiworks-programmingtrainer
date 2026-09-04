@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 00:07 +09:00
+Updated: 2026-09-05 00:19 +09:00
 
 Current Phase: Phase 4 / Python 2級
 Current Branch: codex/phase-4-python-grade2
-Current Commit: e7384a867638e58f92acfa6db3d015672f14be29
+Current Commit: pending P4-05 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -128,12 +128,16 @@ Current Commit: e7384a867638e58f92acfa6db3d015672f14be29
 - Added Python 2級 Lesson 03 for `try` / `except ValueError` input conversion handling.
 - Added public and hidden grading cases for valid integer and invalid string inputs without exposing hidden input or expected output in the UI.
 - Verified next-lesson link from Lesson 02, exception lesson grading, and full Chrome/Edge regression.
+- Completed `P4-05 Virtual File I/O`.
+- Added Python 2級 Lesson 04 for writing to and reading from `report.txt` inside the browser-based Python worker virtual filesystem.
+- Added public and hidden grading cases for file write/read output while keeping hidden input and expected output private.
+- Verified Grade 2 navigation, virtual file I/O grading, absence of host filesystem paths in lesson starter code, and full Chrome/Edge regression.
 
 ## In Progress
-- P4-05 Virtual File I/O planning.
+- P4-06 Algorithms and Debug Tasks planning.
 
 ## Next
-- Add safe browser-sandboxed virtual file I/O exercises without host filesystem access.
+- Add Python 2級 algorithm and debugging practice with grading and targeted E2E.
 
 ## Tests
 - `npm run lint`: passed.
@@ -186,6 +190,8 @@ Current Commit: e7384a867638e58f92acfa6db3d015672f14be29
 - P4-03 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed (17 files / 72 tests), build passed, Chrome/Edge E2E passed (40 tests), audit passed with 0 vulnerabilities.
 - P4-04 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 20 tests); Chrome/Edge Python 2級 exception lesson E2E passed (8 tests).
 - P4-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 73 tests), build passed, Chrome/Edge E2E passed (42 tests), audit passed with 0 vulnerabilities.
+- P4-05 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 21 tests); Chrome/Edge Python 2級 virtual file I/O E2E passed (10 tests).
+- P4-05 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 74 tests), build passed, Chrome/Edge E2E passed (44 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

@@ -20,6 +20,7 @@ describe("python grade 2 curriculum seed", () => {
       "lesson_py2_01_function_return",
       "lesson_py2_02_classes",
       "lesson_py2_03_exceptions",
+      "lesson_py2_04_virtual_file_io",
     ]);
     expect(pythonGrade2Course.chapters[0].lessons[0]).toMatchObject({
       id: "lesson_py2_01_function_return",
@@ -48,6 +49,19 @@ describe("python grade 2 curriculum seed", () => {
       order: 3,
     });
     expect(pythonGrade2Course.chapters[0].lessons[2].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
+      "public",
+      "hidden",
+    ]);
+    expect(pythonGrade2Course.chapters[0].lessons[3]).toMatchObject({
+      id: "lesson_py2_04_virtual_file_io",
+      title: "Lesson 04: virtual file I/O",
+      status: "published",
+      order: 4,
+    });
+    expect(pythonGrade2Course.chapters[0].lessons[3].starterCode).toContain("open(\"report.txt\"");
+    expect(pythonGrade2Course.chapters[0].lessons[3].starterCode).not.toContain("C:\\");
+    expect(pythonGrade2Course.chapters[0].lessons[3].starterCode).not.toContain("/");
+    expect(pythonGrade2Course.chapters[0].lessons[3].exercises[0].testCases.map((testCase) => testCase.visibility)).toEqual([
       "public",
       "hidden",
     ]);

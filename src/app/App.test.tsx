@@ -17,6 +17,7 @@ describe("App routes", () => {
     [routePaths.pythonGrade2Lesson("lesson_py2_01_function_return"), "Lesson 01: 関数の戻り値"],
     [routePaths.pythonGrade2Lesson("lesson_py2_02_classes"), "Lesson 02: class"],
     [routePaths.pythonGrade2Lesson("lesson_py2_03_exceptions"), "Lesson 03: exception"],
+    [routePaths.pythonGrade2Lesson("lesson_py2_04_virtual_file_io"), "Lesson 04: virtual file I/O"],
     [routePaths.pythonGrade3, "Python 3級"],
     [routePaths.pythonGrade3Challenge("challenge_py3_basic_review"), "Python 3級 章末課題: 基礎総復習"],
     [routePaths.pythonGrade3MockExam("mock_exam_py3_trial"), "Python 3級 模擬試験"],

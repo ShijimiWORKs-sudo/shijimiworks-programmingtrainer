@@ -71,3 +71,11 @@ Decision: Derive initial review suggestions from failed mock exam problem `sourc
 Reason: The curriculum already links exam problems to source lessons, so this creates useful review guidance without inventing a separate taxonomy before Phase 13.
 Alternatives: Add a new skill map now; recommend all source lessons regardless of pass/fail; wait until cross-language analytics. These were rejected because they either broaden scope or make the review path less precise.
 Risk: Source-lesson suggestions are coarse. Future analytics can replace or enrich them with a skill taxonomy while preserving the existing result data.
+
+## 2026-09-05: Virtual File I/O Through Pyodide Worker Files
+Date: 2026-09-05
+Context: P4-05 requires safe file-like exercises without host filesystem access. The current runner executes Python inside a browser Web Worker with Pyodide, and the grading model is still stdout-based.
+Decision: Teach virtual file I/O using relative filenames such as `report.txt` inside the Pyodide worker runtime, without adding host filesystem APIs or broadening the runner contract.
+Reason: This satisfies the learner workflow for `open()`, `write()`, and `read()` while preserving the existing security boundary: user Python stays browser-contained and cannot access the local OS filesystem through the app.
+Alternatives: Add a custom virtual filesystem grading API now; inspect file contents after execution; expose host files for realistic tasks. These were rejected because they either expand the architecture before needed or weaken the product security model.
+Risk: Stdout grading cannot fully prove that a learner used file I/O rather than computing the same output directly. Future advanced tasks can add a dedicated virtual filesystem assertion layer without changing this lesson's safe execution boundary.
