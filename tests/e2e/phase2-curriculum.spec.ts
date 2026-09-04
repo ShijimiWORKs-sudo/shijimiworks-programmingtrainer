@@ -68,3 +68,20 @@ test("grades Lesson 7 while", async ({ page }) => {
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
   await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
 });
+
+test("grades Lesson 8 list", async ({ page }) => {
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_08_list");
+  await expect(page.getByRole("heading", { name: "Lesson 08: list" })).toBeVisible();
+  await page.getByLabel("stdin").fill("red\nblue\ngreen\n");
+  await setEditorValue(
+    page,
+    'items = [input(), input(), input()]\nitems[1] = "Python"\nprint(items[0])\nprint(items[1])\nprint(items[2])\n'
+  );
+
+  await page.getByRole("button", { name: "実行" }).click();
+  await expect(page.getByLabel("stdout")).toContainText("red\nPython\ngreen", { timeout: 90000 });
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
+  await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
+});
