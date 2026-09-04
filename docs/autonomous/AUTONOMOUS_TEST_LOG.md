@@ -362,7 +362,7 @@ Retest Result: PR #3 was marked ready and merged to `main` as `f2197eb88944c8103
 
 ## 2026-09-04 Checkpoint: P3-01 Chapter Challenge Data Model
 Datetime: 2026-09-04 21:28 +09:00
-Commit: pending checkpoint commit on `codex/phase-3-python-grade3-challenge`
+Commit: 737a5cde8fa0bfe7ed721df9eb76fa879a09cd9c
 Target: Add chapter challenge entities compatible with existing curriculum, grading, and progress architecture.
 Test Command: `npm run typecheck`
 Result: Passed.
