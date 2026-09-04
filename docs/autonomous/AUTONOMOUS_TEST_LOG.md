@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P5-04 Test-Oriented Tasks
 Datetime: 2026-09-05 02:26 +09:00
-Commit: pending P5-04 checkpoint commit
+Commit: f717b00804468290b4790992b48bb7b16ac7dcd4
 Target: Add visible project support tests and a Python 1級 test-oriented lesson with public/hidden grading coverage.
 Test Command: `npm run typecheck`
 Result: Passed.
