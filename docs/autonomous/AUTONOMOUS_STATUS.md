@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 00:45 +09:00
+Updated: 2026-09-05 00:59 +09:00
 
 Current Phase: Phase 4 / Python 2級
 Current Branch: codex/phase-4-python-grade2
-Current Commit: f2442c0a0a2a91a7fb7c325f33a828eabac50e08
+Current Commit: pending Phase 4 PR self-review fix commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -140,12 +140,13 @@ Current Commit: f2442c0a0a2a91a7fb7c325f33a828eabac50e08
 - Added Python 2級 Lesson 06 small project combining function decomposition, class state, `try` / `except`, virtual file I/O, and maximum/average aggregation.
 - Added public and hidden grading cases for clean and partially invalid score input without exposing hidden details in the UI.
 - Completed the local Phase 4 full gate successfully.
+- Completed Phase 4 PR self-review fix: changed the Python 2級 Curriculum chapter state from the old fixed `Preparing` label to `6 Lessons ready` after all six lessons are published.
 
 ## In Progress
-- Phase 4 PR preparation and self-review.
+- Phase 4 PR #5 CI verification.
 
 ## Next
-- Commit and push P4-07, create or update the Phase 4 PR, confirm CI, merge to `main`, and begin Phase 5.
+- Confirm PR #5 GitHub Actions, mark ready, merge to `main`, and begin Phase 5.
 
 ## Tests
 - `npm run lint`: passed.
@@ -203,7 +204,7 @@ Current Commit: f2442c0a0a2a91a7fb7c325f33a828eabac50e08
 - P4-06 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 22 tests); Chrome/Edge Python 2級 algorithm debug E2E passed (12 tests).
 - P4-06 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 75 tests), build passed, Chrome/Edge E2E passed (46 tests), audit passed with 0 vulnerabilities.
 - P4-07 targeted checks on 2026-09-05: typecheck passed; grade-2 curriculum/catalog/app/level tests passed (4 files / 23 tests); Chrome/Edge Python 2級 small project E2E passed (14 tests).
-- P4-07 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 76 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities.
+- P4-07 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (17 files / 76 tests), build passed, Chrome/Edge E2E passed (48 tests), audit passed with 0 vulnerabilities. After PR self-review fixed the Python 2級 chapter readiness label, targeted checks passed again and the full gate was rerun successfully with the same results.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

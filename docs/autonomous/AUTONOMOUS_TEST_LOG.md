@@ -755,8 +755,8 @@ Retest Result: Passed.
 Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
 Result: Passed with 0 vulnerabilities.
 Failure: None.
-Fix: None.
-Retest Result: Passed. Hidden values were found only in curriculum seed data and a non-visibility E2E assertion.
+Fix: PR self-review found the Python 2級 Curriculum chapter still showed the old fixed `Preparing` label from the skeleton checkpoint. Updated it to show the published lesson count as `6 Lessons ready`.
+Retest Result: Passed after the UI label fix. Targeted typecheck passed, related unit/component tests passed (4 files / 23 tests), targeted Chrome/Edge E2E passed (14 tests), full lint passed, full typecheck passed, full unit/component tests passed (17 files / 76 tests), build passed, full Chrome/Edge E2E passed (48 tests), and audit passed with 0 vulnerabilities. Hidden values were found only in curriculum seed data and non-visibility E2E assertions.
 
 ## 2026-09-05 Checkpoint: P4-05 Virtual File I/O
 Datetime: 2026-09-05 00:19 +09:00

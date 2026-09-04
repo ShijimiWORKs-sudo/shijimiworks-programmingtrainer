@@ -23,7 +23,7 @@ test("opens the Python grade 2 curriculum skeleton from level select", async ({ 
   await expect(page.getByRole("link", { name: /Lesson 04: virtual file I\/O/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_04_virtual_file_io");
   await expect(page.getByRole("link", { name: /Lesson 05: algorithm debug/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_05_algorithm_debug");
   await expect(page.getByRole("link", { name: /Lesson 06: small project/ })).toHaveAttribute("href", "/languages/python/grade-2/lessons/lesson_py2_06_small_project");
-  await expect(page.getByText("Preparing")).toBeVisible();
+  await expect(page.getByText("6 Lessons ready")).toBeVisible();
   await expect(page.getByRole("link", { name: "Level Selectへ戻る" })).toHaveAttribute("href", "/languages/python");
 });
 
