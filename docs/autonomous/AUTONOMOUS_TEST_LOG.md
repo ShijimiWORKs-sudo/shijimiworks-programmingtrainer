@@ -770,7 +770,7 @@ Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: P4-03 Classes
 Datetime: 2026-09-04 23:55 +09:00
-Commit: pending checkpoint commit on `codex/phase-4-python-grade2`
+Commit: 9154498c816c0ee05bd5798ce0e6049b534837ff
 Target: Add Python 2級 class/object lesson with public and hidden grading coverage.
 Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
 Result: Passed with 0 vulnerabilities during recovery blocker recheck.
