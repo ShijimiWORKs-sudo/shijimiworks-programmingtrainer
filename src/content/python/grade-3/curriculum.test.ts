@@ -141,4 +141,15 @@ describe("python grade 3 curriculum seed", () => {
     expect(exercise?.testCases.map((testCase) => testCase.stdin)).toEqual(["6\n", "11\n"]);
     expect(exercise?.testCases.map((testCase) => testCase.expectedStdout)).toEqual(["12\n", "22\n"]);
   });
+
+  it("keeps Lesson 10 ready for multiple exercises", () => {
+    const lesson = pythonGrade3Course.chapters[0].lessons.find((candidate) => candidate.id === "lesson_py3_10_functions");
+
+    expect(lesson?.exercises.map((exercise) => exercise.id)).toEqual(["ex_py3_10_01", "ex_py3_10_02"]);
+    expect(lesson?.exercises[1]).toMatchObject({
+      promptMd: "関数で3倍の計算をまとめ、入力値へ適用して出力します。",
+      starterCode: "def triple(number):\n    return number\n\nvalue = int(input())\nprint(triple(value))\n",
+    });
+    expect(lesson?.exercises[1].testCases.map((testCase) => testCase.expectedStdout)).toEqual(["12\n", "21\n"]);
+  });
 });

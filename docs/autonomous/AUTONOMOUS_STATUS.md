@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-04 15:46 +09:00
+Updated: 2026-09-04 16:28 +09:00
 
 Current Phase: Phase 2 / Python 3級 Curriculum Complete
 Current Branch: codex/phase-2-python-grade3-curriculum
-Current Commit: 33f22e52e3f0e57211d560292fa5af3ee0858e1c plus pending P2-07 checkpoint commit
+Current Commit: dbe0991229b6d1400cc9d641f9ab3c6f05c3e29d plus pending P2-08 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -60,13 +60,19 @@ Current Commit: 33f22e52e3f0e57211d560292fa5af3ee0858e1c plus pending P2-07 chec
 - Removed the now-unused draft lesson helper after all 10 Python 3級 lessons became published.
 - Added curriculum unit coverage and Chrome/Edge E2E coverage for Lesson 10.
 - Completed full P2-07 regression successfully.
+- Committed and pushed `P2-07 Lesson 10 function` as `dbe0991229b6d1400cc9d641f9ab3c6f05c3e29d`.
+- Completed `P2-08 Multiple Exercises Per Lesson`.
+- Added exercise-level progress state while preserving existing lesson-level progress records.
+- Added Lesson Workspace exercise switching that appears only for lessons with multiple exercises.
+- Added a second Lesson 10 function exercise and verified exercise-specific editor persistence and grading.
+- Completed full P2-08 regression successfully.
 
 ## In Progress
-- Checkpointing and pushing `P2-07 Lesson 10 function`.
+- Checkpointing and pushing `P2-08 Multiple Exercises Per Lesson`.
 
 ## Next
-- Commit and push the P2-07 checkpoint.
-- Continue to `P2-08 Multiple Exercises Per Lesson` from `AUTONOMOUS_PLAN.md`.
+- Commit and push the P2-08 checkpoint.
+- Continue to `P2-09 Hint Quality and Error Explanation` from `AUTONOMOUS_PLAN.md`.
 
 ## Tests
 - `npm run lint`: passed.
@@ -91,6 +97,8 @@ Current Commit: 33f22e52e3f0e57211d560292fa5af3ee0858e1c plus pending P2-07 chec
 - P2-06 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
 - P2-07 targeted checks on 2026-09-04: initial lint failed on unused `draftLesson`, fixed; lint passed, typecheck passed, curriculum unit test passed, Chrome/Edge Lesson 4/5/6/7/8/9/10 E2E passed.
 - P2-07 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
+- P2-08 targeted checks on 2026-09-04: lint passed, initial typecheck failed on repository status inference and was fixed, related unit tests passed, initial E2E locator assertions were fixed, Chrome/Edge Lesson 4-10 plus exercise switching E2E passed.
+- P2-08 full regression on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None currently.

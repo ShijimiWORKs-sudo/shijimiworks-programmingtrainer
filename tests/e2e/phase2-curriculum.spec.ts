@@ -117,5 +117,27 @@ test("grades Lesson 10 functions", async ({ page }) => {
 
   await page.getByRole("button", { name: "採点" }).click();
   await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
-  await expect(page.getByText("Passed")).toBeVisible({ timeout: 30000 });
+  await expect(page.getByRole("button", { name: /Exercise 1 Passed/ })).toBeVisible({ timeout: 30000 });
+});
+
+test("switches Lesson 10 exercises and persists each editor state", async ({ page }) => {
+  await page.goto("/languages/python/grade-3/lessons/lesson_py3_10_functions");
+  await expect(page.getByRole("button", { name: /Exercise 1/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Exercise 2/ })).toBeVisible();
+
+  const exerciseOneCode = "# exercise one\ndef double(number):\n    return number * 2\n\nvalue = int(input())\nprint(double(value))\n";
+  const exerciseTwoCode = "# exercise two\ndef triple(number):\n    return number * 3\n\nvalue = int(input())\nprint(triple(value))\n";
+
+  await setEditorValue(page, exerciseOneCode);
+  await page.getByRole("button", { name: /Exercise 2/ }).click();
+  await expect.poll(() => page.evaluate(() => window.__programmingTrainerEditorValue)).toContain("def triple(number):");
+  await setEditorValue(page, exerciseTwoCode);
+  await page.getByRole("button", { name: /Exercise 1/ }).click();
+  await expect.poll(() => page.evaluate(() => window.__programmingTrainerEditorValue)).toBe(exerciseOneCode);
+  await page.getByRole("button", { name: /Exercise 2/ }).click();
+  await expect.poll(() => page.evaluate(() => window.__programmingTrainerEditorValue)).toBe(exerciseTwoCode);
+
+  await page.getByLabel("stdin").fill("4\n");
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格", { timeout: 90000 });
 });

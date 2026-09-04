@@ -2,12 +2,26 @@ import type { RunErrorType, RunStatus } from "../features/runner";
 
 export type LessonProgressStatus = "not_started" | "in_progress" | "passed";
 
+export interface ExerciseProgress {
+  exerciseId: string;
+  status: LessonProgressStatus;
+  lastCode: string;
+  runCount: number;
+  gradeCount: number;
+  firstStartedAt?: string;
+  firstPassedAt?: string;
+  lastStudiedAt?: string;
+  updatedAt: string;
+}
+
 export interface LessonProgress {
   id: string;
   userId: string;
   lessonId: string;
   status: LessonProgressStatus;
   lastCode: string;
+  activeExerciseId?: string;
+  exerciseProgress?: Record<string, ExerciseProgress>;
   runCount: number;
   gradeCount: number;
   hintCount: number;

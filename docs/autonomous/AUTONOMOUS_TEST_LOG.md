@@ -148,6 +148,58 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-04 Checkpoint: P2-08 Multiple Exercises Per Lesson
+Datetime: 2026-09-04 16:28 +09:00
+Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`
+Target: Support multiple exercises per lesson with exercise-specific editor state, progress, grading, and attempts.
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm run typecheck`
+Result: Initially failed, then passed.
+Failure: `BrowserProgressRepository` merge helper inferred exercise `status` as `string`.
+Fix: Added explicit return type and `ExerciseProgress["status"]` annotation.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/features/progress/progressModel.test.ts src/repositories/BrowserProgressRepository.test.ts src/content/python/grade-3/curriculum.test.ts`
+Result: Passed, 3 files / 16 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase2-curriculum.spec.ts`
+Result: Initially failed on `Passed` locator assumptions, then passed, 16 tests.
+Failure: Multiple exercise badges introduced more than one visible `Passed` label; one replacement also accidentally targeted a single-exercise lesson.
+Fix: Kept single-exercise lessons on the existing `Passed` assertion and changed Lesson 10 to assert the `Exercise 1 Passed` button.
+Retest Result: Passed, 16 tests.
+
+Test Command: `npm test`
+Result: Passed, 9 files / 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 26 tests.
+Failure: One approval review timeout occurred before the successful full E2E run.
+Fix: Retried the same command.
+Retest Result: Passed, 26 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities after a registry wait.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: P2-07 Lesson 10 function
 Datetime: 2026-09-04 15:46 +09:00
 Commit: pending checkpoint commit on `codex/phase-2-python-grade3-curriculum`

@@ -1,6 +1,49 @@
-import type { Attempt, LessonProgress } from "../domain/progress";
+import type { Attempt, ExerciseProgress, LessonProgress } from "../domain/progress";
 import type { ProgressRepository } from "./ProgressRepository";
 import { getProgrammingTrainerDb } from "./db";
+
+function mergeExerciseProgress(existing: ExerciseProgress | undefined, next: ExerciseProgress | undefined): ExerciseProgress | undefined {
+  if (!existing) {
+    return next;
+  }
+  if (!next) {
+    return existing;
+  }
+
+  const nextIsNewer = next.updatedAt >= existing.updatedAt;
+  const status: ExerciseProgress["status"] = existing.status === "passed" || next.status === "passed" ? "passed" : next.status;
+
+  return {
+    ...existing,
+    ...next,
+    lastCode: nextIsNewer ? next.lastCode : existing.lastCode,
+    status,
+    runCount: Math.max(existing.runCount, next.runCount),
+    gradeCount: Math.max(existing.gradeCount, next.gradeCount),
+    firstStartedAt: existing.firstStartedAt ?? next.firstStartedAt,
+    firstPassedAt: existing.firstPassedAt ?? next.firstPassedAt,
+    lastStudiedAt: nextIsNewer ? (next.lastStudiedAt ?? existing.lastStudiedAt) : existing.lastStudiedAt,
+    updatedAt: nextIsNewer ? next.updatedAt : existing.updatedAt,
+  };
+}
+
+function mergeExerciseProgressRecords(
+  existing: Record<string, ExerciseProgress> | undefined,
+  next: Record<string, ExerciseProgress> | undefined
+) {
+  const exerciseIds = new Set([...Object.keys(existing ?? {}), ...Object.keys(next ?? {})]);
+  if (exerciseIds.size === 0) {
+    return undefined;
+  }
+
+  return [...exerciseIds].reduce<Record<string, ExerciseProgress>>((merged, exerciseId) => {
+    const exerciseProgress = mergeExerciseProgress(existing?.[exerciseId], next?.[exerciseId]);
+    if (exerciseProgress) {
+      merged[exerciseId] = exerciseProgress;
+    }
+    return merged;
+  }, {});
+}
 
 function mergeProgress(existing: LessonProgress | undefined, next: LessonProgress): LessonProgress {
   if (!existing) {
@@ -13,6 +56,8 @@ function mergeProgress(existing: LessonProgress | undefined, next: LessonProgres
     ...existing,
     ...next,
     lastCode: nextIsNewer ? next.lastCode : existing.lastCode,
+    activeExerciseId: nextIsNewer ? (next.activeExerciseId ?? existing.activeExerciseId) : existing.activeExerciseId,
+    exerciseProgress: mergeExerciseProgressRecords(existing.exerciseProgress, next.exerciseProgress),
     status: existing.status === "passed" || next.status === "passed" ? "passed" : next.status,
     runCount: Math.max(existing.runCount, next.runCount),
     gradeCount: Math.max(existing.gradeCount, next.gradeCount),
