@@ -780,7 +780,7 @@ Retest Result: Phase 5 branch `codex/phase-5-python-grade1` created from `main` 
 
 ## 2026-09-05 Checkpoint: P5-01 Multi-file Project Model
 Datetime: 2026-09-05 01:21 +09:00
-Commit: pending checkpoint commit on `codex/phase-5-python-grade1`
+Commit: 80b1e8782891400c99ed352d4b5bd83e03d856b0
 Target: Represent multi-file project exercises without breaking existing single-file lessons.
 Test Command: `npm run typecheck`
 Result: Passed.
