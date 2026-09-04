@@ -5,17 +5,27 @@ loader.config({ monaco });
 
 interface CodeEditorProps {
   value: string;
+  language?: string;
+  ariaLabel?: string;
   fontSize: number;
   tabSize: number;
   readOnly?: boolean;
   onChange(value: string): void;
 }
 
-export function CodeEditor({ value, fontSize, tabSize, readOnly = false, onChange }: CodeEditorProps) {
+export function CodeEditor({
+  value,
+  language = "python",
+  ariaLabel = "Python code editor",
+  fontSize,
+  tabSize,
+  readOnly = false,
+  onChange,
+}: CodeEditorProps) {
   return (
     <Editor
       height="100%"
-      language="python"
+      language={language}
       theme="vs-dark"
       value={value}
       onChange={(nextValue) => onChange(nextValue ?? "")}
@@ -28,7 +38,7 @@ export function CodeEditor({ value, fontSize, tabSize, readOnly = false, onChang
         minimap: { enabled: false },
         scrollBeyondLastLine: false,
         wordWrap: "on",
-        ariaLabel: "Python code editor",
+        ariaLabel,
         readOnly,
       }}
     />

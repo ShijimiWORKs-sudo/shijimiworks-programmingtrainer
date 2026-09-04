@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 03:03 +09:00
+Updated: 2026-09-05 05:44 +09:00
 
-Current Phase: Phase 5 / Python 1級 merged; preparing Phase 6 / JavaScript
-Current Branch: main
-Current Commit: e1e716ea749e4e9615aaff7209ef1b6a1987faf5
+Current Phase: Phase 6 / JavaScript
+Current Branch: codex/phase-6-javascript
+Current Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -181,12 +181,42 @@ Current Commit: e1e716ea749e4e9615aaff7209ef1b6a1987faf5
 - Completed security audit with 0 vulnerabilities.
 - Created Phase 5 PR #6 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `e1e716ea749e4e9615aaff7209ef1b6a1987faf5`.
+- Recorded and pushed the post-merge Phase 5 checkpoint on `main` as `a64ff4fb49d63ae6273417dfeecbc490aa759f12`.
+- Created Phase 6 branch `codex/phase-6-javascript` from latest `main`.
+- Completed `P6-01 JavaScript Runner Foundation`.
+- Added `JavaScriptRunner` behind the existing `LanguageRunner` abstraction.
+- Added a JavaScript Web Worker protocol, worker entrypoint, and runtime helper for running learner code in the browser worker boundary.
+- Captured `console.log` output as stdout and exposed beginner-friendly `readline()` / `input()` stdin helpers.
+- Classified syntax errors separately from runtime errors while preserving the existing `RunResult` contract.
+- Verified JavaScript timeout and cancel recovery by terminating and recreating the worker.
+- Kept Python behavior intact and did not add dependencies.
+- Fixed a pre-existing mock exam E2E race by waiting for Problem 2 starter code before setting the editor value after problem switching.
+- Completed `P6-02 JavaScript Grade 3 Curriculum`.
+- Added JavaScript as an available language with a routeable `3級` level.
+- Added `/languages/javascript`, `/languages/javascript/grade-3`, and JavaScript lesson routes.
+- Added 10 published JavaScript 3級 lessons covering `console.log`, variables, input, operators, `if`, `for`, `while`, arrays, objects, and functions.
+- Added a second Lesson 10 function exercise and verified exercise switching with JavaScript.
+- Made the shared Lesson Workspace choose `JavaScriptRunner` and Monaco `javascript` mode for JavaScript lessons while preserving Python behavior.
+- Added JavaScript curriculum, catalog, language/level/curriculum page, grading runtime, and Chrome/Edge E2E coverage.
+- Verified JavaScript hidden test details remain private in the grading UI.
+- Completed `P6-03 JavaScript Grade 2 Curriculum`.
+- Added JavaScript 2級 as a routeable level with `/languages/javascript/grade-2` and lesson routes.
+- Added 6 published JavaScript 2級 lessons covering function returns, class/object methods, error handling, array methods, algorithm debugging, and a small scorebook project.
+- Verified JavaScript 2級 grading, progress persistence/reload, hidden test detail suppression, and JavaScript 3級 regression in Chrome and Edge.
+- Completed `P6-04 JavaScript Grade 1 Curriculum`.
+- Added JavaScript 1級 as a routeable level with `/languages/javascript/grade-1` and lesson routes.
+- Added 4 published JavaScript 1級 practical maintenance lessons covering bug fix, specification change, test-oriented repair, and behavior-preserving refactoring.
+- Added visible project support files for JavaScript 1級 tasks while keeping hidden grading values out of learner-visible metadata.
+- Verified JavaScript 1級 grading, project file display, progress persistence/reload, hidden test detail suppression, and JavaScript 2級/3級 regression in Chrome and Edge.
+- Completed `P6-05 JavaScript Checkpoint` local stabilization gate.
+- Re-ran Phase 6 full regression after JavaScript 3級, 2級, and 1級 were present.
+- Self-reviewed JavaScript hidden test detail suppression, browser-worker runner boundary, progress persistence, route isolation, and scope.
 
 ## In Progress
-- Phase 6 JavaScript branch setup.
+- Phase 6 PR preparation.
 
 ## Next
-- Create Phase 6 branch from latest `main` and start `P6-01 JavaScript Runner Foundation`.
+- Create the Phase 6 PR, wait for GitHub Actions `CI / verify`, mark ready, merge to `main`, and start Phase 7.
 
 ## Tests
 - `npm run lint`: passed.
@@ -258,6 +288,15 @@ Current Commit: e1e716ea749e4e9615aaff7209ef1b6a1987faf5
 - P5-05 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
 - P5-06 Phase 5 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (19 files / 90 tests), build passed, Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
 - PR #6 Phase 5 GitHub Actions: `CI / verify` passed on head `3315997f7abccaebfa6e03ed4cbd2d77c97b9c5c`; PR merged to `main` as `e1e716ea749e4e9615aaff7209ef1b6a1987faf5`.
+- P6-01 targeted checks on 2026-09-05: typecheck passed; JavaScript runner/runtime plus Python runner/grading regression unit tests passed (4 files / 11 tests); audit passed with 0 vulnerabilities.
+- P6-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (21 files / 96 tests), build passed, Chrome/Edge E2E initially showed a mock exam problem-switch editor recovery race, targeted Edge retest passed after a one-line wait fix, full Chrome/Edge E2E passed (58 tests), audit passed with 0 vulnerabilities.
+- P6-02 targeted checks on 2026-09-05: typecheck passed; JavaScript curriculum/catalog/language/curriculum page/runner tests passed (7 files / 19 tests); initial JavaScript E2E failed on broad strict locators and passed after exact locator fixes, then Chrome/Edge JavaScript E2E passed (8 tests).
+- P6-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (25 files / 104 tests), build passed, Chrome/Edge E2E passed (66 tests), audit passed with 0 vulnerabilities.
+- P6-03 targeted checks on 2026-09-05: typecheck passed; JavaScript Grade 2/3 curriculum, catalog, level select, curriculum page, and language select tests passed (7 files / 18 tests); Chrome/Edge JavaScript E2E passed (14 tests).
+- P6-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (27 files / 109 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (72 tests), audit passed with 0 vulnerabilities.
+- P6-04 targeted checks on 2026-09-05: typecheck passed; JavaScript Grade 1/2/3 curriculum, catalog, level select, curriculum page, and language select tests passed (9 files / 23 tests); Chrome/Edge JavaScript E2E passed (22 tests).
+- P6-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
+- P6-05 Phase 6 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

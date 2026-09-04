@@ -127,3 +127,43 @@ Decision: Use duplicated grade-label printing as the first refactoring task and 
 Reason: This gives learners a concrete refactoring target and keeps the checkpoint inside the stable grading architecture.
 Alternatives: Add AST/static checks for function extraction; build a separate refactoring exercise type; accept behavior-only refactoring with no visible helper tests. These were rejected because they either broaden scope or make the refactoring intent too weak.
 Risk: The grader cannot yet prove the learner actually removed duplication. Future advanced grading can add structural checks without invalidating the behavioral contract.
+
+## 2026-09-05: JavaScript Runner Worker Sandbox Scope
+Date: 2026-09-05
+Context: P6-01 requires JavaScript execution behind `LanguageRunner` with stdout capture, timeout recovery, and no new dependency unless clearly needed.
+Decision: Execute JavaScript in a dedicated browser Web Worker with a small `new Function` runtime, capture `console.log`, expose `readline()` / `input()`, shadow obvious browser/global/network APIs in the runner function parameters, and terminate/recreate the worker for timeout and cancel recovery.
+Reason: This keeps JavaScript execution browser-contained, preserves the existing runner architecture, avoids host OS execution, and provides the smallest useful foundation for the JavaScript curriculum.
+Alternatives: Add a hardened SES-style sandbox dependency now; run learner JavaScript on the main UI thread; delay execution until curriculum content exists. These were rejected because they either broaden P6-01, risk UI blocking, or fail the foundation acceptance condition.
+Risk: This is not a complete hardened JavaScript security sandbox against every language escape pattern. Before broad untrusted JavaScript project tasks, Release Hardening or a future JavaScript checkpoint should revisit whether a stronger isolation layer is required.
+
+## 2026-09-05: Mock Exam E2E Problem Switch Readiness Wait
+Date: 2026-09-05
+Context: During the P6-01 full E2E gate, Edge intermittently timed out in the mock exam review-suggestion test after switching from Problem 1 to Problem 2. The page showed Problem 2, but the editor value could still be the old problem value or be overwritten by delayed problem-state recovery.
+Decision: Add the same explicit wait already used in the passing mock exam shell test: after clicking `次の問題`, wait until the editor contains Problem 2 starter code before setting the test answer.
+Reason: The test should validate mock exam grading and hidden-detail behavior, not race the asynchronous editor/session recovery after problem switching.
+Alternatives: Increase global test timeouts; retry the whole test; weaken the result assertions. These were rejected because they do not address the actual readiness condition.
+Risk: The helper remains a dev-only test surface. Future editor state changes should keep the readiness hook aligned with visible workspace recovery.
+
+## 2026-09-05: JavaScript Grade 3 Mirrors Python Grade 3 Fundamentals
+Date: 2026-09-05
+Context: P6-02 requires a JavaScript 3級 curriculum, but product docs do not enumerate JavaScript-specific lesson titles or challenge/mock exam scope.
+Decision: Create 10 JavaScript 3級 lessons that mirror the proven Python 3級 fundamentals: output, variables, input, operators, `if`, `for`, `while`, arrays, objects, and functions. Keep challenge and mock exam entities empty for JavaScript in this checkpoint.
+Reason: This provides a complete beginner JavaScript run/grade/progress path while staying inside the P6-02 curriculum scope and reusing the existing chapter progress model.
+Alternatives: Add only three smoke lessons; add JavaScript challenge/mock exam immediately; invent a different grade structure. These were rejected because they either under-deliver the grade path or expand beyond the active checkpoint.
+Risk: The JavaScript 3級 content is intentionally foundational. Future content QA can tune wording and add richer exercises without changing the route/progress contract.
+
+## 2026-09-05: JavaScript Grade 2 Scope Without File I/O
+Date: 2026-09-05
+Context: P6-03 requires JavaScript 2級 lessons, while the current JavaScript runner provides console/stdin execution but does not include a virtual file model.
+Decision: Use JavaScript-native 2級 tasks for functions, classes, `throw`/`try`/`catch`, array methods, algorithm debugging, and a small in-memory project. Keep file I/O out of JavaScript 2級 until a JavaScript virtual file model exists.
+Reason: This preserves the current browser-worker runner contract, avoids inventing file APIs mid-checkpoint, and still gives learners a complete Grade 2 progression.
+Alternatives: Emulate `localStorage` or virtual files in the JavaScript runner now; copy the Python virtual file lesson directly; omit the practical small project. These were rejected because they either broaden P6-03 or leave the level less useful.
+Risk: JavaScript 2級 differs from Python 2級's file I/O checkpoint. A future JavaScript or release-hardening pass can add a dedicated virtual storage exercise if the product wants parity.
+
+## 2026-09-05: JavaScript Grade 1 Mirrors Practical Maintenance Tasks
+Date: 2026-09-05
+Context: P6-04 requires JavaScript 1級 practical tasks, but the product docs do not define JavaScript-specific 1級 lesson scenarios.
+Decision: Mirror the proven Python 1級 practical maintenance structure with JavaScript-specific code: bug fix, specification change, test-oriented repair, and behavior-preserving refactoring. Use visible project support files as learner guidance while grading through the existing stdout runner.
+Reason: This creates a complete grade path quickly, reuses established product semantics, and keeps the checkpoint inside the stable single-entry-file Lesson Workspace.
+Alternatives: Build a full JavaScript multi-file execution harness now; invent unrelated advanced browser/API tasks; leave JavaScript 1級 as planned. These were rejected because they broaden scope or fail P6-04 acceptance.
+Risk: Visible support files are instructional and not executed by the runner yet. Future advanced JavaScript project phases can add multi-file execution without invalidating these stdout-graded tasks.

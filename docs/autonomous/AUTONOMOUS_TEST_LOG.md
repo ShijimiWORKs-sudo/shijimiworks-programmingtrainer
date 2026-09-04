@@ -96,6 +96,325 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
+Datetime: 2026-09-05 04:29 +09:00
+Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
+Target: Add JavaScript 3級 route, curriculum, shared Lesson Workspace runner selection, grading, progress, hidden-test protection, and Chrome/Edge coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts`
+Result: Passed, 6 files / 18 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by expanded related test run and full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase6-javascript.spec.ts`
+Result: Initially failed 4 locator assertions; Chrome/Edge JavaScript input lesson and Lesson 10 exercise switching already passed.
+Failure: Strict locator matches were too broad for `JavaScript 3級` and `JavaScript`.
+Fix: Used an exact heading locator for the course title and scoped the runtime-label assertion to `.editor-toolbar`.
+Retest Result: Passed, 8 tests.
+
+Test Command: `npm test -- --run src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts`
+Result: Passed, 7 files / 19 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 25 files / 104 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 66 tests.
+Failure: None after strict locator fixes.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P6-03 JavaScript Grade 2 Curriculum
+Datetime: 2026-09-05 04:56 +09:00
+Commit: 8df60883294d34186137386914786724152772d9
+Target: Add JavaScript 2級 curriculum, route it through the existing Lesson Workspace, and verify grading/progress persistence.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/javascript/grade-2/curriculum.test.ts src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade2CurriculumPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/routes/LanguageSelectPage.test.tsx`
+Result: Passed, 7 files / 18 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase6-javascript.spec.ts`
+Result: Passed, 14 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full Chrome/Edge E2E.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 27 files / 109 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 72 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "Ren|2500|oops|-4 -2 -9|100,no,85,95|tc_js2_.*hidden|child_process|node:fs|eval\(" src tests docs/autonomous`
+Result: Hidden values appear only in hidden test case definitions and tests that assert those values are not visible; no UI or visible JavaScript 2級 lesson text exposes them. No new host filesystem or child-process access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P6-04 JavaScript Grade 1 Curriculum
+Datetime: 2026-09-05 05:28 +09:00
+Commit: de2409cf43ef84f6eec3b0e7e11169e6520af01d
+Target: Add JavaScript 1級 practical maintenance lessons, project support metadata, route integration, grading, and progress persistence.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/content/javascript/grade-1/curriculum.test.ts src/content/javascript/grade-2/curriculum.test.ts src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade1CurriculumPage.test.tsx src/routes/JavaScriptGrade2CurriculumPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/routes/LanguageSelectPage.test.tsx`
+Result: Passed, 9 files / 23 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase6-javascript.spec.ts`
+Result: Passed, 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full Chrome/Edge E2E.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 29 files / 114 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 80 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "tc_js1_.*hidden|5100|100,no,40,75|Nia|Kai|\tRen|Hello, Ren|child_process|node:fs|eval\(" src tests docs/autonomous`
+Result: JavaScript 1級 hidden values appear only in hidden test case definitions and non-visibility assertions; visible support files use public examples. No new host filesystem or child-process access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P6-05 JavaScript Checkpoint
+Datetime: 2026-09-05 05:44 +09:00
+Commit: 38ca61fb67f203d2199962221c28528268c6c5dc
+Target: Stabilize the complete JavaScript language path after runner foundation plus 3級, 2級, and 1級 curricula.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 29 files / 114 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 80 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "tc_js[123]_.*hidden|2500|5100|100,no,40,75|100,no,85,95|Nia|Kai|\tRen|Hello, Ren|child_process|node:fs|eval\(" src tests docs/autonomous`
+Result: JavaScript hidden values appear in hidden test case definitions and non-visibility assertions only; visible lesson text and project support files use public examples. No new host filesystem or child-process access was introduced beyond existing Pyodide dependency warnings in build output.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
+Datetime: 2026-09-05 03:54 +09:00
+Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
+Target: Add JavaScript execution behind `LanguageRunner` with browser worker execution, stdout/console capture, stdin helpers, syntax/runtime error classification, and timeout/cancel recovery.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts src/features/runner/PythonRunner.test.ts src/features/grading/GradingEngine.test.ts`
+Result: Passed, 4 files / 11 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `git diff --check`
+Result: Passed with only the existing Git line-ending warning for `src/features/runner/index.ts`.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "new Function|fetch|XMLHttpRequest|WebSocket|importScripts|postMessage|globalThis|self|window|document|C:\\|/Users|/home" src/features/runner docs/autonomous tests`
+Result: Reviewed expected JavaScript worker/runtime references, existing dev-only E2E hooks, and historical autonomous-doc path records. No host OS execution path or hidden test leakage was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm test`
+Result: Passed, 21 files / 96 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; the new JavaScript worker emitted as a production asset.
+Fix: None.
+Retest Result: Passed after E2E test fix.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial full run passed 57 / 58 tests; Edge failed once waiting for `合格 (2/2)` in the Python 2級 algorithm debug lesson while the page snapshot showed runner initialization. Targeted rerun of that test passed, indicating an intermittent Edge/Pyodide timing issue.
+Failure: Intermittent Edge timing during the full browser matrix.
+Fix: No product code change; targeted rerun confirmed the lesson still passed.
+Retest Result: Targeted Edge algorithm debug retest passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Second full run passed 57 / 58 tests; Edge mock exam review-suggestion test timed out in `setEditorValue` immediately after switching to Problem 2.
+Failure: The test set editor content before asynchronous problem-switch state recovery had loaded Problem 2 starter code, so the editor value could be overwritten.
+Fix: Added an explicit wait for Problem 2 starter code before setting the Problem 2 answer in `tests/e2e/phase3-mock-exam.spec.ts`.
+Retest Result: Targeted Edge mock exam review-suggestion test passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 58 tests.
+Failure: None after readiness wait fix.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: Phase 5 PR #6 Merge and Phase 6 Prep
 Datetime: 2026-09-05 03:03 +09:00
 Commit: e1e716ea749e4e9615aaff7209ef1b6a1987faf5
@@ -105,6 +424,16 @@ Result: Passed on PR #6 head `3315997f7abccaebfa6e03ed4cbd2d77c97b9c5c`.
 Failure: None.
 Fix: None.
 Retest Result: PR #6 was marked ready and merged into `main` as `e1e716ea749e4e9615aaff7209ef1b6a1987faf5`.
+
+## 2026-09-05 Checkpoint: Phase 6 Start
+Datetime: 2026-09-05 03:04 +09:00
+Commit: a64ff4fb49d63ae6273417dfeecbc490aa759f12
+Target: Start Phase 6 JavaScript from latest main.
+Test Command: `git switch -c codex/phase-6-javascript`
+Result: Branch created from `main` commit `a64ff4fb49d63ae6273417dfeecbc490aa759f12`.
+Failure: None.
+Fix: None.
+Retest Result: Working tree clean before docs checkpoint update.
 
 ## 2026-09-05 Checkpoint: P5-06 Python 1級 Checkpoint
 Datetime: 2026-09-05 02:57 +09:00

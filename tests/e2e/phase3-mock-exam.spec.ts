@@ -57,6 +57,7 @@ test("recommends review lessons from failed mock exam fields without hidden deta
 
   await setEditorValue(page, 'message = "Python"\nprint(message)\n');
   await page.getByRole("button", { name: "次の問題" }).click();
+  await expect.poll(() => page.evaluate(() => window.__programmingTrainerEditorValue)).toContain("number = int(input())");
   await setEditorValue(page, 'number = int(input())\nprint("even")\n');
 
   await page.getByRole("button", { name: "提出して採点" }).click();
