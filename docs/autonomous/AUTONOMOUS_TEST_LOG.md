@@ -414,6 +414,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P10-01 Ruby Runner
+Datetime: 2026-09-05 13:02 +09:00
+Commit: 29a2e5422263a541c3e103272fd87d9d5717d3d0
+Target: Add Ruby compile/run runner infrastructure behind `LanguageRunner` with browser-contained worker execution, timeout/cancel recovery, and no host OS execution.
+
+Test Command: `npm test -- --run src/features/runner/rubyRuntime.test.ts src/features/runner/RubyRunner.test.ts src/features/runner/CppRunner.test.ts`
+Result: Passed, 3 files / 11 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase10-ruby.spec.ts`
+Result: Initially failed 2 tests, then passed 2 tests.
+Failure: The new smoke test used Testing Library's `page.queryByRole` style, which does not exist in Playwright.
+Fix: Replaced the absent API with Playwright `page.getByRole(...).toHaveCount(0)`.
+Retest Result: Passed, 2 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 57 files / 205 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; the new `ruby.worker` emitted as a production asset.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 120 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home" src/features/runner tests/e2e/phase10-ruby.spec.ts docs/autonomous`
+Result: Reviewed expected Ruby worker/runtime references and existing JavaScript/Java/C++ runner references. No host OS execution path, new dependency, `allow-scripts`, or new `node:*` access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4

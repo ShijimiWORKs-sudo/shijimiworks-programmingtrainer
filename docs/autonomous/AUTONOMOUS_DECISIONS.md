@@ -231,3 +231,11 @@ Decision: Publish C++ 3級, 2級, and 1級 lessons that use the supported subset
 Reason: This delivers a complete runnable C++ learning path while preserving the browser-contained execution boundary, avoiding host compiler calls, avoiding new dependencies, and keeping C++ lesson behavior aligned with existing progress/grading contracts.
 Alternatives: Add a WASM C++ toolchain before curriculum; call local `g++`; copy unsupported advanced C++ features directly into lessons; leave levels as placeholders. These were rejected because they either broaden P9-02, violate the execution boundary, or fail the acceptance condition that lessons can run and grade.
 Risk: C++ 2級/1級 content is intentionally subset-aware and not a full language implementation. Future C++ hardening can replace or expand the runner while preserving lesson IDs and progress records.
+
+## 2026-09-05: Ruby Runner Uses Browser-Contained Educational Subset
+Date: 2026-09-05
+Context: P10-01 requires Ruby execution behind `LanguageRunner`, while the product architecture keeps learner execution browser-contained and avoids host OS execution or new dependencies without a clear need.
+Decision: Add `RubyRunner` with a dedicated Web Worker and a swappable educational Ruby subset runtime that executes inside the browser worker boundary. Keep Ruby marked planned in the UI until P10-02 adds curriculum routes.
+Reason: This satisfies the runner infrastructure checkpoint, preserves the existing safe runner architecture, avoids requiring a local Ruby interpreter or network execution service, and leaves the Ruby execution strategy replaceable behind `RubyRunner`.
+Alternatives: Call local `ruby`; add a WASM Ruby runtime immediately; make Ruby routeable before curriculum exists. These were rejected because they either violate the host execution boundary, broaden dependency/supply-chain scope, or leak P10-02 UI work into P10-01.
+Risk: The current runtime is an educational subset, not a full Ruby interpreter. P10-02 curriculum must stay within the supported subset or deliberately expand the runner with tests before adding lessons that require more Ruby semantics.
