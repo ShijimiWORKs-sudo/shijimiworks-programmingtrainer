@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
@@ -59,6 +59,9 @@ export function HtmlCssWorkspacePage() {
       if (!lesson || !exercise) {
         return;
       }
+      if (import.meta.env.DEV) {
+        delete window.__programmingTrainerLoadedHtmlCssLessonId;
+      }
       setIsProgressLoaded(false);
       const storedProgress = await progressRepository.getLessonProgress(localUserId, lesson.id);
       if (!active) {
@@ -82,7 +85,7 @@ export function HtmlCssWorkspacePage() {
     };
   }, [exercise, lesson, starterFiles]);
 
-  async function persistFiles(nextFiles: HtmlCssFiles) {
+  const persistFiles = useCallback(async (nextFiles: HtmlCssFiles) => {
     if (!lesson) {
       return;
     }
@@ -94,7 +97,7 @@ export function HtmlCssWorkspacePage() {
     });
     setStatus(nextProgress.status);
     await progressRepository.saveLessonProgress(nextProgress);
-  }
+  }, [lesson, starterFiles]);
 
   function updateFile(path: keyof HtmlCssFiles, value: string) {
     const nextFiles = { ...files, [path]: value };
@@ -111,7 +114,7 @@ export function HtmlCssWorkspacePage() {
     if (lesson && isProgressLoaded) {
       window.__programmingTrainerLoadedHtmlCssLessonId = lesson.id;
     }
-    window.__programmingTrainerSetHtmlCssFileValue = (path, value) => {
+    const setHtmlCssFileValue = (path: keyof HtmlCssFiles, value: string) => {
       setFiles((current) => {
         const nextFiles = { ...current, [path]: value };
         window.__programmingTrainerHtmlCssFiles = nextFiles;
@@ -120,12 +123,14 @@ export function HtmlCssWorkspacePage() {
         return nextFiles;
       });
     };
+    window.__programmingTrainerSetHtmlCssFileValue = setHtmlCssFileValue;
     return () => {
-      delete window.__programmingTrainerSetHtmlCssFileValue;
-      delete window.__programmingTrainerHtmlCssFiles;
+      if (window.__programmingTrainerSetHtmlCssFileValue === setHtmlCssFileValue) {
+        delete window.__programmingTrainerSetHtmlCssFileValue;
+      }
       delete window.__programmingTrainerLoadedHtmlCssLessonId;
     };
-  });
+  }, [isProgressLoaded, lesson, persistFiles]);
 
   function resetFiles() {
     setFiles(starterFiles);
