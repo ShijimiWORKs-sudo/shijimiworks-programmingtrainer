@@ -3,6 +3,7 @@ export { CommandSimulatorRunner } from "./CommandSimulatorRunner";
 export { JavaRunner } from "./JavaRunner";
 export { JavaScriptRunner } from "./JavaScriptRunner";
 export { PythonRunner } from "./PythonRunner";
+export { PowerShellSimulatorRunner } from "./PowerShellSimulatorRunner";
 export { RubyRunner } from "./RubyRunner";
 export type {
   LanguageRunner,
