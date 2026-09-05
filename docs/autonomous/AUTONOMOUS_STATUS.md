@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 12:26 +09:00
+Updated: 2026-09-05 13:51 +09:00
 
-Current Phase: Phase 10 / Ruby - P10-01 next
-Current Branch: main
-Current Commit: cd7b841bd680c0c697e2da2fa7eee36649861e5b
+Current Phase: Phase 10 / Ruby - P10-02 complete
+Current Branch: codex/phase-10-ruby
+Current Commit: 1119badc3923bd29825889e367d86e7717e64e7d
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -288,21 +288,36 @@ Current Commit: cd7b841bd680c0c697e2da2fa7eee36649861e5b
 - Completed local P9-02 full gate successfully.
 - Created Phase 9 PR #10 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success for push and pull_request runs, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `cd7b841bd680c0c697e2da2fa7eee36649861e5b`.
+- Recorded and pushed the post-merge Phase 9 checkpoint on `main` as `f6905c58de5025740a9a4539f06d4ecd9f7352d9`.
+- Created Phase 10 branch `codex/phase-10-ruby` from latest `main`.
+- Completed `P10-01 Ruby Runner`.
+- Added `RubyRunner` behind the existing `LanguageRunner` abstraction with a dedicated Ruby worker protocol and worker entrypoint.
+- Added a browser-contained educational Ruby subset runtime for `puts`, `print`, `gets`, variables, conditionals, loops, and simple helper functions.
+- Verified timeout and cancel recovery terminate/recreate the worker through runner tests.
+- Kept Ruby planned in the language selection UI until P10-02 adds routeable curriculum content.
+- Completed local P10-01 full gate successfully.
+- Completed `P10-02 Ruby Grade 3-1 Curriculum`.
+- Added Ruby as an available language with routeable 3級, 2級, and 1級 levels.
+- Added 10 Ruby 3級 lessons with public/hidden grading coverage, including Lesson 10 multiple exercises and exercise switching.
+- Added 6 Ruby 2級 lessons and 4 Ruby 1級 practical lessons with visible support files for maintenance tasks.
+- Wired Ruby routes, catalog entries, curriculum pages, Lesson Workspace runner selection, Monaco Ruby mode, progress persistence, and Chrome/Edge E2E coverage.
+- Fixed the Ruby educational runtime comment stripping so `#{}` interpolation after whitespace inside a string is preserved.
+- Verified Ruby hidden test details remain private and hidden values are absent from visible project support files.
+- Completed local P10-02 full gate successfully.
 
 ## In Progress
-- Preparing Phase 10 branch `codex/phase-10-ruby` for `P10-01 Ruby Runner`.
+- Preparing Phase 10 PR self-review and merge checkpoint.
 
 ## Next
-- Create `codex/phase-10-ruby` from latest `main`.
-- Implement `P10-01 Ruby Runner` behind `LanguageRunner` with safe browser-contained execution.
-- Add Ruby runner/runtime tests and smoke E2E, then run the checkpoint gate.
+- Push `codex/phase-10-ruby`, create or update the Phase 10 draft PR, self-review it, confirm GitHub Actions green, mark ready, and merge to `main`.
+- After Phase 10 merge, create Phase 11 branch for Windows Command work from the latest `main`.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 9 files / 23 tests.
+- `npm test`: passed, 62 files / 224 tests.
 - `npm run build`: passed.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 10 tests.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 130 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
@@ -396,6 +411,8 @@ Current Commit: cd7b841bd680c0c697e2da2fa7eee36649861e5b
 - P9-02 targeted checks on 2026-09-05: typecheck passed; C++ runtime/content/catalog/route/curriculum tests passed (10 files / 65 tests); Chrome/Edge C++ E2E passed (12 tests).
 - P9-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (55 files / 197 tests), build passed with existing Pyodide/chunk warnings and emitted `cpp.worker`, Chrome/Edge E2E passed (118 tests), audit passed with 0 vulnerabilities.
 - PR #10 Phase 9 GitHub Actions: `CI / verify` passed on head `44614d0dff26b0c379b2870fa680985a97eb80d2`; PR merged to `main` as `cd7b841bd680c0c697e2da2fa7eee36649861e5b`.
+- P10-01 targeted checks on 2026-09-05: typecheck passed; Ruby runner/runtime plus C++ runner regression tests passed (3 files / 11 tests); Chrome/Edge P10 smoke E2E initially failed on a Testing Library style `queryByRole` API use, then passed after switching to Playwright `toHaveCount(0)`.
+- P10-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (57 files / 205 tests), build passed with existing Pyodide/chunk warnings and emitted `ruby.worker`, Chrome/Edge E2E passed (120 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

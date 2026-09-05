@@ -44,6 +44,13 @@ describe("App routes", () => {
     [routePaths.pythonGrade3MockExam("mock_exam_py3_trial"), "Python 3級 模擬試験"],
     [routePaths.pythonGrade3MockExamResult("mock_exam_py3_trial"), "Mock Exam Result"],
     [routePaths.pythonGrade3Lesson("lesson_py3_01_print"), "Lesson 01: print / 出力"],
+    [routePaths.ruby, "Ruby Level Select"],
+    [routePaths.rubyGrade1, "Ruby 1級"],
+    [routePaths.rubyGrade1Lesson("lesson_ruby1_01_bug_fix"), "Lesson 01: bug fix"],
+    [routePaths.rubyGrade2, "Ruby 2級"],
+    [routePaths.rubyGrade2Lesson("lesson_ruby2_01_method_return"), "Lesson 01: メソッドの戻り値"],
+    [routePaths.rubyGrade3, "Ruby 3級"],
+    [routePaths.rubyGrade3Lesson("lesson_ruby3_01_puts"), "Lesson 01: puts / 出力"],
     [routePaths.history, "Learning History"],
     [routePaths.settings, "Settings"],
   ])("renders %s", (path, expectedText) => {

@@ -231,3 +231,19 @@ Decision: Publish C++ 3級, 2級, and 1級 lessons that use the supported subset
 Reason: This delivers a complete runnable C++ learning path while preserving the browser-contained execution boundary, avoiding host compiler calls, avoiding new dependencies, and keeping C++ lesson behavior aligned with existing progress/grading contracts.
 Alternatives: Add a WASM C++ toolchain before curriculum; call local `g++`; copy unsupported advanced C++ features directly into lessons; leave levels as placeholders. These were rejected because they either broaden P9-02, violate the execution boundary, or fail the acceptance condition that lessons can run and grade.
 Risk: C++ 2級/1級 content is intentionally subset-aware and not a full language implementation. Future C++ hardening can replace or expand the runner while preserving lesson IDs and progress records.
+
+## 2026-09-05: Ruby Runner Uses Browser-Contained Educational Subset
+Date: 2026-09-05
+Context: P10-01 requires Ruby execution behind `LanguageRunner`, while the product architecture keeps learner execution browser-contained and avoids host OS execution or new dependencies without a clear need.
+Decision: Add `RubyRunner` with a dedicated Web Worker and a swappable educational Ruby subset runtime that executes inside the browser worker boundary. Keep Ruby marked planned in the UI until P10-02 adds curriculum routes.
+Reason: This satisfies the runner infrastructure checkpoint, preserves the existing safe runner architecture, avoids requiring a local Ruby interpreter or network execution service, and leaves the Ruby execution strategy replaceable behind `RubyRunner`.
+Alternatives: Call local `ruby`; add a WASM Ruby runtime immediately; make Ruby routeable before curriculum exists. These were rejected because they either violate the host execution boundary, broaden dependency/supply-chain scope, or leak P10-02 UI work into P10-01.
+Risk: The current runtime is an educational subset, not a full Ruby interpreter. P10-02 curriculum must stay within the supported subset or deliberately expand the runner with tests before adding lessons that require more Ruby semantics.
+
+## 2026-09-05: Ruby Grade 3-1 Curriculum Stays Within Runner Subset
+Date: 2026-09-05
+Context: P10-02 requires routeable Ruby grade 3, 2, and 1 curricula, and P10-01 established a browser-contained educational Ruby subset rather than a full Ruby interpreter.
+Decision: Publish Ruby 3級, 2級, and 1級 lessons that use the supported subset: `puts`, `gets`, variables, string interpolation, arrays, conditionals, loops, and simple methods. Expand only the comment-stripping behavior needed to preserve valid interpolation after whitespace inside a string.
+Reason: This delivers a complete runnable Ruby learning path while preserving the browser-contained execution boundary, avoiding host Ruby calls, avoiding new dependencies, and keeping Ruby lesson behavior aligned with existing progress/grading contracts.
+Alternatives: Add a full WASM Ruby runtime before curriculum; call local `ruby`; include unsupported Ruby features in lessons; leave levels as placeholders. These were rejected because they broaden P10-02, violate the execution boundary, or fail the acceptance condition that lessons can run and grade.
+Risk: Ruby 2級/1級 content is intentionally subset-aware and not a full language implementation. Future Ruby hardening can replace or expand the runner while preserving lesson IDs and progress records.

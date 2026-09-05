@@ -414,6 +414,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P10-01 Ruby Runner
+Datetime: 2026-09-05 13:02 +09:00
+Commit: 29a2e5422263a541c3e103272fd87d9d5717d3d0
+Target: Add Ruby compile/run runner infrastructure behind `LanguageRunner` with browser-contained worker execution, timeout/cancel recovery, and no host OS execution.
+
+Test Command: `npm test -- --run src/features/runner/rubyRuntime.test.ts src/features/runner/RubyRunner.test.ts src/features/runner/CppRunner.test.ts`
+Result: Passed, 3 files / 11 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase10-ruby.spec.ts`
+Result: Initially failed 2 tests, then passed 2 tests.
+Failure: The new smoke test used Testing Library's `page.queryByRole` style, which does not exist in Playwright.
+Fix: Replaced the absent API with Playwright `page.getByRole(...).toHaveCount(0)`.
+Retest Result: Passed, 2 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 57 files / 205 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; the new `ruby.worker` emitted as a production asset.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 120 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home" src/features/runner tests/e2e/phase10-ruby.spec.ts docs/autonomous`
+Result: Reviewed expected Ruby worker/runtime references and existing JavaScript/Java/C++ runner references. No host OS execution path, new dependency, `allow-scripts`, or new `node:*` access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
@@ -424,6 +489,77 @@ Result: Passed.
 Failure: None.
 Fix: None.
 Retest Result: Passed in full regression.
+
+## 2026-09-05 Checkpoint: P10-02 Ruby Grade 3-1 Curriculum
+Datetime: 2026-09-05 13:51 +09:00
+Commit: 1119badc3923bd29825889e367d86e7717e64e7d
+Target: Add routeable Ruby 3級, 2級, and 1級 curricula with public/hidden grading coverage, progress persistence, Lesson 10 multiple exercises, and Chrome/Edge E2E coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gate.
+
+Test Command: `npm test -- --run src/features/runner/rubyRuntime.test.ts src/features/runner/RubyRunner.test.ts src/content/ruby/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/RubyLevelSelectPage.test.tsx src/routes/RubyGrade3CurriculumPage.test.tsx src/routes/RubyGrade2CurriculumPage.test.tsx src/routes/RubyGrade1CurriculumPage.test.tsx src/app/App.test.tsx`
+Result: Initially passed 10 files / 73 tests before the interpolation fix; passed 10 files / 74 tests after adding the regression test.
+Failure: Ruby interpolation with no space before `#{}` was covered, but interpolation after whitespace inside a string was not covered.
+Fix: Added a runtime test for `puts "Hello #{name}"`.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase10-ruby.spec.ts`
+Result: Initially failed 2/12 on Ruby Lesson 3, then passed 12/12 after the runner fix.
+Failure: `stripComments()` removed ` #{name}` inside `puts "Hello #{name}"`, causing `Invalid or unexpected token` and hidden tests to fail.
+Fix: Limited Ruby comment stripping to full-line comments so string interpolation remains intact.
+Retest Result: Passed, 12 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 62 files / 224 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 130 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed. Git reported only CRLF normalization warnings for touched files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Hidden-data self-review scan with `rg -n 'Mika|2500|5100|Ren|Sora|Nia|Kai|cat|dog|eel|100|60|90|40|75' src/routes tests/e2e src/content/ruby`
+Result: Hidden Ruby values appear only in hidden test definitions, tests asserting non-visibility, and public/value contexts that are intentionally visible. Visible Ruby project support files use public examples.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Dangerous API self-review scan with `rg -n 'child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home' src/features/runner src/content/ruby src/routes tests/e2e/phase10-ruby.spec.ts docs/autonomous`
+Result: Reviewed expected Ruby worker/runtime references, existing runner references, and dev-only E2E hooks. No host OS execution path, new dependency, `allow-scripts`, or new `node:*` access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
 
 Test Command: `npm test -- --run src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts`
 Result: Passed, 6 files / 18 tests.

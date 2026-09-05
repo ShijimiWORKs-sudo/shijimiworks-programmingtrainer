@@ -20,6 +20,9 @@ function routeForLanguage(slug: string) {
   if (slug === "html-css") {
     return routePaths.htmlCss;
   }
+  if (slug === "ruby") {
+    return routePaths.ruby;
+  }
   return undefined;
 }
 

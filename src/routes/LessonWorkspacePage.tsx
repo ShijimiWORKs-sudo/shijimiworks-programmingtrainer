@@ -9,7 +9,7 @@ import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
+import { CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, RubyRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -27,6 +27,9 @@ function createRunnerForCourse(course: Course | undefined): LanguageRunner {
   if (course?.languageId === "lang_java") {
     return new JavaRunner();
   }
+  if (course?.languageId === "lang_ruby") {
+    return new RubyRunner();
+  }
   return course?.languageId === "lang_javascript" ? new JavaScriptRunner() : new PythonRunner();
 }
 
@@ -37,6 +40,9 @@ function editorLanguageForCourse(course: Course | undefined) {
   if (course?.languageId === "lang_java") {
     return "java";
   }
+  if (course?.languageId === "lang_ruby") {
+    return "ruby";
+  }
   return course?.languageId === "lang_javascript" ? "javascript" : "python";
 }
 
@@ -46,6 +52,9 @@ function runtimeLabelForCourse(course: Course | undefined) {
   }
   if (course?.languageId === "lang_java") {
     return "Java";
+  }
+  if (course?.languageId === "lang_ruby") {
+    return "Ruby";
   }
   return course?.languageId === "lang_javascript" ? "JavaScript" : "Python";
 }
@@ -77,6 +86,15 @@ function curriculumPathForCourse(course: Course | undefined) {
   }
   if (course?.levelId === "level_javascript_3") {
     return routePaths.javascriptGrade3;
+  }
+  if (course?.levelId === "level_ruby_1") {
+    return routePaths.rubyGrade1;
+  }
+  if (course?.levelId === "level_ruby_2") {
+    return routePaths.rubyGrade2;
+  }
+  if (course?.levelId === "level_ruby_3") {
+    return routePaths.rubyGrade3;
   }
   if (course?.levelId === "level_python_1") {
     return routePaths.pythonGrade1;
@@ -114,6 +132,15 @@ function lessonPathForCourse(course: Course | undefined, lessonId: string) {
   }
   if (course?.levelId === "level_javascript_3") {
     return routePaths.javascriptGrade3Lesson(lessonId);
+  }
+  if (course?.levelId === "level_ruby_1") {
+    return routePaths.rubyGrade1Lesson(lessonId);
+  }
+  if (course?.levelId === "level_ruby_2") {
+    return routePaths.rubyGrade2Lesson(lessonId);
+  }
+  if (course?.levelId === "level_ruby_3") {
+    return routePaths.rubyGrade3Lesson(lessonId);
   }
   if (course?.levelId === "level_python_1") {
     return routePaths.pythonGrade1Lesson(lessonId);

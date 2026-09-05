@@ -129,5 +129,6 @@ test("shows remaining future languages as planned after C++ is available", async
 
   await expect(page.getByRole("heading", { name: "Language Select" })).toBeVisible();
   await expect(page.getByRole("link", { name: /C\+\+/ })).toHaveAttribute("href", "/languages/cpp");
-  await expect(page.getByText("Coming soon")).toHaveCount(3);
+  await expect(page.getByRole("link", { name: /Ruby/ })).toHaveAttribute("href", "/languages/ruby");
+  await expect(page.getByText("Coming soon")).toHaveCount(2);
 });

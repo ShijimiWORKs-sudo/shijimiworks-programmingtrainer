@@ -29,6 +29,10 @@ import { PythonGrade1CurriculumPage } from "../routes/PythonGrade1CurriculumPage
 import { PythonGrade3CurriculumPage } from "../routes/PythonGrade3CurriculumPage";
 import { PythonGrade2CurriculumPage } from "../routes/PythonGrade2CurriculumPage";
 import { PythonLevelSelectPage } from "../routes/PythonLevelSelectPage";
+import { RubyGrade1CurriculumPage } from "../routes/RubyGrade1CurriculumPage";
+import { RubyGrade2CurriculumPage } from "../routes/RubyGrade2CurriculumPage";
+import { RubyGrade3CurriculumPage } from "../routes/RubyGrade3CurriculumPage";
+import { RubyLevelSelectPage } from "../routes/RubyLevelSelectPage";
 import { SettingsPage } from "../routes/SettingsPage";
 import { routePaths } from "./routePaths";
 
@@ -78,6 +82,13 @@ export const appRoutes: RouteObject[] = [
       { path: "languages/python/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/python/grade-3/mock-exams/:examId", element: <MockExamShellPage /> },
       { path: "languages/python/grade-3/mock-exams/:examId/result", element: <MockExamResultPage /> },
+      { path: "languages/ruby", element: <RubyLevelSelectPage /> },
+      { path: "languages/ruby/grade-1", element: <RubyGrade1CurriculumPage /> },
+      { path: "languages/ruby/grade-1/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/ruby/grade-2", element: <RubyGrade2CurriculumPage /> },
+      { path: "languages/ruby/grade-2/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/ruby/grade-3", element: <RubyGrade3CurriculumPage /> },
+      { path: "languages/ruby/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "history", element: <LearningHistoryPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "*", element: <NotFoundPage /> },
