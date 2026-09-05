@@ -14,6 +14,9 @@ import { javaGrade3Course } from "./java/grade-3";
 import { pythonGrade1Course } from "./python/grade-1";
 import { pythonGrade2Course } from "./python/grade-2";
 import { pythonGrade3Course } from "./python/grade-3";
+import { rubyGrade1Course } from "./ruby/grade-1";
+import { rubyGrade2Course } from "./ruby/grade-2";
+import { rubyGrade3Course } from "./ruby/grade-3";
 
 export const languages: Language[] = [
   {
@@ -124,7 +127,42 @@ export const languages: Language[] = [
       },
     ],
   },
-  { id: "lang_ruby", slug: "ruby", name: "Ruby", order: 4, status: "planned", levels: [] },
+  {
+    id: "lang_ruby",
+    slug: "ruby",
+    name: "Ruby",
+    order: 4,
+    status: "available",
+    levels: [
+      {
+        id: "level_ruby_3",
+        languageId: "lang_ruby",
+        code: "grade-3",
+        name: "3級",
+        order: 1,
+        status: "available",
+        courses: [rubyGrade3Course],
+      },
+      {
+        id: "level_ruby_2",
+        languageId: "lang_ruby",
+        code: "grade-2",
+        name: "2級",
+        order: 2,
+        status: "available",
+        courses: [rubyGrade2Course],
+      },
+      {
+        id: "level_ruby_1",
+        languageId: "lang_ruby",
+        code: "grade-1",
+        name: "1級",
+        order: 3,
+        status: "available",
+        courses: [rubyGrade1Course],
+      },
+    ],
+  },
   {
     id: "lang_javascript",
     slug: "javascript",

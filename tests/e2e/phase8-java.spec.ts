@@ -128,7 +128,8 @@ test("shows remaining future languages as planned", async ({ page }) => {
   await page.goto("/languages");
 
   await expect(page.getByRole("heading", { name: "Language Select" })).toBeVisible();
-  await expect(page.getByText("Coming soon")).toHaveCount(3);
+  await expect(page.getByText("Coming soon")).toHaveCount(2);
   await expect(page.getByRole("link", { name: /C\+\+/ })).toHaveAttribute("href", "/languages/cpp");
   await expect(page.getByRole("link", { name: /JavaScript/ })).toHaveAttribute("href", "/languages/javascript");
+  await expect(page.getByRole("link", { name: /Ruby/ })).toHaveAttribute("href", "/languages/ruby");
 });

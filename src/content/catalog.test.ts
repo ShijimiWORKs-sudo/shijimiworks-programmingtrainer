@@ -196,6 +196,38 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_cpp1_04_refactoring")).toBeUndefined();
   });
 
+  it("enables Ruby grade 1, grade 2, and grade 3 and keeps next-lesson routing within each Ruby course", () => {
+    const ruby = languages.find((language) => language.slug === "ruby");
+
+    expect(ruby).toMatchObject({
+      status: "available",
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_ruby_grade_3_foundation" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_ruby_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_ruby_grade_1" }] },
+      ],
+    });
+    expect(findLessonById("lesson_ruby3_01_puts")).toMatchObject({
+      title: "Lesson 01: puts / 出力",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_ruby3_01_puts")?.id).toBe("course_ruby_grade_3_foundation");
+    expect(findNextLesson("lesson_ruby3_01_puts")).toMatchObject({
+      id: "lesson_ruby3_02_variables",
+    });
+    expect(findNextLesson("lesson_ruby3_10_methods")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_ruby2_01_method_return")?.id).toBe("course_ruby_grade_2");
+    expect(findNextLesson("lesson_ruby2_01_method_return")).toMatchObject({
+      id: "lesson_ruby2_02_method_composition",
+    });
+    expect(findNextLesson("lesson_ruby2_06_small_project")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_ruby1_01_bug_fix")?.id).toBe("course_ruby_grade_1");
+    expect(findNextLesson("lesson_ruby1_01_bug_fix")).toMatchObject({
+      id: "lesson_ruby1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_ruby1_04_refactoring")).toBeUndefined();
+  });
+
   it("enables HTML/CSS grade 1, grade 2, and grade 3 and keeps next-lesson routing within each HTML/CSS course", () => {
     const htmlCss = languages.find((language) => language.slug === "html-css");
 

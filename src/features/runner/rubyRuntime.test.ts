@@ -31,6 +31,18 @@ puts "#{name}:#{score}"
     expect(result.stdout).toBe("Aki:82\n");
   });
 
+  it("keeps Ruby interpolation when #{} follows whitespace inside a string", async () => {
+    const result = await runRubySource(
+      `
+name = gets.chomp
+puts "Hello #{name}"
+`,
+      "Mika\n"
+    );
+
+    expect(result.stdout).toBe("Hello Mika\n");
+  });
+
   it("supports simple functions and conditionals for future curriculum grading", async () => {
     const result = await runRubySource(
       `

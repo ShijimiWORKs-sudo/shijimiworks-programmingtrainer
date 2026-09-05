@@ -21,7 +21,7 @@ function normalizeStdin(stdin: string) {
 function stripComments(source: string) {
   return source
     .split("\n")
-    .map((line) => line.replace(/\s+#.*$/, "").replace(/^#.*$/, ""))
+    .map((line) => line.replace(/^#.*$/, ""))
     .join("\n");
 }
 

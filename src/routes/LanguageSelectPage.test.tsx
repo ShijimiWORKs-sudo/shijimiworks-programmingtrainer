@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { LanguageSelectPage } from "./LanguageSelectPage";
 
 describe("LanguageSelectPage", () => {
-  it("links available Python, C++, Java, JavaScript, and HTML/CSS languages", () => {
+  it("links available Python, C++, Java, JavaScript, HTML/CSS, and Ruby languages", () => {
     render(
       <MemoryRouter>
         <LanguageSelectPage />
@@ -16,6 +16,7 @@ describe("LanguageSelectPage", () => {
     expect(screen.getByRole("link", { name: /^JavaAvailable$/ })).toHaveAttribute("href", "/languages/java");
     expect(screen.getByRole("link", { name: /JavaScript/ })).toHaveAttribute("href", "/languages/javascript");
     expect(screen.getByRole("link", { name: /HTML\/CSS/ })).toHaveAttribute("href", "/languages/html-css");
+    expect(screen.getByRole("link", { name: /Ruby/ })).toHaveAttribute("href", "/languages/ruby");
   });
 
   it("keeps future languages unavailable until their curriculum routes are added", () => {
@@ -25,7 +26,7 @@ describe("LanguageSelectPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Ruby")).toBeInTheDocument();
-    expect(screen.queryByRole("link", { name: /Ruby/ })).not.toBeInTheDocument();
+    expect(screen.getByText("Command")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Command/ })).not.toBeInTheDocument();
   });
 });
