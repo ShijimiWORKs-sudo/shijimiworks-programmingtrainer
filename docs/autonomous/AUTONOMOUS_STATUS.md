@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 10:53 +09:00
+Updated: 2026-09-05 11:04 +09:00
 
-Current Phase: Phase 8 / Java - P8-02 complete, Phase 8 PR next
-Current Branch: codex/phase-8-java
-Current Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
+Current Phase: Phase 9 / C++ - P9-01 next
+Current Branch: main
+Current Commit: 4812455b3ebeebc2cfa8a492025a1b26eff3115e
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -268,14 +268,16 @@ Current Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
 - Added Java catalog, route, curriculum page, runtime, content quality, and Chrome/Edge E2E coverage.
 - Verified Java hidden test details stay private in grading UI and hidden Java values are not present in visible project support files.
 - Completed local Phase 8 full gate successfully.
+- Created Phase 8 PR #9 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success for push and pull_request runs, marked it ready, and merged it to `main`.
+- Fast-forwarded local `main` to merge commit `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
 
 ## In Progress
-- Phase 8 PR self-review and merge gate preparation.
+- Preparing Phase 9 branch `codex/phase-9-cpp` for `P9-01 C++ Compile/Run Infrastructure`.
 
 ## Next
-- Commit and push the P8-02 checkpoint.
-- Create or update the Phase 8 PR for `codex/phase-8-java`.
-- Run PR self-review, confirm CI green, mark ready, merge to `main`, and then start Phase 9 / C++.
+- Create `codex/phase-9-cpp` from latest `main`.
+- Implement `P9-01 C++ Compile/Run Infrastructure` behind `LanguageRunner` with sandboxed, swappable browser-contained execution.
+- Add runner/runtime tests and smoke E2E, then run the checkpoint gate.
 
 ## Tests
 - `npm run lint`: passed.
@@ -370,6 +372,7 @@ Current Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
 - P8-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (43 files / 152 tests), build passed with existing Pyodide/chunk warnings and emitted `java.worker`, Chrome/Edge E2E passed (96 tests), audit passed with 0 vulnerabilities.
 - P8-02 targeted checks on 2026-09-05: typecheck passed; Java runtime/content/catalog/route/curriculum tests passed (9 files / 54 tests), Java content quality tests passed (6 files / 22 tests), and Chrome/Edge Java E2E passed after fixing an overly strict Java language-card locator (12 tests).
 - P8-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (48 files / 171 tests), build passed with existing Pyodide/chunk warnings and emitted `java.worker`, Chrome/Edge E2E passed (106 tests), audit passed with 0 vulnerabilities.
+- PR #9 Phase 8 GitHub Actions: `CI / verify` passed on head `9e0f29f02cec47dff13864ecd703fc5107825e3f`; PR merged to `main` as `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

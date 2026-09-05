@@ -238,6 +238,29 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: Phase 8 PR #9 Merge and Phase 9 Start
+Datetime: 2026-09-05 11:04 +09:00
+Commit: 9e0f29f02cec47dff13864ecd703fc5107825e3f
+Target: Mark Phase 8 PR ready, merge Java runner and grade 3-1 curriculum work to `main`, update local `main`, and prepare Phase 9 / C++.
+
+Test Command: PR #9 self-review
+Result: Passed. Reviewed Java runner/content/routes/tests scope, hidden-test detail handling, browser-contained runner boundary, no dependency additions, and no product scope creep.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: GitHub Actions `CI / verify`
+Result: Passed for push run `33937717583` and pull_request run `33937790231` on head `9e0f29f02cec47dff13864ecd703fc5107825e3f`.
+Failure: None.
+Fix: None.
+Retest Result: PR #9 was marked ready and merged into `main` as `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
+
+Test Command: `git pull --ff-only origin main`
+Result: Passed. Local `main` fast-forwarded to `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
