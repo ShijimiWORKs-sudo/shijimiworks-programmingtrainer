@@ -391,6 +391,29 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: Phase 9 PR #10 Merge and Phase 10 Start
+Datetime: 2026-09-05 12:26 +09:00
+Commit: 44614d0dff26b0c379b2870fa680985a97eb80d2
+Target: Mark Phase 9 PR ready, merge C++ runner and grade 3-1 curriculum work to `main`, update local `main`, and prepare Phase 10 / Ruby.
+
+Test Command: PR #10 self-review
+Result: Passed. Reviewed C++ runner/content/routes/tests scope, hidden-test detail handling, browser-contained runner boundary, no dependency additions, and no product scope creep.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: GitHub Actions `CI / verify`
+Result: Passed for push run `33941677544` and pull_request run `33941720561` on head `44614d0dff26b0c379b2870fa680985a97eb80d2`.
+Failure: None.
+Fix: None.
+Retest Result: PR #10 was marked ready and merged into `main` as `cd7b841bd680c0c697e2da2fa7eee36649861e5b`.
+
+Test Command: `git pull --ff-only origin main`
+Result: Passed. Local `main` fast-forwarded to `cd7b841bd680c0c697e2da2fa7eee36649861e5b`.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
