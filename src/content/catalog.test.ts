@@ -132,18 +132,35 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_js1_04_refactoring")).toBeUndefined();
   });
 
-  it("enables HTML/CSS grade 3 with a routeable split preview lesson", () => {
+  it("enables HTML/CSS grade 1, grade 2, and grade 3 and keeps next-lesson routing within each HTML/CSS course", () => {
     const htmlCss = languages.find((language) => language.slug === "html-css");
 
     expect(htmlCss).toMatchObject({
       status: "available",
-      levels: [{ code: "grade-3", status: "available", courses: [{ id: "course_html_css_grade_3_foundation" }] }],
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_html_css_grade_3_foundation" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_html_css_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_html_css_grade_1" }] },
+      ],
     });
     expect(findLessonById("lesson_htmlcss3_01_split_preview")).toMatchObject({
       title: "Lesson 01: split editor preview",
       status: "published",
     });
     expect(findCourseByLessonId("lesson_htmlcss3_01_split_preview")?.id).toBe("course_html_css_grade_3_foundation");
-    expect(findNextLesson("lesson_htmlcss3_01_split_preview")).toBeUndefined();
+    expect(findNextLesson("lesson_htmlcss3_01_split_preview")).toMatchObject({
+      id: "lesson_htmlcss3_02_heading_paragraph",
+    });
+    expect(findNextLesson("lesson_htmlcss3_10_semantic_landing")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_htmlcss2_01_responsive_cards")?.id).toBe("course_html_css_grade_2");
+    expect(findNextLesson("lesson_htmlcss2_01_responsive_cards")).toMatchObject({
+      id: "lesson_htmlcss2_02_accessible_form",
+    });
+    expect(findNextLesson("lesson_htmlcss2_06_small_page")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_htmlcss1_01_bug_fix")?.id).toBe("course_html_css_grade_1");
+    expect(findNextLesson("lesson_htmlcss1_01_bug_fix")).toMatchObject({
+      id: "lesson_htmlcss1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_htmlcss1_04_refactoring")).toBeUndefined();
   });
 });

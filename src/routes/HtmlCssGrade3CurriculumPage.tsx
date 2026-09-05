@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { PageHeader } from "../components/PageHeader";
 import { StatusBadge } from "../components/StatusBadge";
+import type { Course } from "../domain/curriculum";
 import { htmlCssGrade3Course } from "../content/html-css/grade-3";
 import type { LessonProgress } from "../domain/progress";
 import { summarizeChapterProgress, type ChapterProgressStatus } from "../features/progress/chapterProgress";
@@ -14,7 +15,12 @@ const chapterStatusLabels: Record<ChapterProgressStatus, string> = {
   not_started: "Not started",
 };
 
-export function HtmlCssGrade3CurriculumPage() {
+export interface HtmlCssCurriculumViewProps {
+  course: Course;
+  lessonPath: (lessonId: string) => string;
+}
+
+export function HtmlCssCurriculumView({ course, lessonPath }: HtmlCssCurriculumViewProps) {
   const [progressByLessonId, setProgressByLessonId] = useState<Record<string, LessonProgress>>({});
 
   useEffect(() => {
@@ -25,11 +31,11 @@ export function HtmlCssGrade3CurriculumPage() {
 
   return (
     <section className="page-panel">
-      <PageHeader title={htmlCssGrade3Course.title} eyebrow="SCR-030">
-        <p>{htmlCssGrade3Course.description}</p>
+      <PageHeader title={course.title} eyebrow="SCR-030">
+        <p>{course.description}</p>
       </PageHeader>
       <div className="curriculum-list">
-        {htmlCssGrade3Course.chapters.map((chapter) => {
+        {course.chapters.map((chapter) => {
           const summary = summarizeChapterProgress(chapter.lessons, progressByLessonId);
 
           return (
@@ -38,7 +44,7 @@ export function HtmlCssGrade3CurriculumPage() {
                 <p className="eyebrow">Chapter {chapter.order}</p>
                 <h2>{chapter.title}</h2>
                 <p>{chapter.description}</p>
-                <div className="chapter-progress-summary" aria-label={`${htmlCssGrade3Course.title} chapter progress`}>
+                <div className="chapter-progress-summary" aria-label={`${course.title} chapter progress`}>
                   <div className="chapter-progress-heading">
                     <span>{summary.completedLessons} / {summary.totalLessons} Lessons completed</span>
                     <span>{summary.completionPercent}%</span>
@@ -72,7 +78,7 @@ export function HtmlCssGrade3CurriculumPage() {
                     <Link
                       key={lesson.id}
                       className="lesson-row"
-                      to={routePaths.htmlCssGrade3Lesson(lesson.id)}
+                      to={lessonPath(lesson.id)}
                     >
                       <span>{lesson.title}</span>
                       <StatusBadge status={status} />
@@ -91,4 +97,8 @@ export function HtmlCssGrade3CurriculumPage() {
       </div>
     </section>
   );
+}
+
+export function HtmlCssGrade3CurriculumPage() {
+  return <HtmlCssCurriculumView course={htmlCssGrade3Course} lessonPath={routePaths.htmlCssGrade3Lesson} />;
 }

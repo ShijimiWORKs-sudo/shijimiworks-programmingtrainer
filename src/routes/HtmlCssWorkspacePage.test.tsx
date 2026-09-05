@@ -27,11 +27,13 @@ vi.mock("../repositories", () => ({
   },
 }));
 
-function renderWorkspace() {
+function renderWorkspace(initialEntry = "/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview") {
   render(
-    <MemoryRouter initialEntries={["/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview"]}>
+    <MemoryRouter initialEntries={[initialEntry]}>
       <Routes>
         <Route path="/languages/html-css/grade-3/lessons/:lessonId" element={<HtmlCssWorkspacePage />} />
+        <Route path="/languages/html-css/grade-2/lessons/:lessonId" element={<HtmlCssWorkspacePage />} />
+        <Route path="/languages/html-css/grade-1/lessons/:lessonId" element={<HtmlCssWorkspacePage />} />
       </Routes>
     </MemoryRouter>
   );
@@ -82,6 +84,10 @@ describe("HtmlCssWorkspacePage", () => {
     fireEvent.click(await screen.findByRole("button", { name: "採点" }));
 
     expect(await screen.findByLabelText("Grading result")).toHaveTextContent("合格 (5/5)");
+    expect(screen.getByRole("link", { name: "次のLessonへ進む" })).toHaveAttribute(
+      "href",
+      "/languages/html-css/grade-3/lessons/lesson_htmlcss3_02_heading_paragraph"
+    );
     expect(screen.getByText("Public Test #1: pass")).toBeInTheDocument();
     expect(screen.getByText("Hidden Test #3: pass")).toBeInTheDocument();
     expect(screen.getByText("Hidden Test #5: pass")).toBeInTheDocument();
@@ -97,13 +103,23 @@ describe("HtmlCssWorkspacePage", () => {
     expect(repositoryState.recordAttempt).toHaveBeenCalledWith(
       expect.objectContaining({
         lessonId: "lesson_htmlcss3_01_split_preview",
-        exerciseId: "ex_htmlcss3_01_01",
+        exerciseId: "ex_htmlcss3_01_split_preview_01",
         passed: true,
         testResults: expect.arrayContaining([
           expect.objectContaining({ testCaseId: "dom:profile-card-description", passed: true }),
           expect.objectContaining({ testCaseId: "style:profile-card-responsive-padding", passed: true }),
         ]),
       })
+    );
+  });
+
+  it("returns to the owning grade curriculum for grade 2 lessons", async () => {
+    renderWorkspace("/languages/html-css/grade-2/lessons/lesson_htmlcss2_01_responsive_cards");
+
+    expect(await screen.findByRole("heading", { name: "Lesson 01: responsive cards" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute(
+      "href",
+      "/languages/html-css/grade-2"
     );
   });
 });

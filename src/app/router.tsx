@@ -1,5 +1,7 @@
 import { createBrowserRouter, createMemoryRouter, type RouteObject } from "react-router-dom";
 import { AppLayout } from "../components/layout/AppLayout";
+import { HtmlCssGrade1CurriculumPage } from "../routes/HtmlCssGrade1CurriculumPage";
+import { HtmlCssGrade2CurriculumPage } from "../routes/HtmlCssGrade2CurriculumPage";
 import { HtmlCssGrade3CurriculumPage } from "../routes/HtmlCssGrade3CurriculumPage";
 import { HtmlCssLevelSelectPage } from "../routes/HtmlCssLevelSelectPage";
 import { HtmlCssWorkspacePage } from "../routes/HtmlCssWorkspacePage";
@@ -31,6 +33,10 @@ export const appRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "languages", element: <LanguageSelectPage /> },
       { path: "languages/html-css", element: <HtmlCssLevelSelectPage /> },
+      { path: "languages/html-css/grade-1", element: <HtmlCssGrade1CurriculumPage /> },
+      { path: "languages/html-css/grade-1/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
+      { path: "languages/html-css/grade-2", element: <HtmlCssGrade2CurriculumPage /> },
+      { path: "languages/html-css/grade-2/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
       { path: "languages/html-css/grade-3", element: <HtmlCssGrade3CurriculumPage /> },
       { path: "languages/html-css/grade-3/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
       { path: "languages/javascript", element: <JavaScriptLevelSelectPage /> },

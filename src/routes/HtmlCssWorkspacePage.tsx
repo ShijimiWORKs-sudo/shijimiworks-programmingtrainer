@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { routePaths } from "../app/routePaths";
 import { StatusBadge } from "../components/StatusBadge";
-import { findLessonById } from "../content/catalog";
+import { findCourseByLessonId, findLessonById, findNextLesson } from "../content/catalog";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, type GradeResult } from "../features/grading";
 import { gradeHtmlCssExercise } from "../features/htmlCss/htmlCssGrading";
@@ -19,15 +19,30 @@ declare global {
   }
 }
 
+const htmlCssRouteByLevelId: Record<string, { curriculum: string; lesson: (lessonId: string) => string }> = {
+  level_html_css_1: { curriculum: routePaths.htmlCssGrade1, lesson: routePaths.htmlCssGrade1Lesson },
+  level_html_css_2: { curriculum: routePaths.htmlCssGrade2, lesson: routePaths.htmlCssGrade2Lesson },
+  level_html_css_3: { curriculum: routePaths.htmlCssGrade3, lesson: routePaths.htmlCssGrade3Lesson },
+};
+
 export function HtmlCssWorkspacePage() {
   const { lessonId } = useParams();
-  const lesson = lessonId ? findLessonById(lessonId) : undefined;
+  const lesson = useMemo(() => lessonId ? findLessonById(lessonId) : undefined, [lessonId]);
+  const course = useMemo(() => lessonId ? findCourseByLessonId(lessonId) : undefined, [lessonId]);
+  const routeConfig = course ? htmlCssRouteByLevelId[course.levelId] : undefined;
+  const curriculumPath = routeConfig?.curriculum ?? routePaths.htmlCssGrade3;
+  const nextLesson = useMemo(() => lessonId ? findNextLesson(lessonId) : undefined, [lessonId]);
   const exercise = lesson?.exercises[0];
-  const starterFiles = useMemo(() => exercise ? getHtmlCssStarterFiles(exercise) : { html: "", css: "" }, [exercise]);
+  const starterFiles = useMemo(() => {
+    const currentLesson = lessonId ? findLessonById(lessonId) : undefined;
+    const currentExercise = currentLesson?.exercises[0];
+    return currentExercise ? getHtmlCssStarterFiles(currentExercise) : { html: "", css: "" };
+  }, [lessonId]);
   const [files, setFiles] = useState<HtmlCssFiles>(starterFiles);
   const [status, setStatus] = useState<"not_started" | "in_progress" | "passed">("not_started");
   const [gradeResult, setGradeResult] = useState<GradeResult | undefined>();
   const [isGrading, setIsGrading] = useState(false);
+  const [isProgressLoaded, setIsProgressLoaded] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const previewDocument = useMemo(() => buildHtmlCssPreviewDocument(files), [files]);
 
@@ -44,6 +59,7 @@ export function HtmlCssWorkspacePage() {
       if (!lesson || !exercise) {
         return;
       }
+      setIsProgressLoaded(false);
       const storedProgress = await progressRepository.getLessonProgress(localUserId, lesson.id);
       if (!active) {
         return;
@@ -53,6 +69,7 @@ export function HtmlCssWorkspacePage() {
       setStatus(nextProgress.status);
       setGradeResult(undefined);
       setErrorMessage("");
+      setIsProgressLoaded(true);
       if (import.meta.env.DEV) {
         window.__programmingTrainerLoadedHtmlCssLessonId = lesson.id;
       }
@@ -65,7 +82,7 @@ export function HtmlCssWorkspacePage() {
     };
   }, [exercise, lesson, starterFiles]);
 
-  const persistFiles = useCallback(async (nextFiles: HtmlCssFiles) => {
+  async function persistFiles(nextFiles: HtmlCssFiles) {
     if (!lesson) {
       return;
     }
@@ -77,23 +94,27 @@ export function HtmlCssWorkspacePage() {
     });
     setStatus(nextProgress.status);
     await progressRepository.saveLessonProgress(nextProgress);
-  }, [lesson, starterFiles]);
+  }
 
-  const updateFile = useCallback((path: keyof HtmlCssFiles, value: string) => {
+  function updateFile(path: keyof HtmlCssFiles, value: string) {
     const nextFiles = { ...files, [path]: value };
     setFiles(nextFiles);
     setGradeResult(undefined);
     void persistFiles(nextFiles);
-  }, [files, persistFiles]);
+  }
 
   useEffect(() => {
     if (!import.meta.env.DEV) {
       return;
     }
 
+    if (lesson && isProgressLoaded) {
+      window.__programmingTrainerLoadedHtmlCssLessonId = lesson.id;
+    }
     window.__programmingTrainerSetHtmlCssFileValue = (path, value) => {
       setFiles((current) => {
         const nextFiles = { ...current, [path]: value };
+        window.__programmingTrainerHtmlCssFiles = nextFiles;
         setGradeResult(undefined);
         void persistFiles(nextFiles);
         return nextFiles;
@@ -104,15 +125,15 @@ export function HtmlCssWorkspacePage() {
       delete window.__programmingTrainerHtmlCssFiles;
       delete window.__programmingTrainerLoadedHtmlCssLessonId;
     };
-  }, [persistFiles]);
+  });
 
-  const resetFiles = useCallback(() => {
+  function resetFiles() {
     setFiles(starterFiles);
     setGradeResult(undefined);
     void persistFiles(starterFiles);
-  }, [persistFiles, starterFiles]);
+  }
 
-  const gradeCurrentFiles = useCallback(async () => {
+  async function gradeCurrentFiles() {
     if (!lesson || !exercise) {
       return;
     }
@@ -141,13 +162,13 @@ export function HtmlCssWorkspacePage() {
     } finally {
       setIsGrading(false);
     }
-  }, [exercise, files, lesson, starterFiles]);
+  }
 
   if (!lesson || !exercise) {
     return (
       <section className="page-panel">
         <h1>Lesson not found</h1>
-        <Link className="secondary-action inline-action" to={routePaths.htmlCssGrade3}>
+        <Link className="secondary-action inline-action" to={routePaths.htmlCss}>
           Curriculumへ戻る
         </Link>
       </section>
@@ -193,7 +214,7 @@ export function HtmlCssWorkspacePage() {
           </ul>
         </section>
         <div className="completion-actions">
-          <Link className="secondary-action inline-action" to={routePaths.htmlCssGrade3}>
+          <Link className="secondary-action inline-action" to={curriculumPath}>
             Curriculumへ戻る
           </Link>
         </div>
@@ -229,6 +250,13 @@ export function HtmlCssWorkspacePage() {
             <div className={gradeResult.passed ? "pass-banner" : "fail-banner"}>
               {gradeResult.passed ? "合格" : "未合格"} ({gradeResult.passedRequired}/{gradeResult.totalRequired})
             </div>
+            {gradeResult.passed && nextLesson && routeConfig ? (
+              <div className="completion-actions">
+                <Link className="primary-action inline-action" to={routeConfig.lesson(nextLesson.id)}>
+                  次のLessonへ進む
+                </Link>
+              </div>
+            ) : null}
             <div className="test-result-list">
               {gradeResult.results.map((result) => (
                 <article key={result.testCaseId} className="test-result-row">

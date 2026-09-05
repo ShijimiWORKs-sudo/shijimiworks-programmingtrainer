@@ -549,6 +549,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P7-04 HTML/CSS Grade 3-1 Curriculum
+Datetime: 2026-09-05 09:22 +09:00
+Commit: pending P7-04 checkpoint commit
+Target: Complete HTML/CSS grade 3, 2, and 1 routeable curricula, course-aware HTML/CSS workspace navigation, progress display, preview persistence, and Chrome/Edge coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression after the E2E hook fix.
+
+Test Command: `npm test -- --run src/content/html-css/grade-3/curriculum.test.ts src/content/html-css/grade-2/curriculum.test.ts src/content/html-css/grade-1/curriculum.test.ts src/content/catalog.test.ts src/routes/HtmlCssLevelSelectPage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx src/routes/HtmlCssGrade2CurriculumPage.test.tsx src/routes/HtmlCssGrade1CurriculumPage.test.tsx src/routes/HtmlCssWorkspacePage.test.tsx src/features/htmlCss/htmlCssGrading.test.ts src/features/htmlCss/htmlStyleValidator.test.ts src/features/htmlCss/htmlDomValidator.test.ts`
+Result: Initially failed, then passed, 12 files / 31 tests.
+Failure: The workspace test expected the pre-helper exercise id `ex_htmlcss3_01_01`, and starter-grading checks exposed CSSOM normalization differences for `background`, `border`, and hex color requirements.
+Fix: Updated the expected helper-generated exercise id and changed unstable shorthand/color style requirements to stable declarations such as `padding` and `font-weight`.
+Retest Result: Passed, 12 files / 31 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed after lint-driven hook refactor, then passed, 14 tests.
+Failure: The dev-only HTML/CSS edit hook exposed a setter before async progress recovery completed; E2E edits could be overwritten by the recovered starter snapshot, leaving preview text unchanged.
+Fix: Added `isProgressLoaded` state, only marks a lesson loaded after progress recovery, and updates the dev HTML/CSS file snapshot immediately inside the hook setter.
+Retest Result: Passed, 14 tests.
+
+Test Command: `npm run lint`
+Result: Initially failed on React Compiler `preserve-manual-memoization` for catalog-derived lesson/exercise dependencies; final result passed.
+Failure: Manual memoization with mutable catalog objects could not be preserved by the compiler rule.
+Fix: Made lesson/course/next lookup ID-based and removed unnecessary callback memoization in the HTML/CSS Workspace.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 41 files / 144 tests.
+Failure: None after targeted fixes.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial full run failed in P7 preview edit/reload tests because of the dev hook recovery race; final full run passed, 94 tests.
+Failure: Chrome/Edge P7 tests could edit before progress recovery completed or wait on stale dev snapshots.
+Fix: Same `isProgressLoaded` and immediate snapshot fix described above.
+Retest Result: Passed, 94 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden detail, sandbox, and dangerous API scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|<script|onclick|eval\(|child_process|node:fs|profile-card-description|profile-card-responsive-padding|cards-responsive|spec-badge-weight|test-summary-action|refactor-common-radius" src tests docs/autonomous`
+Result: Hidden requirement details appear in curriculum metadata and tests only; grading UI keeps hidden results generic. The preview iframe remains `sandbox=""`, no `allow-scripts` was added, and no new host filesystem, child-process, or eval usage was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64

@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { validateProjectExercise } from "../../../features/project/projectExercise";
 import { getHtmlCssStarterFiles } from "../../../features/htmlCss/htmlCssProject";
+import { gradeHtmlCssExercise } from "../../../features/htmlCss/htmlCssGrading";
 import { htmlCssGrade3Course } from "./curriculum";
 
 describe("html css grade 3 curriculum seed", () => {
-  it("publishes a routeable split preview lesson with editable html and css files", () => {
+  it("publishes ten routeable lessons with editable html and css files", () => {
     const lesson = htmlCssGrade3Course.chapters[0].lessons[0];
     const exercise = lesson.exercises[0];
 
@@ -14,6 +15,8 @@ describe("html css grade 3 curriculum seed", () => {
       levelId: "level_html_css_3",
       title: "HTML/CSS 3級",
     });
+    expect(htmlCssGrade3Course.chapters[0].lessons).toHaveLength(10);
+    expect(htmlCssGrade3Course.chapters[0].lessons.every((entry) => entry.status === "published")).toBe(true);
     expect(lesson).toMatchObject({
       id: "lesson_htmlcss3_01_split_preview",
       title: "Lesson 01: split editor preview",
@@ -40,5 +43,22 @@ describe("html css grade 3 curriculum seed", () => {
     expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
     expect(getHtmlCssStarterFiles(exercise).css).toContain(".profile-card");
     expect(getHtmlCssStarterFiles(exercise).css).toContain("@media (max-width: 700px)");
+  });
+
+  it("keeps each lesson gradable with public and hidden DOM/style requirements", () => {
+    for (const lesson of htmlCssGrade3Course.chapters[0].lessons) {
+      const exercise = lesson.exercises[0];
+
+      expect(exercise.domRequirements?.some((requirement) => requirement.visibility === "public")).toBe(true);
+      expect(exercise.domRequirements?.some((requirement) => requirement.visibility === "hidden")).toBe(true);
+      expect(exercise.styleRequirements?.some((requirement) => requirement.visibility === "public")).toBe(true);
+      expect(exercise.styleRequirements?.some((requirement) => requirement.visibility === "hidden")).toBe(true);
+      expect(exercise.project ? validateProjectExercise(exercise.project) : ["missing project"]).toEqual([]);
+      expect(gradeHtmlCssExercise(exercise, getHtmlCssStarterFiles(exercise))).toMatchObject({
+        passed: true,
+        totalRequired: 5,
+        passedRequired: 5,
+      });
+    }
   });
 });

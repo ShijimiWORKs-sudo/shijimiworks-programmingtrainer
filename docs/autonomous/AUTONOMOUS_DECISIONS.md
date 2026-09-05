@@ -191,3 +191,11 @@ Decision: Parse learner CSS through a temporary `style` element and inspect CSSO
 Reason: CSSOM parsing validates the CSS source with browser semantics, keeps grading independent from preview execution, avoids new dependencies, and preserves the `sandbox=""` preview boundary.
 Alternatives: Use a new CSS parser dependency; inspect computed styles inside the preview iframe; validate CSS with string includes only. These were rejected because they add dependency surface, couple grading to iframe access, or make style validation too brittle.
 Risk: CSSOM declaration checks validate authored declarations, not every cascade/computed-style outcome. Future responsive tasks may need viewport-specific computed-style assertions, but this checkpoint establishes the safe requirement model.
+
+## 2026-09-05: HTML/CSS Grade 3-1 Uses Static Project Seeds
+Date: 2026-09-05
+Context: P7-04 requires complete HTML/CSS grade 3, 2, and 1 curricula. The existing HTML/CSS workspace already supports split `index.html` / `styles.css` editing, sandbox preview, DOM validation, style validation, progress persistence, and attempts.
+Decision: Add shared static curriculum seed helpers and represent each HTML/CSS lesson as one project-backed split-editor exercise with DOM and style requirements. Grade 3 mirrors beginner fundamentals, Grade 2 focuses on layout/components, and Grade 1 mirrors practical maintenance tasks.
+Reason: This completes the learnable HTML/CSS path while preserving the existing safe preview/grading architecture and avoiding a new editor, runner, dependency, or persistence migration during P7-04.
+Alternatives: Build a separate HTML/CSS multi-exercise editor now; add screenshot or computed-style grading; leave Grade 2/1 as planned placeholders. These were rejected because they either broaden the checkpoint or fail the Phase 7 curriculum acceptance.
+Risk: Current style validation checks authored declarations through CSSOM rather than full visual screenshot equivalence. Future content QA or release hardening can add richer visual assertions without changing these lesson routes.

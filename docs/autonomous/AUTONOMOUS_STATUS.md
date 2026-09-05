@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 07:59 +09:00
+Updated: 2026-09-05 09:22 +09:00
 
-Current Phase: Phase 7 / HTML/CSS - P7-03 Style Validator completed; P7-04 planning
+Current Phase: Phase 7 / HTML/CSS - P7-04 HTML/CSS Grade 3-1 Curriculum completed; Phase 7 PR checkpoint next
 Current Branch: codex/phase-7-html-css
-Current Commit: 84ef137a39900b9148bc3005f5e32567f023d8fd
+Current Commit: pending P7-04 checkpoint commit
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -235,12 +235,22 @@ Current Commit: 84ef137a39900b9148bc3005f5e32567f023d8fd
 - Added public style and hidden responsive style requirements to the HTML/CSS 3級 lesson.
 - Updated result explanations so DOM and CSS failures use beginner-friendly messages without exposing hidden selectors or media-query details.
 - Verified CSS/style grading, responsive requirement coverage, hidden style detail suppression, preview persistence, and full Chrome/Edge regression.
+- Completed `P7-04 HTML/CSS Grade 3-1 Curriculum`.
+- Added shared HTML/CSS curriculum seed helpers for project-backed split HTML/CSS lessons.
+- Expanded HTML/CSS 3級 from 1 preview lesson to 10 published lessons covering structure, links, lists, images, box model, flex, forms, responsive rules, and semantic page composition.
+- Added routeable HTML/CSS 2級 with 6 published layout/component lessons.
+- Added routeable HTML/CSS 1級 with 4 practical maintenance lessons for bug fix, specification change, test-oriented repair, and refactoring.
+- Enabled HTML/CSS 1級/2級/3級 level selection, curriculum routes, and lesson workspace routes.
+- Made the HTML/CSS Curriculum view reusable across grades and kept chapter progress display per course.
+- Made the HTML/CSS Workspace course-aware for Curriculum return and next-Lesson navigation while preserving sandbox preview, DOM/style grading, hidden-detail suppression, and lastCode persistence.
+- Fixed the dev-only HTML/CSS E2E edit hook so edits wait for progress recovery before setting files, preventing reload races in Chrome/Edge full regression.
+- Completed the local P7-04 full gate successfully.
 
 ## In Progress
-- `P7-04 HTML/CSS Grade 3-1 Curriculum` planning.
+- Phase 7 PR checkpoint preparation.
 
 ## Next
-- Start `P7-04 HTML/CSS Grade 3-1 Curriculum`: expand HTML/CSS lessons across 3級, 2級, and 1級 while preserving preview, DOM/style validation, and progress behavior.
+- Commit and push P7-04, create or update Phase 7 PR, self-review, confirm CI green, mark ready, merge to `main`, then start Phase 8 Java.
 
 ## Tests
 - `npm run lint`: passed.
@@ -328,6 +338,8 @@ Current Commit: 84ef137a39900b9148bc3005f5e32567f023d8fd
 - P7-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (35 files / 129 tests), build passed with existing Pyodide/chunk warnings, initial Chrome/Edge E2E passed 89/90 with one existing Edge Python 1級 timing miss, targeted Edge retest passed, final full Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
 - P7-03 targeted checks on 2026-09-05: typecheck passed; style validator, combined HTML/CSS grader, DOM validator, curriculum, explanation, and workspace tests initially failed one duplicate hidden-detail assertion after adding a second hidden result, then passed (6 files / 16 tests); initial P7 Chrome/Edge E2E failed because hidden leak assertion searched the whole page including the CSS editor, then passed after scoping to Grading result (10 tests).
 - P7-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (37 files / 133 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
+- P7-04 targeted checks on 2026-09-05: initial related unit/component tests failed on old HTML/CSS exercise ID expectations and unstable CSS shorthand/hex CSSOM expectations; fixed by updating expectations and using stable style requirements. Related tests then passed (12 files / 31 tests). Initial full E2E exposed a dev-only HTML/CSS edit hook race where the loaded marker could be set before progress recovery; fixed with an explicit progress-loaded state and immediate dev snapshot update. Targeted Chrome/Edge P7 E2E then passed (14 tests).
+- P7-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (41 files / 144 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (94 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

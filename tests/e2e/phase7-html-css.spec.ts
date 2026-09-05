@@ -2,11 +2,12 @@ import { expect, test, type Page } from "@playwright/test";
 
 type HtmlCssFilePath = "html" | "css";
 
-async function setHtmlCssFileValue(page: Page, path: HtmlCssFilePath, value: string) {
+async function setHtmlCssFileValue(page: Page, lessonId: string, path: HtmlCssFilePath, value: string) {
   await page.waitForFunction(
-    () =>
-      window.__programmingTrainerLoadedHtmlCssLessonId === "lesson_htmlcss3_01_split_preview" &&
-      typeof window.__programmingTrainerSetHtmlCssFileValue === "function"
+    (expectedLessonId) =>
+      window.__programmingTrainerLoadedHtmlCssLessonId === expectedLessonId &&
+      typeof window.__programmingTrainerSetHtmlCssFileValue === "function",
+    lessonId
   );
   await page.evaluate(
     ([filePath, nextValue]) => {
@@ -30,12 +31,18 @@ test("opens the HTML/CSS grade 3 curriculum from language select", async ({ page
   await page.getByRole("link", { name: /HTML\/CSS/ }).click();
   await expect(page.getByRole("heading", { name: "HTML/CSS Level Select" })).toBeVisible();
 
+  await expect(page.getByRole("link", { name: /1級/ })).toHaveAttribute("href", "/languages/html-css/grade-1");
+  await expect(page.getByRole("link", { name: /2級/ })).toHaveAttribute("href", "/languages/html-css/grade-2");
   await page.getByRole("link", { name: /3級/ }).click();
   await expect(page.getByRole("heading", { name: "HTML/CSS 3級", exact: true })).toBeVisible();
-  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("0 / 1 Lessons completed");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("0 / 10 Lessons completed");
   await expect(page.getByRole("link", { name: /Lesson 01: split editor preview/ })).toHaveAttribute(
     "href",
     "/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview"
+  );
+  await expect(page.getByRole("link", { name: /Lesson 10: semantic landing/ })).toHaveAttribute(
+    "href",
+    "/languages/html-css/grade-3/lessons/lesson_htmlcss3_10_semantic_landing"
   );
 });
 
@@ -47,9 +54,10 @@ test("updates the split editor preview with HTML and CSS changes", async ({ page
   await expect(page.getByLabel("CSS code editor")).toBeVisible();
   await expect(page.getByTitle("HTML/CSS Preview")).toHaveAttribute("sandbox", "");
 
-  await setHtmlCssFileValue(page, "html", "<main><h1>Preview Updated</h1><p>Live split editor</p></main>");
+  await setHtmlCssFileValue(page, "lesson_htmlcss3_01_split_preview", "html", "<main><h1>Preview Updated</h1><p>Live split editor</p></main>");
   await setHtmlCssFileValue(
     page,
+    "lesson_htmlcss3_01_split_preview",
     "css",
     "body { background: rgb(240, 250, 255); } h1 { color: rgb(23, 107, 135); }"
   );
@@ -67,6 +75,7 @@ test("keeps preview scripts and inline handlers out of app execution", async ({ 
 
   await setHtmlCssFileValue(
     page,
+    "lesson_htmlcss3_01_split_preview",
     "html",
     '<script>window.top.__htmlCssPreviewLeak = "script";</script><h1>Safe Preview</h1><button onclick="window.top.__htmlCssPreviewLeak = \'click\'">Click</button>'
   );
@@ -90,6 +99,10 @@ test("grades HTML DOM requirements and persists completion", async ({ page }) =>
   await page.getByRole("button", { name: "採点" }).click();
 
   await expect(page.getByLabel("Grading result")).toContainText("合格 (5/5)");
+  await expect(page.getByRole("link", { name: "次のLessonへ進む" })).toHaveAttribute(
+    "href",
+    "/languages/html-css/grade-3/lessons/lesson_htmlcss3_02_heading_paragraph"
+  );
   await expect(page.getByText("Public Test #1: pass")).toBeVisible();
   await expect(page.getByText("Hidden Test #3: pass")).toBeVisible();
   await expect(page.getByText("Hidden Test #5: pass")).toBeVisible();
@@ -97,17 +110,17 @@ test("grades HTML DOM requirements and persists completion", async ({ page }) =>
   await expect(page.getByLabel("Grading result").getByText("(max-width: 700px)")).toHaveCount(0);
 
   await page.goto("/languages/html-css/grade-3");
-  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 1 Lessons completed");
-  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("100%");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 10 Lessons completed");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("10%");
   await page.reload();
-  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 1 Lessons completed");
+  await expect(page.getByLabel("HTML/CSS 3級 chapter progress")).toContainText("1 / 10 Lessons completed");
 });
 
 test("restores edited HTML and CSS after reload", async ({ page }) => {
   await page.goto("/languages/html-css/grade-3/lessons/lesson_htmlcss3_01_split_preview");
 
-  await setHtmlCssFileValue(page, "html", "<section><h1>Reloaded Preview</h1></section>");
-  await setHtmlCssFileValue(page, "css", "h1 { color: rgb(140, 28, 64); }");
+  await setHtmlCssFileValue(page, "lesson_htmlcss3_01_split_preview", "html", "<section><h1>Reloaded Preview</h1></section>");
+  await setHtmlCssFileValue(page, "lesson_htmlcss3_01_split_preview", "css", "h1 { color: rgb(140, 28, 64); }");
   await expect.poll(() => getPreviewText(page)).toContain("Reloaded Preview");
 
   await page.reload();
@@ -123,4 +136,38 @@ test("restores edited HTML and CSS after reload", async ({ page }) => {
       page.frameLocator('iframe[title="HTML/CSS Preview"]').locator("h1").evaluate((heading) => getComputedStyle(heading).color)
     )
     .toBe("rgb(140, 28, 64)");
+});
+
+test("opens and grades HTML/CSS grade 2 lessons", async ({ page }) => {
+  await page.goto("/languages/html-css/grade-2");
+
+  await expect(page.getByRole("heading", { name: "HTML/CSS 2級", exact: true })).toBeVisible();
+  await expect(page.getByLabel("HTML/CSS 2級 chapter progress")).toContainText("0 / 6 Lessons completed");
+  await page.getByRole("link", { name: /Lesson 01: responsive cards/ }).click();
+  await expect(page.getByRole("heading", { name: "Lesson 01: responsive cards" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/html-css/grade-2");
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格 (5/5)");
+  await expect(page.getByRole("link", { name: "次のLessonへ進む" })).toHaveAttribute(
+    "href",
+    "/languages/html-css/grade-2/lessons/lesson_htmlcss2_02_accessible_form"
+  );
+});
+
+test("opens and grades HTML/CSS grade 1 lessons", async ({ page }) => {
+  await page.goto("/languages/html-css/grade-1");
+
+  await expect(page.getByRole("heading", { name: "HTML/CSS 1級", exact: true })).toBeVisible();
+  await expect(page.getByLabel("HTML/CSS 1級 chapter progress")).toContainText("0 / 4 Lessons completed");
+  await page.getByRole("link", { name: /Lesson 01: bug fix/ }).click();
+  await expect(page.getByRole("heading", { name: "Lesson 01: bug fix" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Curriculumへ戻る" })).toHaveAttribute("href", "/languages/html-css/grade-1");
+
+  await page.getByRole("button", { name: "採点" }).click();
+  await expect(page.getByLabel("Grading result")).toContainText("合格 (5/5)");
+  await expect(page.getByRole("link", { name: "次のLessonへ進む" })).toHaveAttribute(
+    "href",
+    "/languages/html-css/grade-1/lessons/lesson_htmlcss1_02_specification_change"
+  );
 });

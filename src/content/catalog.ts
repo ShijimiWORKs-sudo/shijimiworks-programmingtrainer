@@ -1,4 +1,6 @@
 import type { Language } from "../domain/curriculum";
+import { htmlCssGrade1Course } from "./html-css/grade-1";
+import { htmlCssGrade2Course } from "./html-css/grade-2";
 import { htmlCssGrade3Course } from "./html-css/grade-3";
 import { javascriptGrade1Course } from "./javascript/grade-1";
 import { javascriptGrade2Course } from "./javascript/grade-2";
@@ -98,6 +100,24 @@ export const languages: Language[] = [
         order: 1,
         status: "available",
         courses: [htmlCssGrade3Course],
+      },
+      {
+        id: "level_html_css_2",
+        languageId: "lang_html_css",
+        code: "grade-2",
+        name: "2級",
+        order: 2,
+        status: "available",
+        courses: [htmlCssGrade2Course],
+      },
+      {
+        id: "level_html_css_1",
+        languageId: "lang_html_css",
+        code: "grade-1",
+        name: "1級",
+        order: 3,
+        status: "available",
+        courses: [htmlCssGrade1Course],
       },
     ],
   },
