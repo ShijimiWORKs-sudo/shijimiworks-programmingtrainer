@@ -8,6 +8,9 @@ function routeForLanguage(slug: string) {
   if (slug === "python") {
     return routePaths.python;
   }
+  if (slug === "cpp") {
+    return routePaths.cpp;
+  }
   if (slug === "java") {
     return routePaths.java;
   }

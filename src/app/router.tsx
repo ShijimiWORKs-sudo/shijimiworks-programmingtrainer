@@ -1,5 +1,9 @@
 import { createBrowserRouter, createMemoryRouter, type RouteObject } from "react-router-dom";
 import { AppLayout } from "../components/layout/AppLayout";
+import { CppGrade1CurriculumPage } from "../routes/CppGrade1CurriculumPage";
+import { CppGrade2CurriculumPage } from "../routes/CppGrade2CurriculumPage";
+import { CppGrade3CurriculumPage } from "../routes/CppGrade3CurriculumPage";
+import { CppLevelSelectPage } from "../routes/CppLevelSelectPage";
 import { HtmlCssGrade1CurriculumPage } from "../routes/HtmlCssGrade1CurriculumPage";
 import { HtmlCssGrade2CurriculumPage } from "../routes/HtmlCssGrade2CurriculumPage";
 import { HtmlCssGrade3CurriculumPage } from "../routes/HtmlCssGrade3CurriculumPage";
@@ -36,6 +40,13 @@ export const appRoutes: RouteObject[] = [
     children: [
       { index: true, element: <HomePage /> },
       { path: "languages", element: <LanguageSelectPage /> },
+      { path: "languages/cpp", element: <CppLevelSelectPage /> },
+      { path: "languages/cpp/grade-1", element: <CppGrade1CurriculumPage /> },
+      { path: "languages/cpp/grade-1/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/cpp/grade-2", element: <CppGrade2CurriculumPage /> },
+      { path: "languages/cpp/grade-2/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/cpp/grade-3", element: <CppGrade3CurriculumPage /> },
+      { path: "languages/cpp/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/html-css", element: <HtmlCssLevelSelectPage /> },
       { path: "languages/html-css/grade-1", element: <HtmlCssGrade1CurriculumPage /> },
       { path: "languages/html-css/grade-1/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
