@@ -3,6 +3,7 @@ import type { TestCaseGradeResult } from "./GradingEngine";
 export function explainTestCaseResult(result: TestCaseGradeResult): string {
   const isDomResult = result.testCaseId.startsWith("dom:");
   const isStyleResult = result.testCaseId.startsWith("style:");
+  const isCommandFileResult = result.testCaseId.startsWith("cmdfs:");
 
   if (result.visibility === "hidden") {
     return result.passed
@@ -11,6 +12,8 @@ export function explainTestCaseResult(result: TestCaseGradeResult): string {
         ? "非公開DOM条件の詳細は表示されません。公開条件以外のHTML構造も満たしているか見直してください。"
         : isStyleResult
           ? "非公開CSS条件の詳細は表示されません。公開条件以外の見た目やresponsive条件も満たしているか見直してください。"
+        : isCommandFileResult
+          ? "非公開ファイル条件の詳細は表示されません。公開条件以外の仮想ファイル操作も満たしているか見直してください。"
         : "非公開テストの詳細は表示されません。公開テスト以外の入力でも同じ条件を満たすか見直してください。";
   }
 
@@ -24,6 +27,12 @@ export function explainTestCaseResult(result: TestCaseGradeResult): string {
     return result.passed
       ? "CSSが条件を満たしています。"
       : "CSSが条件と一致していません。selector、property、値、media queryを確認してください。";
+  }
+
+  if (isCommandFileResult) {
+    return result.passed
+      ? "仮想ファイルシステムが条件を満たしています。"
+      : "仮想ファイルシステムが条件と一致していません。ファイル名、保存場所、内容、削除後の状態を確認してください。";
   }
 
   if (result.passed) {

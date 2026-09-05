@@ -5,11 +5,12 @@ import { StatusBadge } from "../components/StatusBadge";
 import { findCourseByLessonId, findLessonById, findNextLesson } from "../content/catalog";
 import type { Course } from "../domain/curriculum";
 import type { AppSettings, LessonProgress } from "../domain/progress";
+import { createVirtualTerminalStateFromEnvironment, gradeCommandVirtualFileSystemExercise } from "../features/commandSimulator";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, RubyRunner, type LanguageRunner, type RunResult } from "../features/runner";
+import { CommandSimulatorRunner, CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, RubyRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -21,6 +22,9 @@ declare global {
 }
 
 function createRunnerForCourse(course: Course | undefined): LanguageRunner {
+  if (course?.languageId === "lang_command") {
+    return new CommandSimulatorRunner();
+  }
   if (course?.languageId === "lang_cpp") {
     return new CppRunner();
   }
@@ -34,6 +38,9 @@ function createRunnerForCourse(course: Course | undefined): LanguageRunner {
 }
 
 function editorLanguageForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_command") {
+    return "bat";
+  }
   if (course?.languageId === "lang_cpp") {
     return "cpp";
   }
@@ -47,6 +54,9 @@ function editorLanguageForCourse(course: Course | undefined) {
 }
 
 function runtimeLabelForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_command") {
+    return "Command";
+  }
   if (course?.languageId === "lang_cpp") {
     return "C++";
   }
@@ -60,6 +70,15 @@ function runtimeLabelForCourse(course: Course | undefined) {
 }
 
 function curriculumPathForCourse(course: Course | undefined) {
+  if (course?.levelId === "level_command_1") {
+    return routePaths.commandGrade1;
+  }
+  if (course?.levelId === "level_command_2") {
+    return routePaths.commandGrade2;
+  }
+  if (course?.levelId === "level_command_3") {
+    return routePaths.commandGrade3;
+  }
   if (course?.levelId === "level_cpp_1") {
     return routePaths.cppGrade1;
   }
@@ -106,6 +125,15 @@ function curriculumPathForCourse(course: Course | undefined) {
 }
 
 function lessonPathForCourse(course: Course | undefined, lessonId: string) {
+  if (course?.levelId === "level_command_1") {
+    return routePaths.commandGrade1Lesson(lessonId);
+  }
+  if (course?.levelId === "level_command_2") {
+    return routePaths.commandGrade2Lesson(lessonId);
+  }
+  if (course?.levelId === "level_command_3") {
+    return routePaths.commandGrade3Lesson(lessonId);
+  }
   if (course?.levelId === "level_cpp_1") {
     return routePaths.cppGrade1Lesson(lessonId);
   }
@@ -280,7 +308,10 @@ export function LessonWorkspacePage() {
     try {
       await runnerRef.current.initialize();
       setRuntimeState("running");
-      const result = await runnerRef.current.run({ sourceCode: code, stdin, timeoutMs: exercise.timeoutMs });
+      const runner = exercise.gradingMode === "command_virtual_fs"
+        ? new CommandSimulatorRunner(createVirtualTerminalStateFromEnvironment(exercise.commandEnvironment))
+        : runnerRef.current;
+      const result = await runner.run({ sourceCode: code, stdin, timeoutMs: exercise.timeoutMs });
       setRunResult(result);
       const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);
       const nextProgress = touchExerciseProgress(progress, exercise.id, exercise.starterCode, {
@@ -312,7 +343,9 @@ export function LessonWorkspacePage() {
     try {
       await runnerRef.current.initialize();
       setRuntimeState("grading");
-      const grade = await new GradingEngine(runnerRef.current).gradeExercise(exercise, code);
+      const grade = exercise.gradingMode === "command_virtual_fs"
+        ? gradeCommandVirtualFileSystemExercise(exercise, code)
+        : await new GradingEngine(runnerRef.current).gradeExercise(exercise, code);
       const summaryResult = createGradeSummaryResult(grade);
       const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);
       const baseProgress = touchExerciseProgress(progress, exercise.id, exercise.starterCode, {

@@ -228,6 +228,38 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_ruby1_04_refactoring")).toBeUndefined();
   });
 
+  it("enables Command grade 1, grade 2, and grade 3 and keeps next-lesson routing within each Command course", () => {
+    const command = languages.find((language) => language.slug === "command");
+
+    expect(command).toMatchObject({
+      status: "available",
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_command_grade_3" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_command_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_command_grade_1" }] },
+      ],
+    });
+    expect(findLessonById("lesson_command3_01_create_files")).toMatchObject({
+      title: "Lesson 01: create files",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_command3_01_create_files")?.id).toBe("course_command_grade_3");
+    expect(findNextLesson("lesson_command3_01_create_files")).toMatchObject({
+      id: "lesson_command3_02_move_files",
+    });
+    expect(findNextLesson("lesson_command3_10_file_workflow")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_command2_01_backup_workflow")?.id).toBe("course_command_grade_2");
+    expect(findNextLesson("lesson_command2_01_backup_workflow")).toMatchObject({
+      id: "lesson_command2_02_rename_cleanup",
+    });
+    expect(findNextLesson("lesson_command2_06_small_cleanup_project")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_command1_01_bug_fix_cleanup")?.id).toBe("course_command_grade_1");
+    expect(findNextLesson("lesson_command1_01_bug_fix_cleanup")).toMatchObject({
+      id: "lesson_command1_02_spec_change_release",
+    });
+    expect(findNextLesson("lesson_command1_04_refactor_archive")).toBeUndefined();
+  });
+
   it("enables HTML/CSS grade 1, grade 2, and grade 3 and keeps next-lesson routing within each HTML/CSS course", () => {
     const htmlCss = languages.find((language) => language.slug === "html-css");
 

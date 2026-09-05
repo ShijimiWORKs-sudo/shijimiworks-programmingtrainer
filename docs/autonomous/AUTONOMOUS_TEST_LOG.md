@@ -1,5 +1,76 @@
 # Programming Trainer Autonomous Test Log
 
+## 2026-09-05 Checkpoint: P11-03 Command Grade 3-1 Curriculum
+Datetime: 2026-09-05 16:55 +09:00
+Commit: 1abc699b0a7f2b7b0d50627ee55f42a0f8bc1244
+Target: Publish the Windows Command grade 3, grade 2, and grade 1 curricula, route them from Language Select, connect Lesson Workspace run/grade to the virtual terminal/virtual filesystem model, and verify progress persistence plus hidden detail suppression.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/content/command/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/CommandLevelSelectPage.test.tsx src/routes/CommandGrade3CurriculumPage.test.tsx src/routes/CommandGrade2CurriculumPage.test.tsx src/routes/CommandGrade1CurriculumPage.test.tsx src/app/App.test.tsx src/features/commandSimulator/commandGrading.test.ts src/features/commandSimulator/virtualTerminal.test.ts src/features/runner/CommandSimulatorRunner.test.ts`
+Result: Initially failed 88 / 89, then passed 11 files / 89 tests.
+Failure: Language Select displayed Command as available but still rendered it as a disabled card because `routeForLanguage` did not include the new `command` slug.
+Fix: Added `routePaths.command` handling to `LanguageSelectPage`.
+Retest Result: Passed, 11 files / 89 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase11-command.spec.ts`
+Result: Initially failed 8 / 10, then passed 10 / 10.
+Failure: The Command Lesson 1 run assertion expected stdout from `mkdir` and `echo > file`, but those successful commands intentionally produce empty stdout in the virtual terminal.
+Fix: Changed the E2E run script to add `dir reports` after the filesystem mutations and asserted the actual virtual directory listing output.
+Retest Result: Passed, 10 tests across Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 70 files / 258 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 140 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|cmd.exe|powershell.exe" src/features/commandSimulator src/features/runner/CommandSimulatorRunner.ts src/content/command src/routes src/app tests/e2e/phase11-command.spec.ts docs/autonomous`
+Result: Reviewed expected existing dev-only E2E hooks and historical autonomous log entries. P11-03 added no host OS execution, host filesystem access, network API, new dependency, `allow-scripts`, or real `cmd.exe` / PowerShell execution path.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Hidden detail and scope self-review scan with `rg -n "Hidden Test|hidden|summary.txt has the requested content|todo.txt is absent|plan.txt remains|summery.txt is gone|Command|PowerShell|Coming soon" src/content/command src/routes tests/e2e src/content/catalog.ts src/features/grading src/features/commandSimulator`
+Result: Hidden Command requirement descriptions appear in curriculum metadata and tests that assert they are not visible in the Grading result. Command is available and PowerShell remains the only planned language. Scope matches P11-03.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: Phase 1 Final Hardening Initial State
 Datetime: 2026-09-04
 Commit: 94ceba5c2c0768040b3bfaf927f0029c5a5323c7
@@ -9,6 +80,142 @@ Result: Superseded by completed checkpoint run below.
 Failure: None recorded at initial state.
 Fix: None at initial state.
 Retest Result: See completed checkpoint run below.
+
+## 2026-09-05 Checkpoint: P11-01 Virtual Terminal Foundation
+Datetime: 2026-09-05 15:16 +09:00
+Commit: 212452ee71df57bc1bc9bc093d13f3fe0edbe7b0
+Target: Add Windows Command virtual terminal foundation with command execution restricted to an in-memory virtual environment.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/commandSimulator/virtualTerminal.test.ts src/features/runner/CommandSimulatorRunner.test.ts src/routes/LanguageSelectPage.test.tsx`
+Result: Passed, 3 files / 11 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by expanded targeted and full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase11-command.spec.ts`
+Result: Passed, 2 tests.
+Failure: One intermediate rerun failed in Edge with `ERR_CONNECTION_REFUSED` because two Playwright E2E commands were mistakenly running in parallel against the same dev server.
+Fix: No code fix needed for the server conflict; reran the P11 smoke E2E by itself.
+Retest Result: Passed, 2 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/routes/HtmlCssWorkspacePage.test.tsx src/features/commandSimulator/virtualTerminal.test.ts src/features/runner/CommandSimulatorRunner.test.ts src/routes/LanguageSelectPage.test.tsx`
+Result: Passed, 4 files / 16 tests.
+Failure: None.
+Fix: Stabilized the HTML/CSS dev-only edit hook after full E2E exposed an existing render cleanup race.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 64 files / 233 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P11-02 Virtual Filesystem Tasks
+Datetime: 2026-09-05 15:58 +09:00
+Commit: 4586c04a514ba3574aeba2a14c506aa5b8aca348
+Target: Add safe Command file operation exercises and grading that validate create, move/copy, and delete outcomes only in the virtual filesystem.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/commandSimulator/virtualTerminal.test.ts src/features/commandSimulator/commandGrading.test.ts src/content/command/curriculum.test.ts src/features/grading/explain.test.ts`
+Result: Passed, 4 files / 20 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase11-command.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 66 files / 243 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 132 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home|cmd.exe|powershell.exe" src/features/commandSimulator src/content/command src/domain/curriculum.ts src/features/grading/explain.ts tests/e2e/phase11-command.spec.ts docs/autonomous`
+Result: Reviewed expected virtual `C:\Users\student` paths, host-looking path tests, existing docs references, and no new host OS execution, host filesystem access, dependency, `allow-scripts`, or network API.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initially failed 131 / 132, then passed 132 / 132.
+Failure: First full rerun exposed an existing Chrome Python initialization wait miss; targeted Chrome retest passed. Second full rerun exposed an existing Edge HTML/CSS dev-hook snapshot race during reload persistence.
+Fix: Stabilized the dev-only HTML/CSS file setter so it is not cleaned up on every file edit render, and cleared the loaded lesson marker before progress recovery starts.
+Retest Result: Targeted Edge HTML/CSS reload E2E passed, P11 Command smoke passed in Chrome/Edge, and final full Chrome/Edge E2E passed 132 / 132.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home" src/features/commandSimulator src/features/runner/CommandSimulatorRunner.ts src/routes/HtmlCssWorkspacePage.tsx tests/e2e/phase11-command.spec.ts docs/autonomous`
+Result: Reviewed expected dev-only window hook references, virtual `C:\Users\student` paths, and host-looking path rejection tests only. No host OS execution, host filesystem access, new dependency, `allow-scripts`, or network API was introduced by P11-01.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
 
 ## 2026-09-04 Checkpoint: Phase 1 Final Hardening and Autonomous Foundation
 Datetime: 2026-09-04

@@ -12,6 +12,13 @@ describe("App routes", () => {
   it.each([
     [routePaths.home, "Programming Trainer"],
     [routePaths.languages, "Language Select"],
+    [routePaths.command, "Command Level Select"],
+    [routePaths.commandGrade1, "Command 1級"],
+    [routePaths.commandGrade1Lesson("lesson_command1_01_bug_fix_cleanup"), "Lesson 01: bug fix cleanup"],
+    [routePaths.commandGrade2, "Command 2級"],
+    [routePaths.commandGrade2Lesson("lesson_command2_01_backup_workflow"), "Lesson 01: backup workflow"],
+    [routePaths.commandGrade3, "Command 3級"],
+    [routePaths.commandGrade3Lesson("lesson_command3_01_create_files"), "Lesson 01: create files"],
     [routePaths.cpp, "C++ Level Select"],
     [routePaths.cppGrade1, "C++ 1級"],
     [routePaths.cppGrade1Lesson("lesson_cpp1_01_bug_fix"), "Lesson 01: bug fix"],

@@ -2,7 +2,7 @@ export type LanguageStatus = "available" | "planned";
 export type LevelStatus = "available" | "planned";
 export type LessonPublicationStatus = "draft" | "published";
 export type ExerciseType = "code";
-export type GradingMode = "stdout" | "html_dom";
+export type GradingMode = "stdout" | "html_dom" | "command_virtual_fs";
 export type TestCaseVisibility = "public" | "hidden";
 export type OutputComparator = "exact_text" | "trimmed_text" | "normalized_lines";
 export type ChallengePublicationStatus = "draft" | "published";
@@ -11,6 +11,7 @@ export type MockExamPublicationStatus = "draft" | "published";
 export type ProjectExerciseFilePurpose = "entry" | "support" | "test";
 export type HtmlDomRequirementKind = "selector_exists" | "text_includes" | "attribute_equals";
 export type HtmlStyleRequirementKind = "declaration_equals" | "media_declaration_equals";
+export type CommandFileRequirementKind = "file_exists" | "file_not_exists" | "directory_exists" | "file_content_equals";
 
 export interface ProjectExerciseFile {
   path: string;
@@ -63,6 +64,28 @@ export interface HtmlStyleRequirement {
   required: boolean;
 }
 
+export interface CommandVirtualFile {
+  path: string;
+  type: "file" | "directory";
+  content?: string;
+}
+
+export interface CommandVirtualEnvironment {
+  cwd?: string;
+  entries: CommandVirtualFile[];
+}
+
+export interface CommandFileRequirement {
+  id: string;
+  order: number;
+  visibility: TestCaseVisibility;
+  kind: CommandFileRequirementKind;
+  path: string;
+  description: string;
+  expectedContent?: string;
+  required: boolean;
+}
+
 export interface Exercise {
   id: string;
   lessonId: string;
@@ -76,6 +99,8 @@ export interface Exercise {
   testCases: TestCase[];
   domRequirements?: HtmlDomRequirement[];
   styleRequirements?: HtmlStyleRequirement[];
+  commandEnvironment?: CommandVirtualEnvironment;
+  commandFileRequirements?: CommandFileRequirement[];
 }
 
 export interface ChallengeExercise extends Omit<Exercise, "lessonId"> {

@@ -247,3 +247,35 @@ Decision: Publish Ruby 3級, 2級, and 1級 lessons that use the supported subse
 Reason: This delivers a complete runnable Ruby learning path while preserving the browser-contained execution boundary, avoiding host Ruby calls, avoiding new dependencies, and keeping Ruby lesson behavior aligned with existing progress/grading contracts.
 Alternatives: Add a full WASM Ruby runtime before curriculum; call local `ruby`; include unsupported Ruby features in lessons; leave levels as placeholders. These were rejected because they broaden P10-02, violate the execution boundary, or fail the acceptance condition that lessons can run and grade.
 Risk: Ruby 2級/1級 content is intentionally subset-aware and not a full language implementation. Future Ruby hardening can replace or expand the runner while preserving lesson IDs and progress records.
+
+## 2026-09-05: Windows Command Uses Virtual Terminal State Only
+Date: 2026-09-05
+Context: P11-01 requires a safe command training model and the product architecture forbids arbitrary host OS command execution or direct local filesystem access.
+Decision: Add `CommandSimulatorRunner` backed by explicit `VirtualTerminalState` data, with a virtual `C:\Users\student` filesystem, command history, path normalization, and read-only foundation commands. Keep file mutation commands unavailable until P11-02 and keep Command planned in the UI until curriculum routes are added.
+Reason: This satisfies the virtual terminal foundation while preserving the existing `LanguageRunner` boundary, avoiding host `cmd.exe`, avoiding real filesystem access, adding no dependencies, and keeping the checkpoint focused.
+Alternatives: Shell out to Windows `cmd.exe`; implement a routeable Command workspace before curriculum exists; add create/move/delete immediately. These were rejected because they either violate the safety boundary or broaden P11-01 into later checkpoints.
+Risk: The foundation simulator is intentionally small and not a full Windows Command interpreter. P11-02 must add file mutations only against the virtual state with tests that prove host paths remain inaccessible.
+
+## 2026-09-05: HTML/CSS Dev Hook Setter Is Stable Across File Edits
+Date: 2026-09-05
+Context: The P11-01 full E2E gate exposed an existing Edge-only race in the dev-only HTML/CSS edit hook: a render cleanup could delete or replace the test setter while Playwright waited for the edited file snapshot.
+Decision: Memoize `persistFiles`, install the dev-only HTML/CSS setter only when the loaded lesson/progress boundary changes, and delete the loaded lesson marker before progress recovery begins.
+Reason: This keeps E2E edits synchronized with progress recovery without changing learner-facing HTML/CSS behavior or persistence format.
+Alternatives: Only rerun the flaky test; increase the Playwright timeout; weaken the assertion. These were rejected because the hook race was identifiable and could be fixed narrowly.
+Risk: The hook remains development-only and should not become product functionality. Future route changes should keep the loaded marker tied to completed progress recovery.
+
+## 2026-09-05: Command File Operations Mutate Only Virtual State
+Date: 2026-09-05
+Context: P11-02 requires create, move, and delete task validation while the Command path is still not routeable and all command execution must remain isolated from the host OS.
+Decision: Implement file creation, directory creation, copy, move, delete, and empty-directory removal directly on `VirtualTerminalState.entries`, then grade final virtual filesystem state through `cmdfs:` requirements. Seed Command 3級 file operation lessons as draft content and keep `lang_command` planned until P11-03.
+Reason: This delivers the file-operation learning model and tests without calling Windows `cmd.exe`, touching the local filesystem, changing browser routes early, or introducing dependencies.
+Alternatives: Publish Command routes in P11-02; reuse stdout-only grading for filesystem tasks; execute real shell commands in a temporary folder. These were rejected because they either broaden the checkpoint, make FS validation indirect, or violate the product safety boundary.
+Risk: Redirection and filesystem behavior cover the teaching subset, not every Windows Command edge case. P11-03 curriculum should stay within this subset unless it expands the simulator with tests first.
+
+## 2026-09-05: Command Grade 3-1 Uses Virtual Filesystem Lessons
+Date: 2026-09-05
+Context: P11-03 requires Command grade 3, 2, and 1 curricula after P11-01/P11-02 established a virtual terminal and virtual filesystem grading model.
+Decision: Publish Command 3級, 2級, and 1級 lessons that all run through `CommandSimulatorRunner` and `command_virtual_fs` requirements, covering create, copy, move, delete, cleanup, and small maintenance workflows.
+Reason: This completes the routeable Command path while preserving the safety boundary: commands mutate only in-memory `VirtualTerminalState`, never Windows `cmd.exe` or the host filesystem.
+Alternatives: Add a real shell-backed runner; leave grade 2/1 as placeholders; switch Command lessons to stdout-only grading. These were rejected because they would violate the sandbox boundary, under-deliver the phase, or make file task validation indirect.
+Risk: The Command curriculum teaches an educational subset of Windows Command behavior. Future PowerShell work should build a separate virtual model rather than broadening this subset into real OS execution.

@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 13:58 +09:00
+Updated: 2026-09-05 16:55 +09:00
 
-Current Phase: Phase 10 / Ruby merged; Phase 11 / Windows Command ready to start
-Current Branch: main
-Current Commit: 0664670b136624512fb319e5d60c63ac29d84e17
+Current Phase: Phase 11 / Windows Command - P11-03 complete, Phase 11 PR checkpoint next
+Current Branch: codex/phase-11-windows-command
+Current Commit: 1abc699b0a7f2b7b0d50627ee55f42a0f8bc1244
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -306,21 +306,51 @@ Current Commit: 0664670b136624512fb319e5d60c63ac29d84e17
 - Completed local P10-02 full gate successfully.
 - Created Phase 10 PR #11 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success on head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `0664670b136624512fb319e5d60c63ac29d84e17`.
+- Recorded and pushed the post-merge Phase 10 checkpoint on `main` as `7993510f784c958293e7dce254eaf5bfa5edf2a7`.
+- Created Phase 11 branch `codex/phase-11-windows-command` from latest `main`.
+- Completed `P11-01 Virtual Terminal Foundation`.
+- Added a Windows Command virtual terminal state model with virtual-only `C:\Users\student` filesystem entries, command history, path normalization, and read-only command execution for `dir`, `cd`, `type`, `echo`, `help`, `cls`, `ver`, and `history`.
+- Added `CommandSimulatorRunner` behind the `LanguageRunner` abstraction without host OS execution, host filesystem access, new dependencies, or network access.
+- Kept mutation commands unavailable in the foundation simulator so create/move/delete behavior remains scoped to P11-02.
+- Kept Windows Command and PowerShell planned on the Language Select screen until curriculum routes are added.
+- Stabilized the dev-only HTML/CSS E2E edit hook after the P11-01 full gate exposed a render cleanup race during reload persistence testing.
+- Completed the local P11-01 full gate successfully.
+- Completed `P11-02 Virtual Filesystem Tasks`.
+- Added virtual filesystem mutation support for `echo ... > file`, `mkdir`, `copy`, `move`, `del`/`erase`, and `rmdir`, all operating only on `VirtualTerminalState`.
+- Added Command virtual filesystem grading metadata and `gradeCommandVirtualFileSystemExercise` for file exists, file absent, directory exists, and exact file content requirements.
+- Added beginner-facing `cmdfs:` result explanations while keeping hidden file requirement details generic.
+- Seeded draft Command 3級 file operation lessons for create, move/copy, and delete cleanup tasks without publishing Command in the main catalog before P11-03.
+- Verified host-looking paths are treated as virtual paths only and no host OS command/file access was introduced.
+- Completed the local P11-02 full gate successfully.
+- Completed `P11-03 Command Grade 3-1 Curriculum`.
+- Published routeable Command 3級, 2級, and 1級 curricula with 10 / 6 / 4 lessons.
+- Added Command level select and curriculum pages, plus lesson routes for all three levels.
+- Wired the shared Lesson Workspace to use `CommandSimulatorRunner`, Monaco `bat` mode, Command runtime labels, and `command_virtual_fs` grading from each exercise's virtual environment seed.
+- Published Command from the Language Select screen while keeping PowerShell planned for Phase 12.
+- Verified Command virtual filesystem grading, progress persistence/reload, hidden requirement detail suppression, and Chrome/Edge E2E coverage.
+- Completed the local P11-03 full gate successfully.
 
 ## In Progress
-- Preparing Phase 11 branch for Windows Command work.
+- Preparing the Phase 11 PR checkpoint from `codex/phase-11-windows-command`.
 
 ## Next
-- Create `codex/phase-11-windows-command` from latest `main`.
-- Start `P11-01 Virtual Terminal Foundation` from `AUTONOMOUS_PLAN.md`.
+- Push the P11-03 checkpoint commits.
+- Create or update the Phase 11 Draft PR, self-review it, wait for CI, then ready/merge when green.
+- After Phase 11 merge, update `main`, record the merge checkpoint, and start Phase 12 / PowerShell.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 62 files / 224 tests.
-- `npm run build`: passed.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 130 tests.
+- `npm test`: passed, 70 files / 258 tests.
+- `npm run build`: passed with existing Pyodide browser-compatibility and chunk-size warnings.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 140 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P11-03 targeted tests passed: Command curriculum/catalog/route/component tests, Command simulator/grading tests, and Chrome/Edge Command E2E.
+- P11-03 self-review passed: Command execution/grading remains virtual-only, hidden file requirement details stay generic in UI, no dependency was added, PowerShell remains planned, and no scope creep was found.
+- P11-02 targeted tests passed: virtual terminal mutation tests, command filesystem grading tests, Command draft curriculum tests, grading explanation tests, and Chrome/Edge P11 smoke E2E.
+- P11-02 self-review passed: create/move/delete commands mutate only virtual state, hidden file requirement details remain generic, Command stays planned until P11-03, no dependency or scope creep.
+- P11-01 targeted tests passed: Command simulator/runner unit tests, Language Select component coverage, HTML/CSS hook regression, and Chrome/Edge P11 smoke E2E.
+- P11-01 self-review passed: virtual Command execution has no host OS/host filesystem path, hidden data leak, dependency, or scope creep. `git diff --check` passed with line-ending warnings only.
 - PR #11 GitHub Actions: `CI / verify` passed on head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`; PR merged to `main` as `0664670b136624512fb319e5d60c63ac29d84e17`.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
