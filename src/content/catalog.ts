@@ -1,4 +1,7 @@
 import type { Language } from "../domain/curriculum";
+import { commandGrade1Course } from "./command/grade-1";
+import { commandGrade2Course } from "./command/grade-2";
+import { commandGrade3Course } from "./command/grade-3";
 import { cppGrade1Course } from "./cpp/grade-1";
 import { cppGrade2Course } from "./cpp/grade-2";
 import { cppGrade3Course } from "./cpp/grade-3";
@@ -235,7 +238,42 @@ export const languages: Language[] = [
       },
     ],
   },
-  { id: "lang_command", slug: "command", name: "Command", order: 7, status: "planned", levels: [] },
+  {
+    id: "lang_command",
+    slug: "command",
+    name: "Command",
+    order: 7,
+    status: "available",
+    levels: [
+      {
+        id: "level_command_3",
+        languageId: "lang_command",
+        code: "grade-3",
+        name: "3級",
+        order: 1,
+        status: "available",
+        courses: [commandGrade3Course],
+      },
+      {
+        id: "level_command_2",
+        languageId: "lang_command",
+        code: "grade-2",
+        name: "2級",
+        order: 2,
+        status: "available",
+        courses: [commandGrade2Course],
+      },
+      {
+        id: "level_command_1",
+        languageId: "lang_command",
+        code: "grade-1",
+        name: "1級",
+        order: 3,
+        status: "available",
+        courses: [commandGrade1Course],
+      },
+    ],
+  },
   { id: "lang_powershell", slug: "powershell", name: "PowerShell", order: 8, status: "planned", levels: [] },
 ];
 

@@ -23,6 +23,9 @@ function routeForLanguage(slug: string) {
   if (slug === "ruby") {
     return routePaths.ruby;
   }
+  if (slug === "command") {
+    return routePaths.command;
+  }
   return undefined;
 }
 

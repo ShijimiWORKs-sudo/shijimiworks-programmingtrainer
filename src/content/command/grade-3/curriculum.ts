@@ -36,13 +36,187 @@ function commandExercise(seed: {
 function commandLesson(seed: Omit<Lesson, "status" | "exercises"> & { exercises: Exercise[] }): Lesson {
   return {
     ...seed,
-    status: "draft",
+    status: "published",
   };
 }
 
 const createFilesLessonId = "lesson_command3_01_create_files";
 const moveFilesLessonId = "lesson_command3_02_move_files";
 const deleteFilesLessonId = "lesson_command3_03_delete_files";
+
+function commandFileLesson(seed: {
+  order: number;
+  id: string;
+  slug: string;
+  title: string;
+  objective: string;
+  taskMd: string;
+  starterCode: string;
+  environment?: CommandVirtualEnvironment;
+  requirements: Exercise["commandFileRequirements"];
+  hints: string[];
+}): Lesson {
+  return commandLesson({
+    id: seed.id,
+    chapterId: "chapter_command3_virtual_filesystem",
+    slug: seed.slug,
+    title: seed.title,
+    objective: seed.objective,
+    explanationMd: "Commandの基本操作を、Programming Trainerの仮想filesystemだけで練習します。実際のPC上のfileやdirectoryは変更されません。",
+    taskMd: seed.taskMd,
+    starterCode: seed.starterCode,
+    sampleInput: "",
+    sampleOutput: "Virtual filesystem updated",
+    constraints: [
+      "host filesystemではなく仮想filesystemだけを操作します。",
+      "指定されたfile名とdirectory名を正確に使ってください。",
+      "hidden条件の詳細は採点結果に表示されません。",
+    ],
+    difficulty: seed.order >= 7 ? 2 : 1,
+    estimatedMinutes: seed.order >= 7 ? 12 : 10,
+    order: seed.order,
+    hints: seed.hints,
+    exercises: [
+      commandExercise({
+        id: `ex_${seed.id.replace("lesson_", "")}_01`,
+        lessonId: seed.id,
+        promptMd: seed.taskMd,
+        starterCode: seed.starterCode,
+        completionCriteria: "仮想filesystemの状態が条件を満たす。",
+        environment: seed.environment ?? commandBaseEnvironment,
+        requirements: seed.requirements,
+      }),
+    ],
+  });
+}
+
+const additionalCommandGrade3Lessons: Lesson[] = [
+  commandFileLesson({
+    order: 4,
+    id: "lesson_command3_04_relative_paths",
+    slug: "relative-paths",
+    title: "Lesson 04: relative paths",
+    objective: "相対pathでdirectory内のfileを作成する。",
+    taskMd: "`work` directoryを作り、`work\\memo.txt` に `memo ready` と書き込んでください。",
+    starterCode: "dir",
+    hints: ["先に `mkdir work` を実行します。", "`echo memo ready > work\\memo.txt` でfileを作成できます。"],
+    requirements: [
+      { id: "work-directory", order: 1, visibility: "public", kind: "directory_exists", path: "work", description: "work directory exists.", required: true },
+      { id: "memo-content", order: 2, visibility: "hidden", kind: "file_content_equals", path: "work\\memo.txt", description: "memo.txt has the requested content.", expectedContent: "memo ready\n", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 5,
+    id: "lesson_command3_05_copy_into_directory",
+    slug: "copy-into-directory",
+    title: "Lesson 05: copy into directory",
+    objective: "copyで既存fileを別directoryへ複製する。",
+    taskMd: "`source.txt` を `archive` directoryへcopyしてください。",
+    starterCode: "dir",
+    environment: {
+      ...commandBaseEnvironment,
+      entries: [
+        ...commandBaseEnvironment.entries,
+        { path: "C:\\Users\\student\\archive", type: "directory" },
+        { path: "C:\\Users\\student\\source.txt", type: "file", content: "source ready\n" },
+      ],
+    },
+    hints: ["`copy source.txt archive` のようにdirectoryを宛先にできます。", "`dir archive` でcopy結果を確認できます。"],
+    requirements: [
+      { id: "archive-copy", order: 1, visibility: "public", kind: "file_content_equals", path: "archive\\source.txt", description: "source.txt is copied into archive.", expectedContent: "source ready\n", required: true },
+      { id: "source-kept", order: 2, visibility: "hidden", kind: "file_content_equals", path: "source.txt", description: "source.txt remains in the original location.", expectedContent: "source ready\n", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 6,
+    id: "lesson_command3_06_quoted_paths",
+    slug: "quoted-paths",
+    title: "Lesson 06: quoted paths",
+    objective: "空白を含むpathを引用符で扱う。",
+    taskMd: "`daily logs` directoryを作り、`daily logs\\today.txt` に `log ready` と書き込んでください。",
+    starterCode: "dir",
+    hints: ["空白を含むpathは引用符で囲みます。", '`mkdir "daily logs"` のように書けます。'],
+    requirements: [
+      { id: "daily-logs-directory", order: 1, visibility: "public", kind: "directory_exists", path: "daily logs", description: "daily logs directory exists.", required: true },
+      { id: "today-log-content", order: 2, visibility: "hidden", kind: "file_content_equals", path: "daily logs\\today.txt", description: "today.txt has the requested content.", expectedContent: "log ready\n", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 7,
+    id: "lesson_command3_07_delete_tmp_file",
+    slug: "delete-tmp-file",
+    title: "Lesson 07: delete temp file",
+    objective: "delで不要な一時fileを削除する。",
+    taskMd: "`tmp.txt` を削除してください。`keep.txt` は残してください。",
+    starterCode: "dir",
+    environment: {
+      ...commandBaseEnvironment,
+      entries: [
+        ...commandBaseEnvironment.entries,
+        { path: "C:\\Users\\student\\tmp.txt", type: "file", content: "remove\n" },
+        { path: "C:\\Users\\student\\keep.txt", type: "file", content: "keep\n" },
+      ],
+    },
+    hints: ["file削除は `del tmp.txt` です。", "必要なfileまで削除しないようにしましょう。"],
+    requirements: [
+      { id: "tmp-deleted", order: 1, visibility: "public", kind: "file_not_exists", path: "tmp.txt", description: "tmp.txt has been deleted.", required: true },
+      { id: "keep-file-remains", order: 2, visibility: "hidden", kind: "file_content_equals", path: "keep.txt", description: "keep.txt remains.", expectedContent: "keep\n", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 8,
+    id: "lesson_command3_08_remove_empty_directory",
+    slug: "remove-empty-directory",
+    title: "Lesson 08: remove empty directory",
+    objective: "rmdirで空directoryを削除する。",
+    taskMd: "空の`scratch` directoryを削除してください。",
+    starterCode: "dir",
+    environment: {
+      ...commandBaseEnvironment,
+      entries: [...commandBaseEnvironment.entries, { path: "C:\\Users\\student\\scratch", type: "directory" }],
+    },
+    hints: ["空directoryは `rmdir scratch` で削除できます。", "`del` はfile用、`rmdir` はdirectory用です。"],
+    requirements: [
+      { id: "scratch-removed", order: 1, visibility: "public", kind: "file_not_exists", path: "scratch", description: "scratch directory has been removed.", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 9,
+    id: "lesson_command3_09_move_to_archive",
+    slug: "move-to-archive",
+    title: "Lesson 09: move to archive",
+    objective: "moveでfileを整理用directoryへ移動する。",
+    taskMd: "`todo.txt` を `archive\\todo.txt` へmoveしてください。",
+    starterCode: "dir",
+    environment: {
+      ...commandBaseEnvironment,
+      entries: [
+        ...commandBaseEnvironment.entries,
+        { path: "C:\\Users\\student\\archive", type: "directory" },
+        { path: "C:\\Users\\student\\todo.txt", type: "file", content: "finish\n" },
+      ],
+    },
+    hints: ["`move todo.txt archive\\todo.txt` と書きます。", "move後は元の場所にfileが残りません。"],
+    requirements: [
+      { id: "todo-moved", order: 1, visibility: "public", kind: "file_content_equals", path: "archive\\todo.txt", description: "todo.txt is moved into archive.", expectedContent: "finish\n", required: true },
+      { id: "todo-original-absent", order: 2, visibility: "hidden", kind: "file_not_exists", path: "todo.txt", description: "todo.txt is absent from the original location.", required: true },
+    ],
+  }),
+  commandFileLesson({
+    order: 10,
+    id: "lesson_command3_10_file_workflow",
+    slug: "file-workflow",
+    title: "Lesson 10: file workflow",
+    objective: "作成、copy、moveを組み合わせた小さなworkflowを完成する。",
+    taskMd: "`release` directoryを作り、`release\\status.txt` に `done` と書き込んでください。",
+    starterCode: "dir",
+    hints: ["まず `mkdir release` です。", "`echo done > release\\status.txt` で完了状態を書き込みます。"],
+    requirements: [
+      { id: "release-directory", order: 1, visibility: "public", kind: "directory_exists", path: "release", description: "release directory exists.", required: true },
+      { id: "status-content", order: 2, visibility: "hidden", kind: "file_content_equals", path: "release\\status.txt", description: "status.txt contains done.", expectedContent: "done\n", required: true },
+    ],
+  }),
+];
 
 export const commandGrade3Course: Course = {
   id: "course_command_grade_3",
@@ -263,6 +437,7 @@ export const commandGrade3Course: Course = {
             }),
           ],
         }),
+        ...additionalCommandGrade3Lessons,
       ],
       challenges: [],
     },

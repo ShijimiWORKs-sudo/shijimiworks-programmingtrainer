@@ -1,4 +1,5 @@
 export {
+  createVirtualTerminalStateFromEnvironment,
   gradeCommandVirtualFileSystemExercise,
 } from "./commandGrading";
 export {

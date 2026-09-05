@@ -2,7 +2,7 @@ import type { CommandFileRequirement, CommandVirtualEnvironment, Exercise } from
 import type { GradeResult, TestCaseGradeResult } from "../grading";
 import { createVirtualTerminalState, normalizeVirtualPath, runCommandScript, type VirtualFileSystemEntry, type VirtualTerminalState } from "./virtualTerminal";
 
-function virtualStateFromEnvironment(environment?: CommandVirtualEnvironment): VirtualTerminalState {
+export function createVirtualTerminalStateFromEnvironment(environment?: CommandVirtualEnvironment): VirtualTerminalState {
   if (!environment) {
     return createVirtualTerminalState();
   }
@@ -85,7 +85,7 @@ function resultForRequirement(
 
 export function gradeCommandVirtualFileSystemExercise(exercise: Exercise, sourceCode: string): GradeResult {
   const startedAt = performance.now();
-  const initialState = virtualStateFromEnvironment(exercise.commandEnvironment);
+  const initialState = createVirtualTerminalStateFromEnvironment(exercise.commandEnvironment);
   const runResult = runCommandScript(sourceCode, initialState);
   const durationMs = Math.round(performance.now() - startedAt);
   const status = runResult.exitCode === 0 ? "success" : "runtime_error";
