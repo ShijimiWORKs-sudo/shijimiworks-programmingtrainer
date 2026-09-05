@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 17:30 +09:00
+Updated: 2026-09-05 18:02 +09:00
 
-Current Phase: Phase 12 / PowerShell - P12-01 complete
+Current Phase: Phase 12 / PowerShell - P12-02 complete
 Current Branch: codex/phase-12-powershell
-Current Commit: 29c3c3236d363a6ed161e657130b0f6af1141c04
+Current Commit: 01f183f3586dec55670ecd1b3de6a442d89016ce
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -339,22 +339,30 @@ Current Commit: 29c3c3236d363a6ed161e657130b0f6af1141c04
 - Kept mutation and pipeline exercises out of P12-01 so P12-02/P12-03 can add them with focused tests.
 - Kept PowerShell planned on the Language Select screen until curriculum routes are added.
 - Completed the local P12-01 full gate successfully.
+- Completed `P12-02 Pipeline Exercises`.
+- Added safe virtual PowerShell pipeline execution for `Get-ChildItem`, `Get-Content`, `Write-Output`, `Where-Object`, `Select-Object`, and `Measure-Object`.
+- Added draft PowerShell grade 3 pipeline lessons with public and hidden stdout grading coverage while keeping PowerShell unpublished in the main catalog until P12-04.
+- Added simulator, runner, and curriculum tests for pipeline filtering, selection, measurement, unsupported pipeline commands, and PowerShell draft lesson grading.
+- Completed the local P12-02 full gate successfully, including Chrome/Edge E2E and npm audit.
+- P12-02 self-review passed: virtual PowerShell pipelines do not call host PowerShell, host filesystem APIs, network APIs, or new dependencies, and scope remains limited to pipeline foundation plus unpublished draft lessons.
 
 ## In Progress
-- Preparing `P12-02 Pipeline Exercises`.
+- Preparing `P12-03 Filesystem Exercises`.
 
 ## Next
-- Add safe virtual pipeline execution support for the PowerShell-like simulator.
-- Add pipeline-focused lesson metadata/tests without publishing the full PowerShell curriculum before P12-04 unless required by the checkpoint.
-- Continue with P12-02 targeted tests, full regression, docs checkpoint, commit, and push.
+- Add safe virtual PowerShell filesystem mutation and validation support for P12-03.
+- Keep all file work inside the in-memory virtual filesystem; do not execute host PowerShell or touch the host filesystem.
+- Continue with P12-03 targeted tests, full regression, docs checkpoint, commit, and push.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 72 files / 267 tests.
+- `npm test`: passed, 73 files / 274 tests.
 - `npm run build`: passed with existing Pyodide browser-compatibility and chunk-size warnings.
 - `npm run test:e2e -- --project=chrome --project=edge`: passed, 142 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P12-02 targeted tests passed: PowerShell simulator/runner tests, PowerShell draft curriculum tests, GradingEngine regression, catalog/language select regression, and Chrome/Edge P12 smoke E2E.
+- P12-02 self-review passed: `git diff --check` passed with line-ending warnings only; dangerous API scan found only historical autonomous log entries and expected non-P12 references.
 - P12-01 targeted tests passed: PowerShell simulator/runner unit tests, Command regression unit tests, catalog/language select tests, and Chrome/Edge P12 smoke E2E.
 - P12-01 self-review passed: virtual PowerShell execution has no host PowerShell, host filesystem path, new dependency, network API, or scope creep. `git diff --check` passed with line-ending warnings only.
 - P11-03 targeted tests passed: Command curriculum/catalog/route/component tests, Command simulator/grading tests, and Chrome/Edge Command E2E.

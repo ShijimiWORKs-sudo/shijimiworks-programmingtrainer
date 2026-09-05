@@ -1,5 +1,13 @@
 # Programming Trainer Autonomous Decisions
 
+## 2026-09-05: PowerShell Pipeline Exercises Use Stdout Grading Before Route Publication
+Date: 2026-09-05
+Context: P12-02 requires PowerShell pipeline exercises, but P12-04 is the checkpoint for publishing the complete PowerShell curriculum and routes.
+Decision: Add draft PowerShell grade 3 pipeline lessons that are validated through the existing stdout-based `GradingEngine` with `PowerShellSimulatorRunner`, and keep the main catalog entry planned until P12-04.
+Reason: Pipeline output can be safely verified without introducing a new grading mode, route, or catalog publication before the planned checkpoint. This keeps P12-02 focused on virtual pipeline semantics and test coverage.
+Alternatives: Publish partial PowerShell routes now; add a new PowerShell-specific grading mode for pipelines; wait to add any lesson metadata until P12-04. These were rejected because they either broaden P12-02 or delay useful content-level validation.
+Risk: Draft lessons are not reachable from the UI until P12-04, so route-level learner UX remains untested for this content until publication.
+
 ## 2026-09-04: Resolve Work Root Path
 Date: 2026-09-04
 Context: The requested path was written as `C:\制作データ\10\_App\ProgrammingTrainer\`, but `C:\制作データ\10` did not exist. The existing application repository was found at `C:\制作データ\10_App\ProgrammingTrainer`.

@@ -1,5 +1,76 @@
 # Programming Trainer Autonomous Test Log
 
+## 2026-09-05 Checkpoint: P12-02 Pipeline Exercises
+Datetime: 2026-09-05 18:02 +09:00
+Commit: 01f183f3586dec55670ecd1b3de6a442d89016ce
+Target: Add safe virtual PowerShell pipeline execution plus draft grade 3 pipeline lessons with public and hidden stdout grading, while keeping PowerShell unpublished until the route checkpoint.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/powershellSimulator/virtualPowerShell.test.ts src/features/runner/PowerShellSimulatorRunner.test.ts src/content/powershell/curriculum.test.ts src/features/grading/GradingEngine.test.ts src/routes/LanguageSelectPage.test.tsx src/content/catalog.test.ts`
+Result: Initially failed, then passed, 6 files / 31 tests.
+Failure: The first PowerShell pipeline lesson expected `README.txt` before `notes.txt`, but the virtual directory sorting returned `notes.txt` then `README.txt` under the current runtime locale.
+Fix: Updated the lesson sample/expected stdout to match the deterministic runner output.
+Retest Result: Passed, 6 files / 31 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase12-powershell.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 73 files / 274 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 142 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|cmd.exe|powershell.exe|pwsh.exe" src/features/powershellSimulator src/features/runner/PowerShellSimulatorRunner.ts src/content/powershell tests/e2e/phase12-powershell.spec.ts docs/autonomous`
+Result: Reviewed historical autonomous log entries and expected non-P12 references only. P12-02 added no host PowerShell execution, host filesystem access, network API, new dependency, `allow-scripts`, or browser global execution path.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Scope/publication scan with `rg -n "PowerShell|powershell|planned|Where-Object|Select-Object|Measure-Object|hidden" src/content/powershell src/content/catalog.ts src/routes tests/e2e/phase12-powershell.spec.ts`
+Result: PowerShell draft content contains public and hidden tests, but `src/content/catalog.ts` still keeps PowerShell planned with no published levels until P12-04.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P12-01 Virtual PowerShell Foundation
 Datetime: 2026-09-05 17:30 +09:00
 Commit: 29c3c3236d363a6ed161e657130b0f6af1141c04
