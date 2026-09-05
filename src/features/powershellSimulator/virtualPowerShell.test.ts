@@ -51,11 +51,35 @@ describe("virtual PowerShell", () => {
     expect(result.stdout).toContain("hello");
   });
 
+  it("filters and selects virtual file entries through a pipeline", () => {
+    const result = runPowerShellScript("Get-ChildItem | Where-Object Name -Like *.txt | Select-Object Name");
+
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain("README.txt");
+    expect(result.stdout).toContain("notes.txt");
+    expect(result.stdout).not.toContain("scripts");
+  });
+
+  it("measures filtered pipeline output", () => {
+    const result = runPowerShellScript("Get-ChildItem | Where-Object Type -eq file | Measure-Object");
+
+    expect(result).toMatchObject({ exitCode: 0, stdout: "Count: 2\n", stderr: "" });
+  });
+
   it("reports unsupported commands inside the virtual environment", () => {
     const result = runPowerShellLine(createVirtualPowerShellState(), "Remove-Item README.txt");
 
     expect(result.exitCode).toBe(1);
     expect(result.stderr).toContain("not recognized in the virtual PowerShell environment");
+    expect(result.state.entries["C:\\Users\\student\\README.txt"]).toBeDefined();
+  });
+
+  it("reports unsupported pipeline commands without changing virtual state", () => {
+    const state = createVirtualPowerShellState();
+    const result = runPowerShellLine(state, "Get-ChildItem | Remove-Item");
+
+    expect(result.exitCode).toBe(1);
+    expect(result.stderr).toContain("not recognized in the virtual PowerShell pipeline");
     expect(result.state.entries["C:\\Users\\student\\README.txt"]).toBeDefined();
   });
 });

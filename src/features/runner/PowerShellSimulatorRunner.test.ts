@@ -36,6 +36,21 @@ describe("PowerShellSimulatorRunner", () => {
     expect(snapshot.history).toEqual([]);
   });
 
+  it("runs safe PowerShell pipelines against virtual entries", async () => {
+    const runner = new PowerShellSimulatorRunner();
+
+    const result = await runner.run({
+      sourceCode: "Get-ChildItem | Where-Object Name -Like *.txt | Select-Object Name",
+      stdin: "",
+      timeoutMs: 1000,
+    });
+
+    expect(result.status).toBe("success");
+    expect(result.stdout).toContain("README.txt");
+    expect(result.stdout).toContain("notes.txt");
+    expect(result.stdout).not.toContain("scripts");
+  });
+
   it("returns timeout for scripts over the foundation line limit", async () => {
     const runner = new PowerShellSimulatorRunner();
     const sourceCode = Array.from({ length: 201 }, () => "Write-Output x").join("\n");

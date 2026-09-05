@@ -22,6 +22,14 @@ export interface VirtualPowerShellResult {
   state: VirtualPowerShellState;
 }
 
+interface PipelineItem {
+  text: string;
+  name?: string;
+  path?: string;
+  entryType?: "file" | "directory";
+  content?: string;
+}
+
 const defaultCwd = "C:\\Users\\student";
 
 const defaultEntries: Record<string, VirtualPowerShellFileSystemEntry> = {
@@ -110,10 +118,168 @@ function commandTarget(args: string[]) {
   return positional.join(" ");
 }
 
+function splitPipeline(commandLine: string) {
+  const segments: string[] = [];
+  let current = "";
+  let quote: '"' | "'" | null = null;
+
+  for (const character of commandLine) {
+    if ((character === '"' || character === "'") && quote === null) {
+      quote = character;
+      current += character;
+      continue;
+    }
+    if (character === quote) {
+      quote = null;
+      current += character;
+      continue;
+    }
+    if (character === "|" && quote === null) {
+      segments.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += character;
+  }
+
+  segments.push(current.trim());
+  return segments.filter(Boolean);
+}
+
+function wildcardToRegExp(pattern: string) {
+  const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*").replace(/\?/g, ".");
+  return new RegExp(`^${escaped}$`, "i");
+}
+
+function itemValue(item: PipelineItem, property: string) {
+  const normalized = property.toLowerCase();
+  if (normalized === "name") {
+    return item.name ?? item.text;
+  }
+  if (normalized === "type" || normalized === "entrytype") {
+    return item.entryType ?? "";
+  }
+  if (normalized === "content") {
+    return item.content ?? item.text;
+  }
+  return item.text;
+}
+
+function formatPipelineItems(items: PipelineItem[]) {
+  return items.map((item) => item.text).join("\n") + (items.length > 0 ? "\n" : "");
+}
+
+function getChildItems(state: VirtualPowerShellState, cwd: string, targetArg: string): { items: PipelineItem[]; error?: string } {
+  const target = targetArg ? normalizePowerShellPath(cwd, targetArg) : cwd;
+  if (state.entries[target]?.type !== "directory") {
+    return { items: [], error: `Cannot find path '${target}' because it does not exist in the virtual PowerShell filesystem.\n` };
+  }
+
+  return {
+    items: childNames(state, target).map(([name, entry]) => ({
+      text: name,
+      name,
+      path: `${trimTrailingSlash(target)}\\${name}`,
+      entryType: entry.type,
+      content: entry.type === "file" ? entry.content : undefined,
+    })),
+  };
+}
+
+function evaluatePipelineCommand(
+  state: VirtualPowerShellState,
+  cwd: string,
+  commandLine: string,
+  inputItems: PipelineItem[]
+): { items: PipelineItem[]; stderr: string; exitCode: number } {
+  const { command, args } = parsePowerShellLine(commandLine);
+
+  if (command === "write-output" || command === "echo") {
+    return { items: [{ text: args.join(" ") }], stderr: "", exitCode: 0 };
+  }
+
+  if (command === "get-childitem" || command === "ls" || command === "dir") {
+    const result = getChildItems(state, cwd, commandTarget(args));
+    return result.error ? { items: [], stderr: result.error, exitCode: 1 } : { items: result.items, stderr: "", exitCode: 0 };
+  }
+
+  if (command === "get-content" || command === "cat" || command === "type") {
+    const target = normalizePowerShellPath(cwd, commandTarget(args));
+    const entry = state.entries[target];
+    if (entry?.type !== "file") {
+      return { items: [], stderr: `Cannot find path '${target}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1 };
+    }
+    return {
+      items: entry.content.split(/\r\n|\r|\n/).filter(Boolean).map((line) => ({ text: line, content: line })),
+      stderr: "",
+      exitCode: 0,
+    };
+  }
+
+  if (command === "where-object" || command === "where") {
+    if (args.length < 3) {
+      return { items: [], stderr: "Where-Object requires a property, operator, and comparison value in the virtual PowerShell environment.\n", exitCode: 1 };
+    }
+    const [property, operator, ...expectedParts] = args;
+    const expected = expectedParts.join(" ");
+    const filtered = inputItems.filter((item) => {
+      const value = itemValue(item, property);
+      if (operator.toLowerCase() === "-like") {
+        return wildcardToRegExp(expected).test(value);
+      }
+      if (operator.toLowerCase() === "-eq") {
+        return value.toLowerCase() === expected.toLowerCase();
+      }
+      return false;
+    });
+    return { items: filtered, stderr: "", exitCode: 0 };
+  }
+
+  if (command === "select-object" || command === "select") {
+    const property = args[0] === "-ExpandProperty" ? args[1] : args[0];
+    if (!property) {
+      return { items: [], stderr: "Select-Object requires a property in the virtual PowerShell environment.\n", exitCode: 1 };
+    }
+    return {
+      items: inputItems.map((item) => {
+        const text = itemValue(item, property);
+        return { ...item, text };
+      }),
+      stderr: "",
+      exitCode: 0,
+    };
+  }
+
+  if (command === "measure-object" || command === "measure") {
+    return { items: [{ text: `Count: ${inputItems.length}` }], stderr: "", exitCode: 0 };
+  }
+
+  return { items: [], stderr: `${commandLine}: The term is not recognized in the virtual PowerShell pipeline.\n`, exitCode: 1 };
+}
+
+function runPowerShellPipeline(state: VirtualPowerShellState, commandLine: string): VirtualPowerShellResult {
+  const nextState = withHistory(state, commandLine.trim());
+  let items: PipelineItem[] = [];
+
+  for (const segment of splitPipeline(commandLine)) {
+    const result = evaluatePipelineCommand(nextState, nextState.cwd, segment, items);
+    if (result.exitCode !== 0) {
+      return { stdout: "", stderr: result.stderr, exitCode: result.exitCode, state: nextState };
+    }
+    items = result.items;
+  }
+
+  return { stdout: formatPipelineItems(items), stderr: "", exitCode: 0, state: nextState };
+}
+
 export function runPowerShellLine(state: VirtualPowerShellState, commandLine: string): VirtualPowerShellResult {
   const trimmed = commandLine.trim();
   if (!trimmed) {
     return { stdout: "", stderr: "", exitCode: 0, state };
+  }
+
+  if (splitPipeline(trimmed).length > 1) {
+    return runPowerShellPipeline(state, trimmed);
   }
 
   const nextState = withHistory(state, trimmed);
@@ -121,7 +287,7 @@ export function runPowerShellLine(state: VirtualPowerShellState, commandLine: st
 
   if (command === "get-help" || command === "help") {
     return {
-      stdout: "Supported commands: Get-ChildItem, Set-Location, Get-Location, Get-Content, Write-Output, Get-Help, Clear-Host, Get-History\n",
+      stdout: "Supported commands: Get-ChildItem, Set-Location, Get-Location, Get-Content, Write-Output, Where-Object, Select-Object, Measure-Object, Get-Help, Clear-Host, Get-History\n",
       stderr: "",
       exitCode: 0,
       state: nextState,
@@ -157,13 +323,14 @@ export function runPowerShellLine(state: VirtualPowerShellState, commandLine: st
   }
 
   if (command === "get-childitem" || command === "ls" || command === "dir") {
-    const targetArg = commandTarget(args);
-    const target = targetArg ? normalizePowerShellPath(nextState.cwd, targetArg) : nextState.cwd;
-    if (nextState.entries[target]?.type !== "directory") {
-      return { stdout: "", stderr: `Cannot find path '${target}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state: nextState };
+    const target = commandTarget(args);
+    const result = getChildItems(nextState, nextState.cwd, target);
+    if (result.error) {
+      return { stdout: "", stderr: result.error, exitCode: 1, state: nextState };
     }
-    const lines = childNames(nextState, target).map(([name, entry]) => (entry.type === "directory" ? `d---- ${name}` : `-a--- ${name}`));
-    return { stdout: `Directory: ${target}\n\nMode  Name\n${lines.join("\n")}${lines.length > 0 ? "\n" : ""}`, stderr: "", exitCode: 0, state: nextState };
+    const directory = target ? normalizePowerShellPath(nextState.cwd, target) : nextState.cwd;
+    const lines = result.items.map((item) => (item.entryType === "directory" ? `d---- ${item.name}` : `-a--- ${item.name}`));
+    return { stdout: `Directory: ${directory}\n\nMode  Name\n${lines.join("\n")}${lines.length > 0 ? "\n" : ""}`, stderr: "", exitCode: 0, state: nextState };
   }
 
   if (command === "get-content" || command === "cat" || command === "type") {
