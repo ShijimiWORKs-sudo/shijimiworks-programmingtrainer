@@ -614,6 +614,16 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: Phase 7 PR #8 Merge and Phase 8 Start
+Datetime: 2026-09-05 09:31 +09:00
+Commit: b547d3f60c874ccc8460cd0c3659837c1f55982e
+Target: Mark Phase 7 PR ready, merge HTML/CSS split preview, DOM/style validation, and grade 3-1 curriculum work to `main`, update local `main`, and prepare Phase 8.
+Test Command: GitHub Actions `CI / verify` for PR #8 head `03263534c1e19cdd744e26b52294a0e8222c1b4a`
+Result: Passed, workflow run #71 completed successfully.
+Failure: None.
+Fix: None.
+Retest Result: PR #8 was marked ready and merged into `main` as `b547d3f60c874ccc8460cd0c3659837c1f55982e`.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64
