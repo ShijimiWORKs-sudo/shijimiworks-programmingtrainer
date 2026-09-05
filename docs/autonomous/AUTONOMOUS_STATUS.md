@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 11:27 +09:00
+Updated: 2026-09-05 12:05 +09:00
 
-Current Phase: Phase 9 / C++ - P9-01 complete
+Current Phase: Phase 9 / C++ - P9-02 complete
 Current Branch: codex/phase-9-cpp
-Current Commit: 0e275e6810775b9ad1f155fc305d8883e7b6bca5
+Current Commit: 63ac9b70095012b7a616c28ce82c6bf40e6e54f7
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -278,13 +278,22 @@ Current Commit: 0e275e6810775b9ad1f155fc305d8883e7b6bca5
 - Verified timeout and cancel recovery terminate/recreate the worker through runner tests.
 - Kept C++ planned in the language selection UI until P9-02 adds routeable curriculum content.
 - Completed local P9-01 full gate successfully.
+- Completed `P9-02 C++ Grade 3-1 Curriculum`.
+- Added C++ as an available language with routeable 3級, 2級, and 1級 levels.
+- Added 10 C++ 3級 lessons with public/hidden grading coverage, including Lesson 10 multiple exercises and exercise switching.
+- Added 6 C++ 2級 lessons and 4 C++ 1級 practical lessons with visible support files for maintenance tasks.
+- Expanded the browser-contained C++ subset just enough for curriculum array literals and covered it with runner/runtime tests.
+- Wired C++ routes, catalog entries, curriculum pages, Lesson Workspace runner selection, Monaco C++ mode, progress persistence, and Chrome/Edge E2E coverage.
+- Verified C++ hidden test details remain private and hidden values are absent from visible project support files.
+- Completed local P9-02 full gate successfully.
 
 ## In Progress
-- Preparing `P9-02 C++ Grade 3-1 Curriculum`.
+- Preparing Phase 9 PR self-review, GitHub Actions verification, ready-for-review transition, and merge to `main`.
 
 ## Next
-- Add routeable C++ 3級, 2級, and 1級 curricula within the current browser-contained C++ subset or expand the subset with tests before using additional language features.
-- Wire C++ routes, catalog entries, level/curriculum pages, Lesson Workspace runner selection, content quality tests, and Chrome/Edge E2E coverage.
+- Create or update the Phase 9 PR from `codex/phase-9-cpp`.
+- Self-review C++ runner/curriculum scope, hidden-test privacy, browser-contained execution boundary, progress persistence, and regression coverage.
+- If GitHub Actions is green, mark the PR ready, merge to `main`, fast-forward local `main`, record the merge checkpoint, then start Phase 10 / Ruby.
 
 ## Tests
 - `npm run lint`: passed.
@@ -382,6 +391,8 @@ Current Commit: 0e275e6810775b9ad1f155fc305d8883e7b6bca5
 - PR #9 Phase 8 GitHub Actions: `CI / verify` passed on head `9e0f29f02cec47dff13864ecd703fc5107825e3f`; PR merged to `main` as `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
 - P9-01 targeted checks on 2026-09-05: typecheck passed; C++ runner/runtime unit tests passed (2 files / 7 tests); Chrome/Edge P9 smoke E2E passed (2 tests).
 - P9-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (50 files / 178 tests), build passed with existing Pyodide/chunk warnings and emitted `cpp.worker`, Chrome/Edge E2E passed (108 tests), audit passed with 0 vulnerabilities.
+- P9-02 targeted checks on 2026-09-05: typecheck passed; C++ runtime/content/catalog/route/curriculum tests passed (10 files / 65 tests); Chrome/Edge C++ E2E passed (12 tests).
+- P9-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (55 files / 197 tests), build passed with existing Pyodide/chunk warnings and emitted `cpp.worker`, Chrome/Edge E2E passed (118 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

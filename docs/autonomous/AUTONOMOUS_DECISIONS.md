@@ -223,3 +223,11 @@ Decision: Add `CppRunner` with a dedicated Web Worker and a swappable educationa
 Reason: This satisfies the runner infrastructure checkpoint, preserves the existing browser-contained execution model, avoids requiring a local compiler or network execution service, and leaves the C++ execution strategy replaceable behind `CppRunner`.
 Alternatives: Call local `g++`; add a WASM C++ toolchain immediately; make C++ routeable before curriculum exists. These were rejected because they either violate the host OS boundary, broaden dependency/supply-chain scope, or leak P9-02 UI work into P9-01.
 Risk: The current runtime is an educational subset, not a full C++ compiler. P9-02 curriculum must stay within the supported subset or expand the runner with tests before adding lessons that require more C++ semantics.
+
+## 2026-09-05: C++ Grade 3-1 Curriculum Stays Within Runner Subset
+Date: 2026-09-05
+Context: P9-02 requires routeable C++ grade 3, 2, and 1 curricula, and P9-01 established a browser-contained educational C++ subset rather than a full native compiler.
+Decision: Publish C++ 3級, 2級, and 1級 lessons that use the supported subset: `int main()`, `cout`, `cin`, typed variables, arrays, loops, strings, helper functions, and stdout grading. Expand the subset only for array literals needed by the lessons, with runtime tests.
+Reason: This delivers a complete runnable C++ learning path while preserving the browser-contained execution boundary, avoiding host compiler calls, avoiding new dependencies, and keeping C++ lesson behavior aligned with existing progress/grading contracts.
+Alternatives: Add a WASM C++ toolchain before curriculum; call local `g++`; copy unsupported advanced C++ features directly into lessons; leave levels as placeholders. These were rejected because they either broaden P9-02, violate the execution boundary, or fail the acceptance condition that lessons can run and grade.
+Risk: C++ 2級/1級 content is intentionally subset-aware and not a full language implementation. Future C++ hardening can replace or expand the runner while preserving lesson IDs and progress records.

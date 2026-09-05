@@ -326,6 +326,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P9-02 C++ Grade 3-1 Curriculum
+Datetime: 2026-09-05 12:05 +09:00
+Commit: 63ac9b70095012b7a616c28ce82c6bf40e6e54f7
+Target: Add routeable C++ 3級, 2級, and 1級 curricula, wire them through `CppRunner` and the shared Lesson Workspace, persist progress, and keep hidden test details private.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/runner/cppRuntime.test.ts src/features/runner/CppRunner.test.ts src/content/cpp/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/CppLevelSelectPage.test.tsx src/routes/CppGrade3CurriculumPage.test.tsx src/routes/CppGrade2CurriculumPage.test.tsx src/routes/CppGrade1CurriculumPage.test.tsx src/app/App.test.tsx`
+Result: Passed, 10 files / 65 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed after adding expanded C++ route/content coverage.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase9-cpp.spec.ts`
+Result: Passed, 12 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 55 files / 197 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; `cpp.worker` emitted as a production asset.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 118 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "tc_cpp[123]_.*hidden|Mika|2500|Sora|-4 -2 -9|60 90 100 70|5100|100 40 75|Nia|Kai|Ren|child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts" src tests docs/autonomous`
+Result: Hidden C++ values appear only in hidden test definitions, non-visibility assertions, content tests, and autonomous logs. Visible C++ support files use public examples. No host OS execution path, new dependency, `allow-scripts`, or new `node:*` access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4
