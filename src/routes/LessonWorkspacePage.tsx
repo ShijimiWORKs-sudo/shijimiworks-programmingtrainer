@@ -9,7 +9,7 @@ import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
+import { JavaRunner, JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -21,18 +21,36 @@ declare global {
 }
 
 function createRunnerForCourse(course: Course | undefined): LanguageRunner {
+  if (course?.languageId === "lang_java") {
+    return new JavaRunner();
+  }
   return course?.languageId === "lang_javascript" ? new JavaScriptRunner() : new PythonRunner();
 }
 
 function editorLanguageForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_java") {
+    return "java";
+  }
   return course?.languageId === "lang_javascript" ? "javascript" : "python";
 }
 
 function runtimeLabelForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_java") {
+    return "Java";
+  }
   return course?.languageId === "lang_javascript" ? "JavaScript" : "Python";
 }
 
 function curriculumPathForCourse(course: Course | undefined) {
+  if (course?.levelId === "level_java_1") {
+    return routePaths.javaGrade1;
+  }
+  if (course?.levelId === "level_java_2") {
+    return routePaths.javaGrade2;
+  }
+  if (course?.levelId === "level_java_3") {
+    return routePaths.javaGrade3;
+  }
   if (course?.levelId === "level_javascript_1") {
     return routePaths.javascriptGrade1;
   }
@@ -52,6 +70,15 @@ function curriculumPathForCourse(course: Course | undefined) {
 }
 
 function lessonPathForCourse(course: Course | undefined, lessonId: string) {
+  if (course?.levelId === "level_java_1") {
+    return routePaths.javaGrade1Lesson(lessonId);
+  }
+  if (course?.levelId === "level_java_2") {
+    return routePaths.javaGrade2Lesson(lessonId);
+  }
+  if (course?.levelId === "level_java_3") {
+    return routePaths.javaGrade3Lesson(lessonId);
+  }
   if (course?.levelId === "level_javascript_1") {
     return routePaths.javascriptGrade1Lesson(lessonId);
   }

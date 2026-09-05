@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 10:00 +09:00
+Updated: 2026-09-05 10:53 +09:00
 
-Current Phase: Phase 8 / Java - P8-01 complete, P8-02 next
+Current Phase: Phase 8 / Java - P8-02 complete, Phase 8 PR next
 Current Branch: codex/phase-8-java
-Current Commit: 5fdcba1e397f7b7380379ca0685949db66db6185
+Current Commit: pending P8-02 checkpoint commit on `codex/phase-8-java`
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -257,13 +257,25 @@ Current Commit: 5fdcba1e397f7b7380379ca0685949db66db6185
 - Kept Java planned in the language selection UI until P8-02 adds routeable curriculum content.
 - Verified Python, JavaScript, HTML/CSS, hidden-test suppression, progress persistence, preview sandbox, and full Chrome/Edge E2E regression still pass.
 - Kept host OS execution out of the Java runner and added no dependencies.
+- Completed `P8-02 Java Grade 3-1 Curriculum`.
+- Added Java as an available language with routeable `3級`, `2級`, and `1級` levels.
+- Added `/languages/java`, Java grade curriculum routes, and Java lesson routes using the shared Lesson Workspace.
+- Added 10 published Java 3級 lessons for `println`, variables, `Scanner`, operators, `if`, `for`, `while`, arrays, `String`, and static methods.
+- Added a second Java Lesson 10 method exercise and verified exercise-specific grading/progress.
+- Added 6 published Java 2級 lessons for method returns, method composition, input validation, array/CSV sum, algorithm debugging, and a small aggregation project.
+- Added 4 published Java 1級 maintenance lessons for bug fix, specification change, test-oriented repair, and refactoring with visible support files.
+- Made Lesson Workspace choose `JavaRunner`, Monaco `java` mode, Java return paths, and Java next-lesson paths while preserving Python and JavaScript behavior.
+- Added Java catalog, route, curriculum page, runtime, content quality, and Chrome/Edge E2E coverage.
+- Verified Java hidden test details stay private in grading UI and hidden Java values are not present in visible project support files.
+- Completed local Phase 8 full gate successfully.
 
 ## In Progress
-- `P8-02 Java Grade 3-1 Curriculum` planning.
+- Phase 8 PR self-review and merge gate preparation.
 
 ## Next
-- Add routeable Java 3級, 2級, and 1級 curricula on `codex/phase-8-java`.
-- Wire Java lessons through the shared Lesson Workspace with `JavaRunner`, Monaco `java` mode, grading, progress, hidden-test privacy, and Chrome/Edge coverage.
+- Commit and push the P8-02 checkpoint.
+- Create or update the Phase 8 PR for `codex/phase-8-java`.
+- Run PR self-review, confirm CI green, mark ready, merge to `main`, and then start Phase 9 / C++.
 
 ## Tests
 - `npm run lint`: passed.
@@ -356,6 +368,8 @@ Current Commit: 5fdcba1e397f7b7380379ca0685949db66db6185
 - PR #8 Phase 7 GitHub Actions: `CI / verify` passed on head `03263534c1e19cdd744e26b52294a0e8222c1b4a`; PR merged to `main` as `b547d3f60c874ccc8460cd0c3659837c1f55982e`.
 - P8-01 targeted checks on 2026-09-05: typecheck passed; Java runner/runtime plus JavaScript/Python runner regression, Language Select, and catalog tests passed (6 files / 22 tests); Chrome/Edge Phase 8 smoke E2E passed (2 tests).
 - P8-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (43 files / 152 tests), build passed with existing Pyodide/chunk warnings and emitted `java.worker`, Chrome/Edge E2E passed (96 tests), audit passed with 0 vulnerabilities.
+- P8-02 targeted checks on 2026-09-05: typecheck passed; Java runtime/content/catalog/route/curriculum tests passed (9 files / 54 tests), Java content quality tests passed (6 files / 22 tests), and Chrome/Edge Java E2E passed after fixing an overly strict Java language-card locator (12 tests).
+- P8-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (48 files / 171 tests), build passed with existing Pyodide/chunk warnings and emitted `java.worker`, Chrome/Edge E2E passed (106 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

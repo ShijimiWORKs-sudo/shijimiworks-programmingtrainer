@@ -61,6 +61,30 @@ public class Main {
     expect(result.stdout).toBe("12\n");
   });
 
+  it("supports array literals and Integer.parseInt for Java curriculum tasks", async () => {
+    const result = await runJavaSource(
+      `
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    String[] parts = scanner.nextLine().split(",");
+    int total = 0;
+    for (int i = 0; i < parts.length; i++) {
+      total = total + Integer.parseInt(parts[i]);
+    }
+    int[] scores = {total, 4, 5};
+    System.out.println(scores[0]);
+  }
+}
+`,
+      "1,2,3\n"
+    );
+
+    expect(result.stdout).toBe("6\n");
+  });
+
   it("reports missing main and JavaScript syntax failures as syntax errors", async () => {
     const missingMain = await runJavaSource("public class Main {}", "");
     const syntaxFailure = await runJavaSource(

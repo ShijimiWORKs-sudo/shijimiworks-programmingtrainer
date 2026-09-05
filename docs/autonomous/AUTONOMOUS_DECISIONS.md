@@ -207,3 +207,11 @@ Decision: Add `JavaRunner` with a dedicated Web Worker and a swappable education
 Reason: This satisfies the runner infrastructure checkpoint, preserves the existing browser-contained execution model, avoids requiring a local JDK or network service, and leaves the Java execution strategy replaceable behind `JavaRunner`.
 Alternatives: Call local `javac/java`; add a WASM JVM dependency immediately; make Java routeable before curriculum exists. These were rejected because they either violate the host OS boundary, broaden dependency/supply-chain scope, or leak P8-02 UI work into P8-01.
 Risk: The current runtime is an educational subset, not a full Java compiler/JVM. P8-02 curriculum must stay within this supported subset or deliberately expand the runner with tests before adding lessons that require more Java semantics.
+
+## 2026-09-05: Java Grade 3-1 Curriculum Stays Within Runner Subset
+Date: 2026-09-05
+Context: P8-02 requires Java grade 3-1 curriculum, and P8-01 established a browser-contained educational Java subset rather than a full JVM.
+Decision: Publish Java 3級, 2級, and 1級 lessons that use the supported subset: `class Main`, `static void main`, `Scanner`, typed variables, arrays, loops, string helpers, static methods, and stdout grading. Keep unsupported full-Java features such as package structure, object constructors, checked exceptions, and file I/O out of this checkpoint.
+Reason: This delivers a complete routeable Java learning path that can run, grade, and persist today without adding host execution, network services, or broad dependencies.
+Alternatives: Add a WASM JVM before curriculum; copy Python/JavaScript advanced topics exactly even where the Java subset cannot execute them; leave Java levels as placeholders. These were rejected because they either broaden P8-02 or fail the acceptance condition that Java lessons can run and grade.
+Risk: Java 2級/1級 content is intentionally subset-aware. Future Java hardening can replace or expand the runner while preserving lesson IDs and progress records.

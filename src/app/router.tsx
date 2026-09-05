@@ -6,6 +6,10 @@ import { HtmlCssGrade3CurriculumPage } from "../routes/HtmlCssGrade3CurriculumPa
 import { HtmlCssLevelSelectPage } from "../routes/HtmlCssLevelSelectPage";
 import { HtmlCssWorkspacePage } from "../routes/HtmlCssWorkspacePage";
 import { HomePage } from "../routes/HomePage";
+import { JavaGrade1CurriculumPage } from "../routes/JavaGrade1CurriculumPage";
+import { JavaGrade2CurriculumPage } from "../routes/JavaGrade2CurriculumPage";
+import { JavaGrade3CurriculumPage } from "../routes/JavaGrade3CurriculumPage";
+import { JavaLevelSelectPage } from "../routes/JavaLevelSelectPage";
 import { JavaScriptGrade1CurriculumPage } from "../routes/JavaScriptGrade1CurriculumPage";
 import { JavaScriptGrade2CurriculumPage } from "../routes/JavaScriptGrade2CurriculumPage";
 import { JavaScriptGrade3CurriculumPage } from "../routes/JavaScriptGrade3CurriculumPage";
@@ -39,6 +43,13 @@ export const appRoutes: RouteObject[] = [
       { path: "languages/html-css/grade-2/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
       { path: "languages/html-css/grade-3", element: <HtmlCssGrade3CurriculumPage /> },
       { path: "languages/html-css/grade-3/lessons/:lessonId", element: <HtmlCssWorkspacePage /> },
+      { path: "languages/java", element: <JavaLevelSelectPage /> },
+      { path: "languages/java/grade-1", element: <JavaGrade1CurriculumPage /> },
+      { path: "languages/java/grade-1/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/java/grade-2", element: <JavaGrade2CurriculumPage /> },
+      { path: "languages/java/grade-2/lessons/:lessonId", element: <LessonWorkspacePage /> },
+      { path: "languages/java/grade-3", element: <JavaGrade3CurriculumPage /> },
+      { path: "languages/java/grade-3/lessons/:lessonId", element: <LessonWorkspacePage /> },
       { path: "languages/javascript", element: <JavaScriptLevelSelectPage /> },
       { path: "languages/javascript/grade-1", element: <JavaScriptGrade1CurriculumPage /> },
       { path: "languages/javascript/grade-1/lessons/:lessonId", element: <LessonWorkspacePage /> },

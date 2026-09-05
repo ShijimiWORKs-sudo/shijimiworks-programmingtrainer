@@ -116,9 +116,11 @@ function transformParameters(parameters: string) {
 function transformJavaStatements(source: string) {
   return source
     .replace(/\bScanner\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)\s*;/g, "")
+    .replace(/\b(String|int|double|boolean)\s*\[\]\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{/g, "let $2 = [")
     .replace(/\b[A-Za-z_][A-Za-z0-9_]*\.nextLine\s*\(\s*\)/g, "__nextLine()")
     .replace(/\b[A-Za-z_][A-Za-z0-9_]*\.nextInt\s*\(\s*\)/g, "Number.parseInt(__nextLine(), 10)")
     .replace(/\b[A-Za-z_][A-Za-z0-9_]*\.nextDouble\s*\(\s*\)/g, "Number.parseFloat(__nextLine())")
+    .replace(/\bInteger\.parseInt\s*\(/g, "Number.parseInt(")
     .replace(/\bSystem\.out\.println\s*\(/g, "__print(")
     .replace(/\bSystem\.out\.print\s*\(/g, "__printInline(")
     .replace(/\bnew\s+String\s*\[\]\s*\{/g, "[")
