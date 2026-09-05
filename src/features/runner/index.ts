@@ -1,4 +1,5 @@
 export { CppRunner } from "./CppRunner";
+export { CommandSimulatorRunner } from "./CommandSimulatorRunner";
 export { JavaRunner } from "./JavaRunner";
 export { JavaScriptRunner } from "./JavaScriptRunner";
 export { PythonRunner } from "./PythonRunner";
