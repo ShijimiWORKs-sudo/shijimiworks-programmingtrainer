@@ -1,10 +1,29 @@
 import type { TestCaseGradeResult } from "./GradingEngine";
 
 export function explainTestCaseResult(result: TestCaseGradeResult): string {
+  const isDomResult = result.testCaseId.startsWith("dom:");
+  const isStyleResult = result.testCaseId.startsWith("style:");
+
   if (result.visibility === "hidden") {
     return result.passed
       ? "非公開テストも合格しています。"
-      : "非公開テストの詳細は表示されません。公開テスト以外の入力でも同じ条件を満たすか見直してください。";
+      : isDomResult
+        ? "非公開DOM条件の詳細は表示されません。公開条件以外のHTML構造も満たしているか見直してください。"
+        : isStyleResult
+          ? "非公開CSS条件の詳細は表示されません。公開条件以外の見た目やresponsive条件も満たしているか見直してください。"
+        : "非公開テストの詳細は表示されません。公開テスト以外の入力でも同じ条件を満たすか見直してください。";
+  }
+
+  if (isDomResult) {
+    return result.passed
+      ? "HTML構造が条件を満たしています。"
+      : "HTML構造が条件と一致していません。selector、タグ名、class名、テキストを確認してください。";
+  }
+
+  if (isStyleResult) {
+    return result.passed
+      ? "CSSが条件を満たしています。"
+      : "CSSが条件と一致していません。selector、property、値、media queryを確認してください。";
   }
 
   if (result.passed) {

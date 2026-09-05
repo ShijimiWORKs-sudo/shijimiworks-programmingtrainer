@@ -2,13 +2,15 @@ export type LanguageStatus = "available" | "planned";
 export type LevelStatus = "available" | "planned";
 export type LessonPublicationStatus = "draft" | "published";
 export type ExerciseType = "code";
-export type GradingMode = "stdout";
+export type GradingMode = "stdout" | "html_dom";
 export type TestCaseVisibility = "public" | "hidden";
 export type OutputComparator = "exact_text" | "trimmed_text" | "normalized_lines";
 export type ChallengePublicationStatus = "draft" | "published";
 export type ChallengeKind = "chapter_challenge";
 export type MockExamPublicationStatus = "draft" | "published";
 export type ProjectExerciseFilePurpose = "entry" | "support" | "test";
+export type HtmlDomRequirementKind = "selector_exists" | "text_includes" | "attribute_equals";
+export type HtmlStyleRequirementKind = "declaration_equals" | "media_declaration_equals";
 
 export interface ProjectExerciseFile {
   path: string;
@@ -34,6 +36,33 @@ export interface TestCase {
   required: boolean;
 }
 
+export interface HtmlDomRequirement {
+  id: string;
+  order: number;
+  visibility: TestCaseVisibility;
+  kind: HtmlDomRequirementKind;
+  selector: string;
+  description: string;
+  expectedText?: string;
+  attributeName?: string;
+  expectedValue?: string;
+  minCount?: number;
+  required: boolean;
+}
+
+export interface HtmlStyleRequirement {
+  id: string;
+  order: number;
+  visibility: TestCaseVisibility;
+  kind: HtmlStyleRequirementKind;
+  selector: string;
+  property: string;
+  expectedValue: string;
+  description: string;
+  mediaQuery?: string;
+  required: boolean;
+}
+
 export interface Exercise {
   id: string;
   lessonId: string;
@@ -45,6 +74,8 @@ export interface Exercise {
   timeoutMs: number;
   completionCriteria: string;
   testCases: TestCase[];
+  domRequirements?: HtmlDomRequirement[];
+  styleRequirements?: HtmlStyleRequirement[];
 }
 
 export interface ChallengeExercise extends Omit<Exercise, "lessonId"> {

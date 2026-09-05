@@ -348,6 +348,272 @@ Failure: None.
 Fix: None.
 Retest Result: PR #7 was marked ready and merged into `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 
+## 2026-09-05 Checkpoint: P7-01 Split Editor and Preview Foundation
+Datetime: 2026-09-05 06:33 +09:00
+Commit: aa17db6cd2c705062f67085dc8e4c9f5718c1b89
+Target: Add HTML/CSS route, split HTML/CSS editors, sandboxed live iframe preview, preview persistence, and Chrome/Edge coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlCssProject.test.ts src/content/html-css/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/HtmlCssLevelSelectPage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Initially failed 1 workspace assertion, then passed 7 files / 17 tests.
+Failure: `toHaveValue(expect.stringContaining(...))` was not accepted by the matcher even though the textarea value contained the expected starter HTML.
+Fix: Asserted against the textarea `.value` string directly.
+Retest Result: Passed, 7 files / 17 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed preview text/style reads and one Edge edit wait, then passed 8 tests.
+Failure: The tests read sandboxed iframe content through parent `contentDocument`, and the dev edit hook could run before async progress recovery completed.
+Fix: Used Playwright `frameLocator` for iframe content/style checks and added a dev-only HTML/CSS lesson loaded marker before E2E edits.
+Retest Result: Passed, 8 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 34 files / 124 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 88 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review preview sandbox and dangerous API scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs" src tests docs/autonomous`
+Result: `sandbox=""` is present on the preview iframe; no `allow-scripts` usage was added. Script and inline handler strings appear only in the sanitizer/test paths, and no new host filesystem or child-process access was introduced beyond existing Pyodide build warnings and historical logs.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P7-02 DOM Validator
+Datetime: 2026-09-05 07:13 +09:00
+Commit: 475cbff180cd7e4f6185c9f1a7bbb3bd85d40f51
+Target: Add HTML DOM requirement grading, integrate it into the HTML/CSS workspace, persist progress/attempts, and verify hidden DOM requirement details stay private.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlCssProject.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/content/html-css/grade-3/curriculum.test.ts src/content/catalog.test.ts src/features/grading/explain.test.ts src/routes/HtmlCssWorkspacePage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx`
+Result: Passed, 7 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm test -- --run src/features/grading/explain.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Passed, 3 files / 11 tests.
+Failure: None after adding DOM-specific hidden-result explanation coverage.
+Fix: Added a DOM-specific hidden-result message that keeps hidden selector details private.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Passed, 10 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full Chrome/Edge E2E.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 35 files / 129 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial run passed 89 / 90 tests; second full run passed 90 tests.
+Failure: Edge timed out once waiting for `合格 (3/3)` in the existing Python 1級 specification-change lesson. The failed test passed on targeted rerun, and all P7 HTML/CSS tests passed in the initial full run.
+Fix: No code change; targeted Edge rerun confirmed the existing lesson still passes.
+Retest Result: Targeted Edge specification-change test passed, then full Chrome/Edge E2E passed, 90 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review DOM validator, hidden detail, and sandbox scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs|dom:|profile-card-description|main\.profile-card p" src tests docs/autonomous`
+Result: DOM hidden requirement details appear only in curriculum metadata and tests that assert they are not visible. The UI keeps hidden DOM results generic, the preview iframe remains `sandbox=""`, and no `allow-scripts`, host filesystem, or child-process access was added.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P7-03 Style Validator
+Datetime: 2026-09-05 07:59 +09:00
+Commit: 84ef137a39900b9148bc3005f5e32567f023d8fd
+Target: Add CSS and responsive style requirement validation, combine it with DOM validation, and verify hidden style details stay out of the grading UI.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in full regression.
+
+Test Command: `npm test -- --run src/features/htmlCss/htmlStyleValidator.test.ts src/features/htmlCss/htmlCssGrading.test.ts src/features/htmlCss/htmlDomValidator.test.ts src/content/html-css/grade-3/curriculum.test.ts src/features/grading/explain.test.ts src/routes/HtmlCssWorkspacePage.test.tsx`
+Result: Initially failed 1 workspace assertion, then passed 6 files / 16 tests.
+Failure: The workspace test still expected one hidden generic detail row after P7-03 added a second hidden responsive style result.
+Fix: Asserted that two generic hidden-detail rows are present and added style hidden-result attempt coverage.
+Retest Result: Passed, 6 files / 16 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed 2 hidden leak assertions, then passed 10 tests.
+Failure: The E2E hidden media-query assertion searched the whole page, where the CSS editor correctly displays the learner's media query.
+Fix: Scoped hidden-detail assertions to the `Grading result` panel.
+Retest Result: Passed, 10 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 37 files / 133 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 90 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review style validator, hidden detail, and sandbox scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|__htmlCssPreviewLeak|<script|onclick|eval\(|child_process|node:fs|style:|media_declaration|profile-card-responsive-padding|CSSRule" src tests docs/autonomous`
+Result: Style hidden requirement details appear only in curriculum metadata and tests that assert they are not visible in the grading result. The preview iframe remains `sandbox=""`, style validation uses CSSOM only, and no `allow-scripts`, host filesystem, or child-process access was added.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P7-04 HTML/CSS Grade 3-1 Curriculum
+Datetime: 2026-09-05 09:22 +09:00
+Commit: 08f5e14fa118427e7e97f0c95ff85d5101dd2edf
+Target: Complete HTML/CSS grade 3, 2, and 1 routeable curricula, course-aware HTML/CSS workspace navigation, progress display, preview persistence, and Chrome/Edge coverage.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed again in full regression after the E2E hook fix.
+
+Test Command: `npm test -- --run src/content/html-css/grade-3/curriculum.test.ts src/content/html-css/grade-2/curriculum.test.ts src/content/html-css/grade-1/curriculum.test.ts src/content/catalog.test.ts src/routes/HtmlCssLevelSelectPage.test.tsx src/routes/HtmlCssGrade3CurriculumPage.test.tsx src/routes/HtmlCssGrade2CurriculumPage.test.tsx src/routes/HtmlCssGrade1CurriculumPage.test.tsx src/routes/HtmlCssWorkspacePage.test.tsx src/features/htmlCss/htmlCssGrading.test.ts src/features/htmlCss/htmlStyleValidator.test.ts src/features/htmlCss/htmlDomValidator.test.ts`
+Result: Initially failed, then passed, 12 files / 31 tests.
+Failure: The workspace test expected the pre-helper exercise id `ex_htmlcss3_01_01`, and starter-grading checks exposed CSSOM normalization differences for `background`, `border`, and hex color requirements.
+Fix: Updated the expected helper-generated exercise id and changed unstable shorthand/color style requirements to stable declarations such as `padding` and `font-weight`.
+Retest Result: Passed, 12 files / 31 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase7-html-css.spec.ts`
+Result: Initially failed after lint-driven hook refactor, then passed, 14 tests.
+Failure: The dev-only HTML/CSS edit hook exposed a setter before async progress recovery completed; E2E edits could be overwritten by the recovered starter snapshot, leaving preview text unchanged.
+Fix: Added `isProgressLoaded` state, only marks a lesson loaded after progress recovery, and updates the dev HTML/CSS file snapshot immediately inside the hook setter.
+Retest Result: Passed, 14 tests.
+
+Test Command: `npm run lint`
+Result: Initially failed on React Compiler `preserve-manual-memoization` for catalog-derived lesson/exercise dependencies; final result passed.
+Failure: Manual memoization with mutable catalog objects could not be preserved by the compiler rule.
+Fix: Made lesson/course/next lookup ID-based and removed unnecessary callback memoization in the HTML/CSS Workspace.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 41 files / 144 tests.
+Failure: None after targeted fixes.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Initial full run failed in P7 preview edit/reload tests because of the dev hook recovery race; final full run passed, 94 tests.
+Failure: Chrome/Edge P7 tests could edit before progress recovery completed or wait on stale dev snapshots.
+Fix: Same `isProgressLoaded` and immediate snapshot fix described above.
+Retest Result: Passed, 94 tests.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for modified text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden detail, sandbox, and dangerous API scan with `rg -n "allow-scripts|sandbox|srcDoc|srcdoc|<script|onclick|eval\(|child_process|node:fs|profile-card-description|profile-card-responsive-padding|cards-responsive|spec-badge-weight|test-summary-action|refactor-common-radius" src tests docs/autonomous`
+Result: Hidden requirement details appear in curriculum metadata and tests only; grading UI keeps hidden results generic. The preview iframe remains `sandbox=""`, no `allow-scripts` was added, and no new host filesystem, child-process, or eval usage was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-01 JavaScript Runner Foundation
 Datetime: 2026-09-05 03:54 +09:00
 Commit: 431d2f22c7c660a28ec3ca5a576847311b175f64

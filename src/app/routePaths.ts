@@ -18,6 +18,13 @@ export const routePaths = {
   javascriptGrade2Lesson: (lessonId: string) => "/languages/javascript/grade-2/lessons/" + lessonId,
   javascriptGrade3: "/languages/javascript/grade-3",
   javascriptGrade3Lesson: (lessonId: string) => "/languages/javascript/grade-3/lessons/" + lessonId,
+  htmlCss: "/languages/html-css",
+  htmlCssGrade1: "/languages/html-css/grade-1",
+  htmlCssGrade1Lesson: (lessonId: string) => "/languages/html-css/grade-1/lessons/" + lessonId,
+  htmlCssGrade2: "/languages/html-css/grade-2",
+  htmlCssGrade2Lesson: (lessonId: string) => "/languages/html-css/grade-2/lessons/" + lessonId,
+  htmlCssGrade3: "/languages/html-css/grade-3",
+  htmlCssGrade3Lesson: (lessonId: string) => "/languages/html-css/grade-3/lessons/" + lessonId,
   history: "/history",
   settings: "/settings",
 } as const;

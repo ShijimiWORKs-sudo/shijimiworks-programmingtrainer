@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 05:51 +09:00
+Updated: 2026-09-05 09:24 +09:00
 
-Current Phase: Phase 6 / JavaScript merged; preparing Phase 7 / HTML/CSS
-Current Branch: main
-Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
+Current Phase: Phase 7 / HTML/CSS - P7-04 HTML/CSS Grade 3-1 Curriculum completed; Phase 7 PR checkpoint next
+Current Branch: codex/phase-7-html-css
+Current Commit: 08f5e14fa118427e7e97f0c95ff85d5101dd2edf
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -214,12 +214,43 @@ Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
 - Created Phase 6 PR #7 as draft, confirmed GitHub Actions `CI` success on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `df4d0786433400624e6e3f2c35db6043c6a859ba`.
 - Recorded the post-merge Phase 6 checkpoint on `main` as `08a9814b68da6da230292104ca84b9c18f94c419`.
+- Recorded the latest Phase 6 main checkpoint on `main` as `168aaf211f1e9d1b27286e966e3d8ba6a3144dd0`.
+- Created Phase 7 branch `codex/phase-7-html-css` from latest `main`.
+- Completed `P7-01 Split Editor and Preview Foundation`.
+- Added HTML/CSS as an available language with a routeable `3級` level and one published split-preview lesson.
+- Added `/languages/html-css`, `/languages/html-css/grade-3`, and `/languages/html-css/grade-3/lessons/:lessonId` routes.
+- Added a dedicated HTML/CSS Workspace with split `index.html` / `styles.css` Monaco editors and a live iframe preview.
+- Persisted HTML/CSS editor snapshots through the existing lesson progress repository using serialized `lastCode`.
+- Kept the preview sandboxed with `sandbox=""`, stripped script tags and inline event handlers from preview HTML, and escaped CSS `</style>` breakout sequences.
+- Verified preview update, reload persistence, and app-code isolation in Chrome and Edge.
+- Completed `P7-02 DOM Validator`.
+- Added HTML DOM requirement types and `html_dom` grading mode for HTML/CSS exercises.
+- Added a DOM validator that checks selector existence, text containment, and attribute equality without executing learner HTML.
+- Integrated HTML/CSS workspace grading, result presentation, lesson progress updates, and attempt recording.
+- Added public and hidden DOM requirements to the HTML/CSS 3級 split-preview lesson while keeping hidden requirement details out of the UI.
+- Verified DOM grading pass flow, hidden DOM detail suppression, chapter progress completion, and reload persistence in Chrome and Edge.
+- Completed `P7-03 Style Validator`.
+- Added HTML/CSS style requirement types for normal CSS declarations and media-query declarations.
+- Added CSSOM-based style validation and a combined HTML/CSS grader that evaluates DOM and style requirements together.
+- Added public style and hidden responsive style requirements to the HTML/CSS 3級 lesson.
+- Updated result explanations so DOM and CSS failures use beginner-friendly messages without exposing hidden selectors or media-query details.
+- Verified CSS/style grading, responsive requirement coverage, hidden style detail suppression, preview persistence, and full Chrome/Edge regression.
+- Completed `P7-04 HTML/CSS Grade 3-1 Curriculum`.
+- Added shared HTML/CSS curriculum seed helpers for project-backed split HTML/CSS lessons.
+- Expanded HTML/CSS 3級 from 1 preview lesson to 10 published lessons covering structure, links, lists, images, box model, flex, forms, responsive rules, and semantic page composition.
+- Added routeable HTML/CSS 2級 with 6 published layout/component lessons.
+- Added routeable HTML/CSS 1級 with 4 practical maintenance lessons for bug fix, specification change, test-oriented repair, and refactoring.
+- Enabled HTML/CSS 1級/2級/3級 level selection, curriculum routes, and lesson workspace routes.
+- Made the HTML/CSS Curriculum view reusable across grades and kept chapter progress display per course.
+- Made the HTML/CSS Workspace course-aware for Curriculum return and next-Lesson navigation while preserving sandbox preview, DOM/style grading, hidden-detail suppression, and lastCode persistence.
+- Fixed the dev-only HTML/CSS E2E edit hook so edits wait for progress recovery before setting files, preventing reload races in Chrome/Edge full regression.
+- Completed the local P7-04 full gate successfully.
 
 ## In Progress
-- Phase 7 branch setup.
+- Phase 7 PR checkpoint preparation.
 
 ## Next
-- Create Phase 7 branch and start `P7-01 Split Editor and Preview Foundation`.
+- Commit and push P7-04, create or update Phase 7 PR, self-review, confirm CI green, mark ready, merge to `main`, then start Phase 8 Java.
 
 ## Tests
 - `npm run lint`: passed.
@@ -301,6 +332,14 @@ Current Commit: 08a9814b68da6da230292104ca84b9c18f94c419
 - P6-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 - P6-05 Phase 6 checkpoint gate on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (29 files / 114 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (80 tests), audit passed with 0 vulnerabilities.
 - PR #7 Phase 6 GitHub Actions: `CI` passed on head `ec1303c6530af9a5c20a7c4f622b38b4eae1f42f`; PR merged to `main` as `df4d0786433400624e6e3f2c35db6043c6a859ba`.
+- P7-01 targeted checks on 2026-09-05: typecheck passed; HTML/CSS helper, curriculum, catalog, language select, level select, curriculum page, and workspace tests passed (7 files / 17 tests); initial Chrome/Edge P7 E2E failed because tests read sandboxed iframe DOM through `contentDocument` and edited before progress recovery completed, then passed after using Playwright frame locators and a dev-only loaded marker (8 tests).
+- P7-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (34 files / 124 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (88 tests), audit passed with 0 vulnerabilities.
+- P7-02 targeted checks on 2026-09-05: typecheck passed; HTML/CSS DOM validator, preview helper, curriculum, catalog, explanation, curriculum page, and workspace tests passed (7 files / 22 tests); after DOM hidden explanation polish, focused retest passed (3 files / 11 tests); Chrome/Edge P7 E2E passed (10 tests).
+- P7-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (35 files / 129 tests), build passed with existing Pyodide/chunk warnings, initial Chrome/Edge E2E passed 89/90 with one existing Edge Python 1級 timing miss, targeted Edge retest passed, final full Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
+- P7-03 targeted checks on 2026-09-05: typecheck passed; style validator, combined HTML/CSS grader, DOM validator, curriculum, explanation, and workspace tests initially failed one duplicate hidden-detail assertion after adding a second hidden result, then passed (6 files / 16 tests); initial P7 Chrome/Edge E2E failed because hidden leak assertion searched the whole page including the CSS editor, then passed after scoping to Grading result (10 tests).
+- P7-03 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (37 files / 133 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (90 tests), audit passed with 0 vulnerabilities.
+- P7-04 targeted checks on 2026-09-05: initial related unit/component tests failed on old HTML/CSS exercise ID expectations and unstable CSS shorthand/hex CSSOM expectations; fixed by updating expectations and using stable style requirements. Related tests then passed (12 files / 31 tests). Initial full E2E exposed a dev-only HTML/CSS edit hook race where the loaded marker could be set before progress recovery; fixed with an explicit progress-loaded state and immediate dev snapshot update. Targeted Chrome/Edge P7 E2E then passed (14 tests).
+- P7-04 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (41 files / 144 tests), build passed with existing Pyodide/chunk warnings, Chrome/Edge E2E passed (94 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

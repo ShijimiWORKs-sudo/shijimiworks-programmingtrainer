@@ -167,3 +167,35 @@ Decision: Mirror the proven Python 1級 practical maintenance structure with Jav
 Reason: This creates a complete grade path quickly, reuses established product semantics, and keeps the checkpoint inside the stable single-entry-file Lesson Workspace.
 Alternatives: Build a full JavaScript multi-file execution harness now; invent unrelated advanced browser/API tasks; leave JavaScript 1級 as planned. These were rejected because they broaden scope or fail P6-04 acceptance.
 Risk: Visible support files are instructional and not executed by the runner yet. Future advanced JavaScript project phases can add multi-file execution without invalidating these stdout-graded tasks.
+
+## 2026-09-05: HTML/CSS Preview Progress Snapshot in LessonProgress.lastCode
+Date: 2026-09-05
+Context: P7-01 needs two editable files, `index.html` and `styles.css`, while the existing lesson progress model persists one `lastCode` string per lesson and no HTML/CSS grading model exists yet.
+Decision: Serialize the HTML/CSS file snapshot into `LessonProgress.lastCode` with a `programming-trainer:html-css:v1` prefix and parse older plain-string values as HTML fallback.
+Reason: This keeps P7-01 inside the existing repository contract, avoids a database migration, and gives reload persistence for both editors immediately.
+Alternatives: Add a new IndexedDB store for multi-file snapshots; migrate `LessonProgress.lastCode` to structured data; persist only HTML and reset CSS on reload. These were rejected because they add unnecessary migration risk or fail the split-editor persistence expectation.
+Risk: Future multi-file languages may need a first-class structured progress model. The prefixed format isolates this HTML/CSS snapshot so it can be migrated later without corrupting older single-file lesson progress.
+
+## 2026-09-05: HTML DOM Validator Uses GradeResult-Compatible Output
+Date: 2026-09-05
+Context: P7-02 requires HTML structure grading, but the existing grading UI, progress checkpointing, and attempt recording are built around `GradeResult` and stdout-based test case result rows.
+Decision: Add `html_dom` grading mode and DOM requirement metadata, then return DOM validation results through the existing `GradeResult` shape with `dom:` test result IDs.
+Reason: This keeps lesson progress, hidden-result display rules, and attempt history consistent without forcing a broad grading UI rewrite before CSS validation.
+Alternatives: Create a separate HTML/CSS result domain and duplicate result UI; run learner HTML in the preview iframe to inspect DOM; postpone progress/attempt persistence for HTML/CSS. These were rejected because they either broaden scope, weaken the sandbox boundary, or leave grading less resumable.
+Risk: `GradeResult` now represents both stdout execution and static DOM validation. Result explanation code checks `dom:` IDs so beginner-facing messages stay accurate, but future validators should avoid overloading stdout terms further.
+
+## 2026-09-05: CSS Style Validator Uses Browser CSSOM
+Date: 2026-09-05
+Context: P7-03 requires CSS and responsive validation. The app already creates a sandboxed preview iframe, but grading should not depend on executing learner scripts or granting preview script permissions.
+Decision: Parse learner CSS through a temporary `style` element and inspect CSSOM rules for selector/property/value requirements, including nested media-query rules.
+Reason: CSSOM parsing validates the CSS source with browser semantics, keeps grading independent from preview execution, avoids new dependencies, and preserves the `sandbox=""` preview boundary.
+Alternatives: Use a new CSS parser dependency; inspect computed styles inside the preview iframe; validate CSS with string includes only. These were rejected because they add dependency surface, couple grading to iframe access, or make style validation too brittle.
+Risk: CSSOM declaration checks validate authored declarations, not every cascade/computed-style outcome. Future responsive tasks may need viewport-specific computed-style assertions, but this checkpoint establishes the safe requirement model.
+
+## 2026-09-05: HTML/CSS Grade 3-1 Uses Static Project Seeds
+Date: 2026-09-05
+Context: P7-04 requires complete HTML/CSS grade 3, 2, and 1 curricula. The existing HTML/CSS workspace already supports split `index.html` / `styles.css` editing, sandbox preview, DOM validation, style validation, progress persistence, and attempts.
+Decision: Add shared static curriculum seed helpers and represent each HTML/CSS lesson as one project-backed split-editor exercise with DOM and style requirements. Grade 3 mirrors beginner fundamentals, Grade 2 focuses on layout/components, and Grade 1 mirrors practical maintenance tasks.
+Reason: This completes the learnable HTML/CSS path while preserving the existing safe preview/grading architecture and avoiding a new editor, runner, dependency, or persistence migration during P7-04.
+Alternatives: Build a separate HTML/CSS multi-exercise editor now; add screenshot or computed-style grading; leave Grade 2/1 as planned placeholders. These were rejected because they either broaden the checkpoint or fail the Phase 7 curriculum acceptance.
+Risk: Current style validation checks authored declarations through CSSOM rather than full visual screenshot equivalence. Future content QA or release hardening can add richer visual assertions without changing these lesson routes.
