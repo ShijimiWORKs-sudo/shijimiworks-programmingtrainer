@@ -132,6 +132,38 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_js1_04_refactoring")).toBeUndefined();
   });
 
+  it("enables Java grade 1, grade 2, and grade 3 and keeps next-lesson routing within each Java course", () => {
+    const java = languages.find((language) => language.slug === "java");
+
+    expect(java).toMatchObject({
+      status: "available",
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_java_grade_3_foundation" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_java_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_java_grade_1" }] },
+      ],
+    });
+    expect(findLessonById("lesson_java3_01_println")).toMatchObject({
+      title: "Lesson 01: println / 出力",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_java3_01_println")?.id).toBe("course_java_grade_3_foundation");
+    expect(findNextLesson("lesson_java3_01_println")).toMatchObject({
+      id: "lesson_java3_02_variables",
+    });
+    expect(findNextLesson("lesson_java3_10_methods")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_java2_01_method_return")?.id).toBe("course_java_grade_2");
+    expect(findNextLesson("lesson_java2_01_method_return")).toMatchObject({
+      id: "lesson_java2_02_method_composition",
+    });
+    expect(findNextLesson("lesson_java2_06_small_project")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_java1_01_bug_fix")?.id).toBe("course_java_grade_1");
+    expect(findNextLesson("lesson_java1_01_bug_fix")).toMatchObject({
+      id: "lesson_java1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_java1_04_refactoring")).toBeUndefined();
+  });
+
   it("enables HTML/CSS grade 1, grade 2, and grade 3 and keeps next-lesson routing within each HTML/CSS course", () => {
     const htmlCss = languages.find((language) => language.slug === "html-css");
 

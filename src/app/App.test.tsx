@@ -12,6 +12,13 @@ describe("App routes", () => {
   it.each([
     [routePaths.home, "Programming Trainer"],
     [routePaths.languages, "Language Select"],
+    [routePaths.java, "Java Level Select"],
+    [routePaths.javaGrade1, "Java 1級"],
+    [routePaths.javaGrade1Lesson("lesson_java1_01_bug_fix"), "Lesson 01: bug fix"],
+    [routePaths.javaGrade2, "Java 2級"],
+    [routePaths.javaGrade2Lesson("lesson_java2_01_method_return"), "Lesson 01: メソッドの戻り値"],
+    [routePaths.javaGrade3, "Java 3級"],
+    [routePaths.javaGrade3Lesson("lesson_java3_01_println"), "Lesson 01: println / 出力"],
     [routePaths.python, "Python Level Select"],
     [routePaths.pythonGrade1, "Python 1級"],
     [routePaths.pythonGrade1Lesson("lesson_py1_01_bug_fix"), "Lesson 01: bug fix"],

@@ -96,6 +96,148 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P8-01 Java Runner Infrastructure
+Datetime: 2026-09-05 10:00 +09:00
+Commit: 5fdcba1e397f7b7380379ca0685949db66db6185
+Target: Add Java compile/run runner infrastructure behind `LanguageRunner` with browser-contained worker execution, timeout/cancel recovery, and no host OS execution.
+
+Test Command: `npm test -- --run src/features/runner/JavaRunner.test.ts src/features/runner/javaRuntime.test.ts src/features/runner/JavaScriptRunner.test.ts src/features/runner/PythonRunner.test.ts`
+Result: Initially failed 3 `javaRuntime` tests.
+Failure: The first Java subset compiler pass left the outer `class` wrapper in the generated JavaScript, causing strict-mode syntax errors and no stdout.
+Fix: Extract the Java class body first, then transform `main` and static helper methods from inside that class body only.
+Retest Result: Passed, 4 files / 13 tests.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/runner/JavaRunner.test.ts src/features/runner/javaRuntime.test.ts src/features/runner/JavaScriptRunner.test.ts src/features/runner/PythonRunner.test.ts src/routes/LanguageSelectPage.test.tsx src/content/catalog.test.ts`
+Result: Passed, 6 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase8-java.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 43 files / 152 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; the new Java worker emitted as a production asset.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 96 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only existing Git line-ending warnings for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|C:\\|/Users|/home|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document" src/features/runner tests/e2e/phase8-java.spec.ts docs/autonomous`
+Result: Reviewed expected Java worker/runtime references, existing JavaScript runner references, existing Pyodide/doc historical records, and no new host OS execution path. Java remains planned in UI until P8-02 curriculum routes are added.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+## 2026-09-05 Checkpoint: P8-02 Java Grade 3-1 Curriculum
+Datetime: 2026-09-05 10:53 +09:00
+Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
+Target: Add routeable Java 3級, 2級, and 1級 curricula that run through `JavaRunner`, grade through the shared Lesson Workspace, persist progress, and keep hidden test details private.
+
+Test Command: `npm run typecheck`
+Result: Initially failed after adding Java curriculum page tests.
+Failure: New Java page tests imported a non-existent `../repositories/testUtils` helper instead of using the established hoisted repository mock pattern.
+Fix: Reworked the Java curriculum page tests to mock `../repositories` locally with `vi.hoisted`, matching existing Python/JavaScript/HTML-CSS route tests.
+Retest Result: Passed.
+
+Test Command: `npm test -- --run src/features/runner/javaRuntime.test.ts src/features/runner/JavaRunner.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/JavaLevelSelectPage.test.tsx src/routes/JavaGrade3CurriculumPage.test.tsx src/routes/JavaGrade2CurriculumPage.test.tsx src/routes/JavaGrade1CurriculumPage.test.tsx src/app/App.test.tsx`
+Result: Initially failed on the same missing test helper imports and an overly strict Java link accessible-name regex.
+Failure: Browser/testing-library accessible names include status text differently, and `/Java\b/` did not match the unit-rendered `JavaAvailable` name.
+Fix: Added local repository mocks and changed the Java language-card assertion to match the full `JavaAvailable` accessible name in unit tests.
+Retest Result: Passed, 9 files / 54 tests.
+
+Test Command: `npm test -- --run src/content/java/curriculum.test.ts src/features/runner/javaRuntime.test.ts src/content/catalog.test.ts src/routes/JavaGrade3CurriculumPage.test.tsx src/routes/JavaGrade2CurriculumPage.test.tsx src/routes/JavaGrade1CurriculumPage.test.tsx tests/e2e/phase8-java.spec.ts`
+Result: Passed, 6 files / 22 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase8-java.spec.ts`
+Result: Initially failed 2 / 12 tests, then passed 12 / 12.
+Failure: The Java language-card click used the unit-test accessible-name regex `^JavaAvailable$`, but Playwright did not expose that exact concatenated name in real browsers.
+Fix: Changed the P8 E2E Java language-card click to use the stable route href `a[href="/languages/java"]`.
+Retest Result: Passed, 12 tests.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed after adding the Java content quality test.
+
+Test Command: `npm test`
+Result: Passed, 48 files / 171 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings; `java.worker` emitted as a production asset.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 106 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with only Git line-ending warnings for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review hidden-data and dangerous API scan with `rg -n "tc_java[123]_.*hidden|Mika|2500|Sora|runner|-4|-2|-9|60,90,100,70|\tRen|5100|100,40,75|Nia|Kai|child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts" src tests docs/autonomous`
+Result: Hidden Java values appear only in hidden test case definitions, non-visibility assertions, and autonomous logs. Visible Java support files use public examples. No host OS execution path, new dependency, `allow-scripts`, or new `node:*` access was introduced.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P6-02 JavaScript Grade 3 Curriculum
 Datetime: 2026-09-05 04:29 +09:00
 Commit: 74a161ad3d8363275e129e2567d813706dcf12f4

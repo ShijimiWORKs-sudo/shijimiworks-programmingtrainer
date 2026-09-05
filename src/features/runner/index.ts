@@ -1,3 +1,4 @@
+export { JavaRunner } from "./JavaRunner";
 export { JavaScriptRunner } from "./JavaScriptRunner";
 export { PythonRunner } from "./PythonRunner";
 export type {
@@ -7,5 +8,6 @@ export type {
   RunResult,
   RunStatus,
 } from "./LanguageRunner";
+export type { JavaWorkerRequest, JavaWorkerResponse } from "./javaProtocol";
 export type { JavaScriptWorkerRequest, JavaScriptWorkerResponse } from "./javascriptProtocol";
 export type { PythonWorkerRequest, PythonWorkerResponse } from "./pythonProtocol";
