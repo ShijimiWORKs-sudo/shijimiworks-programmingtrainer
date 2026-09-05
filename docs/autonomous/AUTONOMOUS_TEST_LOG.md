@@ -98,7 +98,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P8-01 Java Runner Infrastructure
 Datetime: 2026-09-05 10:00 +09:00
-Commit: pending checkpoint commit on `codex/phase-8-java`
+Commit: 5fdcba1e397f7b7380379ca0685949db66db6185
 Target: Add Java compile/run runner infrastructure behind `LanguageRunner` with browser-contained worker execution, timeout/cancel recovery, and no host OS execution.
 
 Test Command: `npm test -- --run src/features/runner/JavaRunner.test.ts src/features/runner/javaRuntime.test.ts src/features/runner/JavaScriptRunner.test.ts src/features/runner/PythonRunner.test.ts`
