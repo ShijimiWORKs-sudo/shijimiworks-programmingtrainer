@@ -1,5 +1,70 @@
 # Programming Trainer Autonomous Test Log
 
+## 2026-09-05 Checkpoint: P12-01 Virtual PowerShell Foundation
+Datetime: 2026-09-05 17:30 +09:00
+Commit: 29c3c3236d363a6ed161e657130b0f6af1141c04
+Target: Add a safe PowerShell-like virtual environment and runner foundation behind `LanguageRunner`, keep PowerShell planned in UI until curriculum routes are added, and prove no host PowerShell or host filesystem execution path exists.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/powershellSimulator/virtualPowerShell.test.ts src/features/runner/PowerShellSimulatorRunner.test.ts src/features/commandSimulator/virtualTerminal.test.ts src/features/runner/CommandSimulatorRunner.test.ts src/routes/LanguageSelectPage.test.tsx src/content/catalog.test.ts`
+Result: Passed, 6 files / 35 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase12-powershell.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 72 files / 267 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 142 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|cmd.exe|powershell.exe|pwsh.exe" src/features/powershellSimulator src/features/runner/PowerShellSimulatorRunner.ts tests/e2e/phase12-powershell.spec.ts docs/autonomous`
+Result: Reviewed historical autonomous log entries only. P12-01 added no host PowerShell, host OS execution, host filesystem access, network API, new dependency, or browser global execution path.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: Phase 11 PR #12 Merge and Phase 12 Start
 Datetime: 2026-09-05 17:02 +09:00
 Commit: f5488795893003fbe59edbabe771520db9dd1b37

@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 17:02 +09:00
+Updated: 2026-09-05 17:30 +09:00
 
-Current Phase: Phase 11 / Windows Command merged to main, Phase 12 / PowerShell start next
-Current Branch: main
-Current Commit: f5488795893003fbe59edbabe771520db9dd1b37
+Current Phase: Phase 12 / PowerShell - P12-01 complete
+Current Branch: codex/phase-12-powershell
+Current Commit: 29c3c3236d363a6ed161e657130b0f6af1141c04
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -331,22 +331,32 @@ Current Commit: f5488795893003fbe59edbabe771520db9dd1b37
 - Completed the local P11-03 full gate successfully.
 - Created Phase 11 PR #12 as draft, completed self-review, confirmed GitHub Actions `CI` success on head `20e511217800e4781553b3fa427e498ddb119e01`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `f5488795893003fbe59edbabe771520db9dd1b37`.
+- Recorded and pushed the post-merge Phase 11 checkpoint on `main` as `7a3d2d090ae7e942afbc66b5c4bd1e989ab2df9c`.
+- Created Phase 12 branch `codex/phase-12-powershell` from latest `main`.
+- Completed `P12-01 Virtual PowerShell Foundation`.
+- Added a PowerShell-like virtual state model with virtual-only `C:\Users\student` filesystem entries, command history, path normalization, and read-only command execution for `Get-ChildItem`, `Set-Location`, `Get-Location`, `Get-Content`, `Write-Output`, `Get-Help`, `Clear-Host`, and `Get-History`.
+- Added `PowerShellSimulatorRunner` behind the `LanguageRunner` abstraction without host PowerShell execution, host filesystem access, new dependencies, or network access.
+- Kept mutation and pipeline exercises out of P12-01 so P12-02/P12-03 can add them with focused tests.
+- Kept PowerShell planned on the Language Select screen until curriculum routes are added.
+- Completed the local P12-01 full gate successfully.
 
 ## In Progress
-- Preparing Phase 12 / PowerShell branch from latest `main`.
+- Preparing `P12-02 Pipeline Exercises`.
 
 ## Next
-- Create `codex/phase-12-powershell` from latest `main`.
-- Start `P12-01 Virtual PowerShell Foundation` from `AUTONOMOUS_PLAN.md`.
-- Build the PowerShell-like virtual environment without host PowerShell execution or host filesystem access.
+- Add safe virtual pipeline execution support for the PowerShell-like simulator.
+- Add pipeline-focused lesson metadata/tests without publishing the full PowerShell curriculum before P12-04 unless required by the checkpoint.
+- Continue with P12-02 targeted tests, full regression, docs checkpoint, commit, and push.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 70 files / 258 tests.
+- `npm test`: passed, 72 files / 267 tests.
 - `npm run build`: passed with existing Pyodide browser-compatibility and chunk-size warnings.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 140 tests.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 142 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P12-01 targeted tests passed: PowerShell simulator/runner unit tests, Command regression unit tests, catalog/language select tests, and Chrome/Edge P12 smoke E2E.
+- P12-01 self-review passed: virtual PowerShell execution has no host PowerShell, host filesystem path, new dependency, network API, or scope creep. `git diff --check` passed with line-ending warnings only.
 - P11-03 targeted tests passed: Command curriculum/catalog/route/component tests, Command simulator/grading tests, and Chrome/Edge Command E2E.
 - P11-03 self-review passed: Command execution/grading remains virtual-only, hidden file requirement details stay generic in UI, no dependency was added, PowerShell remains planned, and no scope creep was found.
 - PR #12 GitHub Actions: `CI` passed on head `20e511217800e4781553b3fa427e498ddb119e01`; PR merged to `main` as `f5488795893003fbe59edbabe771520db9dd1b37`.

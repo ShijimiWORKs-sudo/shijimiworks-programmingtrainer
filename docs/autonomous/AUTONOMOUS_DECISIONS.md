@@ -279,3 +279,11 @@ Decision: Publish Command 3級, 2級, and 1級 lessons that all run through `Com
 Reason: This completes the routeable Command path while preserving the safety boundary: commands mutate only in-memory `VirtualTerminalState`, never Windows `cmd.exe` or the host filesystem.
 Alternatives: Add a real shell-backed runner; leave grade 2/1 as placeholders; switch Command lessons to stdout-only grading. These were rejected because they would violate the sandbox boundary, under-deliver the phase, or make file task validation indirect.
 Risk: The Command curriculum teaches an educational subset of Windows Command behavior. Future PowerShell work should build a separate virtual model rather than broadening this subset into real OS execution.
+
+## 2026-09-05: PowerShell Runner Uses Virtual Read-only Foundation
+Date: 2026-09-05
+Context: P12-01 requires a safe PowerShell-like training environment, while pipeline and filesystem exercises are separate later checkpoints.
+Decision: Add `PowerShellSimulatorRunner` backed by explicit `VirtualPowerShellState` data, with read-only navigation, listing, content, output, help, clear, and history commands. Keep mutation commands and pipeline behavior out of P12-01.
+Reason: This establishes the safe `LanguageRunner` boundary without calling host PowerShell, touching the local filesystem, adding dependencies, or expanding into later P12 checkpoints.
+Alternatives: Shell out to Windows PowerShell; reuse the Command simulator directly; implement pipelines and file mutation immediately. These were rejected because they either violate the safety boundary, blur language-specific behavior, or broaden P12-01.
+Risk: The foundation is intentionally an educational subset. P12-02/P12-03 must expand it with focused tests before publishing lessons that depend on pipeline or filesystem mutation semantics.
