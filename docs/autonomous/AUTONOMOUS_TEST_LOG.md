@@ -1,5 +1,76 @@
 # Programming Trainer Autonomous Test Log
 
+## 2026-09-05 Checkpoint: P12-03 Filesystem Exercises
+Datetime: 2026-09-05 18:43 +09:00
+Commit: 641106997e02f6ec8ab3dd8324de6a3d71d6305c
+Target: Add safe virtual PowerShell filesystem mutation, PowerShell-specific virtual filesystem grading, and draft filesystem lessons while keeping PowerShell unpublished until P12-04.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/powershellSimulator/virtualPowerShell.test.ts src/features/powershellSimulator/powershellGrading.test.ts src/features/runner/PowerShellSimulatorRunner.test.ts src/content/powershell/curriculum.test.ts src/routes/LanguageSelectPage.test.tsx src/content/catalog.test.ts`
+Result: Passed, 6 files / 34 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase12-powershell.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed in Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 74 files / 279 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 142 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|cmd.exe|powershell.exe|pwsh.exe" src/features/powershellSimulator src/features/runner/PowerShellSimulatorRunner.ts src/content/powershell src/routes/LessonWorkspacePage.tsx tests/e2e/phase12-powershell.spec.ts docs/autonomous`
+Result: Reviewed historical autonomous log entries and existing dev-only E2E hooks only. P12-03 added no host PowerShell execution, host filesystem access, network API, new dependency, `allow-scripts`, or browser global execution path.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Publication and hidden-detail scan with `rg -n "PowerShell|powershell|planned|powershell_virtual_fs|ps3_|hidden|summary.txt|draft.txt|old.tmp|backup.txt|final.txt" src/content/powershell src/content/catalog.ts src/routes/LessonWorkspacePage.tsx tests/e2e/phase12-powershell.spec.ts src/features/powershellSimulator`
+Result: PowerShell remains planned in `src/content/catalog.ts`; hidden filesystem requirement details appear only in metadata/tests and are suppressed by the PowerShell filesystem grader for hidden results.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-05 Checkpoint: P12-02 Pipeline Exercises
 Datetime: 2026-09-05 18:02 +09:00
 Commit: 01f183f3586dec55670ecd1b3de6a442d89016ce

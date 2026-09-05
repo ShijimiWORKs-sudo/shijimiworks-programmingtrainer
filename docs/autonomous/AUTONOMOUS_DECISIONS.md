@@ -1,5 +1,13 @@
 # Programming Trainer Autonomous Decisions
 
+## 2026-09-05: PowerShell-Specific Virtual Filesystem Grading Mode
+Date: 2026-09-05
+Context: P12-03 requires PowerShell filesystem exercises that validate virtual state. Command already has `command_virtual_fs`, but its types and grader names are Command-specific.
+Decision: Add `powershell_virtual_fs`, PowerShell virtual environment/requirement types, and a PowerShell-specific filesystem grader instead of reusing the Command grading mode.
+Reason: This preserves clear language boundaries, lets Lesson Workspace route PowerShell filesystem exercises to `PowerShellSimulatorRunner`, and avoids coupling future PowerShell curriculum behavior to Command-specific naming.
+Alternatives: Reuse `command_virtual_fs` with PowerShell content; keep filesystem lessons stdout-only; delay grading support until P12-04. These were rejected because they would either blur runtime ownership or fail P12-03's virtual state validation acceptance condition.
+Risk: The domain model now has parallel Command and PowerShell virtual filesystem fields. Future cleanup may consolidate shared requirement primitives if more shell-like languages are added.
+
 ## 2026-09-05: PowerShell Pipeline Exercises Use Stdout Grading Before Route Publication
 Date: 2026-09-05
 Context: P12-02 requires PowerShell pipeline exercises, but P12-04 is the checkpoint for publishing the complete PowerShell curriculum and routes.

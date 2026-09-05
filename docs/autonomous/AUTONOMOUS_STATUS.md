@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 18:02 +09:00
+Updated: 2026-09-05 18:43 +09:00
 
-Current Phase: Phase 12 / PowerShell - P12-02 complete
+Current Phase: Phase 12 / PowerShell - P12-03 complete
 Current Branch: codex/phase-12-powershell
-Current Commit: 01f183f3586dec55670ecd1b3de6a442d89016ce
+Current Commit: 641106997e02f6ec8ab3dd8324de6a3d71d6305c
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -345,22 +345,31 @@ Current Commit: 01f183f3586dec55670ecd1b3de6a442d89016ce
 - Added simulator, runner, and curriculum tests for pipeline filtering, selection, measurement, unsupported pipeline commands, and PowerShell draft lesson grading.
 - Completed the local P12-02 full gate successfully, including Chrome/Edge E2E and npm audit.
 - P12-02 self-review passed: virtual PowerShell pipelines do not call host PowerShell, host filesystem APIs, network APIs, or new dependencies, and scope remains limited to pipeline foundation plus unpublished draft lessons.
+- Completed `P12-03 Filesystem Exercises`.
+- Added virtual PowerShell filesystem mutation support for `New-Item`, `Set-Content`, `Copy-Item`, `Move-Item`, and `Remove-Item`, all operating on in-memory virtual state only.
+- Added `powershell_virtual_fs` grading mode, PowerShell virtual environment/requirement types, and `gradePowerShellVirtualFileSystemExercise`.
+- Connected `LessonWorkspacePage` run/grade paths to the PowerShell virtual filesystem runner/grader for future route publication.
+- Added two draft PowerShell grade 3 filesystem lessons with public and hidden virtual state requirements while keeping PowerShell unpublished until P12-04.
+- Completed the local P12-03 full gate successfully, including Chrome/Edge E2E and npm audit.
+- P12-03 self-review passed: virtual filesystem tasks do not call host PowerShell, host filesystem APIs, network APIs, or new dependencies; hidden filesystem requirement details remain suppressed.
 
 ## In Progress
-- Preparing `P12-03 Filesystem Exercises`.
+- Preparing `P12-04 PowerShell Grade 3-1 Curriculum`.
 
 ## Next
-- Add safe virtual PowerShell filesystem mutation and validation support for P12-03.
-- Keep all file work inside the in-memory virtual filesystem; do not execute host PowerShell or touch the host filesystem.
-- Continue with P12-03 targeted tests, full regression, docs checkpoint, commit, and push.
+- Publish the complete PowerShell grade 3-1 curriculum from the Language Select screen.
+- Add PowerShell level/curriculum routes, progress coverage, and Chrome/Edge route E2E.
+- Complete Phase 12 PR creation/self-review/full gate/CI/merge once P12-04 is green.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 73 files / 274 tests.
+- `npm test`: passed, 74 files / 279 tests.
 - `npm run build`: passed with existing Pyodide browser-compatibility and chunk-size warnings.
 - `npm run test:e2e -- --project=chrome --project=edge`: passed, 142 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P12-03 targeted tests passed: PowerShell simulator mutation tests, PowerShell virtual filesystem grading tests, PowerShell runner tests, PowerShell draft curriculum tests, catalog/language select regression, and Chrome/Edge P12 smoke E2E.
+- P12-03 self-review passed: `git diff --check` passed with line-ending warnings only; dangerous API and publication/hidden-detail scans found only expected virtual paths, hidden metadata/tests, existing dev hooks, and historical logs.
 - P12-02 targeted tests passed: PowerShell simulator/runner tests, PowerShell draft curriculum tests, GradingEngine regression, catalog/language select regression, and Chrome/Edge P12 smoke E2E.
 - P12-02 self-review passed: `git diff --check` passed with line-ending warnings only; dangerous API scan found only historical autonomous log entries and expected non-P12 references.
 - P12-01 targeted tests passed: PowerShell simulator/runner unit tests, Command regression unit tests, catalog/language select tests, and Chrome/Edge P12 smoke E2E.
