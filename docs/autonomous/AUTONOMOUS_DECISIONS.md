@@ -263,3 +263,11 @@ Decision: Memoize `persistFiles`, install the dev-only HTML/CSS setter only when
 Reason: This keeps E2E edits synchronized with progress recovery without changing learner-facing HTML/CSS behavior or persistence format.
 Alternatives: Only rerun the flaky test; increase the Playwright timeout; weaken the assertion. These were rejected because the hook race was identifiable and could be fixed narrowly.
 Risk: The hook remains development-only and should not become product functionality. Future route changes should keep the loaded marker tied to completed progress recovery.
+
+## 2026-09-05: Command File Operations Mutate Only Virtual State
+Date: 2026-09-05
+Context: P11-02 requires create, move, and delete task validation while the Command path is still not routeable and all command execution must remain isolated from the host OS.
+Decision: Implement file creation, directory creation, copy, move, delete, and empty-directory removal directly on `VirtualTerminalState.entries`, then grade final virtual filesystem state through `cmdfs:` requirements. Seed Command 3級 file operation lessons as draft content and keep `lang_command` planned until P11-03.
+Reason: This delivers the file-operation learning model and tests without calling Windows `cmd.exe`, touching the local filesystem, changing browser routes early, or introducing dependencies.
+Alternatives: Publish Command routes in P11-02; reuse stdout-only grading for filesystem tasks; execute real shell commands in a temporary folder. These were rejected because they either broaden the checkpoint, make FS validation indirect, or violate the product safety boundary.
+Risk: Redirection and filesystem behavior cover the teaching subset, not every Windows Command edge case. P11-03 curriculum should stay within this subset unless it expands the simulator with tests first.

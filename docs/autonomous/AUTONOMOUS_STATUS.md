@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 15:16 +09:00
+Updated: 2026-09-05 15:58 +09:00
 
-Current Phase: Phase 11 / Windows Command - P11-01 complete
+Current Phase: Phase 11 / Windows Command - P11-02 complete
 Current Branch: codex/phase-11-windows-command
-Current Commit: 212452ee71df57bc1bc9bc093d13f3fe0edbe7b0
+Current Commit: 4586c04a514ba3574aeba2a14c506aa5b8aca348
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -315,21 +315,30 @@ Current Commit: 212452ee71df57bc1bc9bc093d13f3fe0edbe7b0
 - Kept Windows Command and PowerShell planned on the Language Select screen until curriculum routes are added.
 - Stabilized the dev-only HTML/CSS E2E edit hook after the P11-01 full gate exposed a render cleanup race during reload persistence testing.
 - Completed the local P11-01 full gate successfully.
+- Completed `P11-02 Virtual Filesystem Tasks`.
+- Added virtual filesystem mutation support for `echo ... > file`, `mkdir`, `copy`, `move`, `del`/`erase`, and `rmdir`, all operating only on `VirtualTerminalState`.
+- Added Command virtual filesystem grading metadata and `gradeCommandVirtualFileSystemExercise` for file exists, file absent, directory exists, and exact file content requirements.
+- Added beginner-facing `cmdfs:` result explanations while keeping hidden file requirement details generic.
+- Seeded draft Command 3級 file operation lessons for create, move/copy, and delete cleanup tasks without publishing Command in the main catalog before P11-03.
+- Verified host-looking paths are treated as virtual paths only and no host OS command/file access was introduced.
+- Completed the local P11-02 full gate successfully.
 
 ## In Progress
-- Preparing `P11-02 Virtual Filesystem Tasks`.
+- Preparing `P11-03 Command Grade 3-1 Curriculum`.
 
 ## Next
-- Start virtual filesystem mutation task support for create/move/delete commands.
-- Add simulator/content/grading/tests for command file operation exercises.
+- Publish and route the Command grade 3-1 curriculum from the draft virtual filesystem foundation.
+- Wire Command routes, workspace grading, progress persistence, and Chrome/Edge E2E coverage.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 64 files / 233 tests.
+- `npm test`: passed, 66 files / 243 tests.
 - `npm run build`: passed.
 - `npm run test:e2e -- --project=chrome --project=edge`: passed, 132 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P11-02 targeted tests passed: virtual terminal mutation tests, command filesystem grading tests, Command draft curriculum tests, grading explanation tests, and Chrome/Edge P11 smoke E2E.
+- P11-02 self-review passed: create/move/delete commands mutate only virtual state, hidden file requirement details remain generic, Command stays planned until P11-03, no dependency or scope creep.
 - P11-01 targeted tests passed: Command simulator/runner unit tests, Language Select component coverage, HTML/CSS hook regression, and Chrome/Edge P11 smoke E2E.
 - P11-01 self-review passed: virtual Command execution has no host OS/host filesystem path, hidden data leak, dependency, or scope creep. `git diff --check` passed with line-ending warnings only.
 - PR #11 GitHub Actions: `CI / verify` passed on head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`; PR merged to `main` as `0664670b136624512fb319e5d60c63ac29d84e17`.

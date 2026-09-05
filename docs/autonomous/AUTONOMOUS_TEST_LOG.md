@@ -63,6 +63,71 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: P11-02 Virtual Filesystem Tasks
+Datetime: 2026-09-05 15:58 +09:00
+Commit: 4586c04a514ba3574aeba2a14c506aa5b8aca348
+Target: Add safe Command file operation exercises and grading that validate create, move/copy, and delete outcomes only in the virtual filesystem.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/features/commandSimulator/virtualTerminal.test.ts src/features/commandSimulator/commandGrading.test.ts src/content/command/curriculum.test.ts src/features/grading/explain.test.ts`
+Result: Passed, 4 files / 20 tests.
+Failure: None.
+Fix: None.
+Retest Result: Superseded by full `npm test`.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase11-command.spec.ts`
+Result: Passed, 2 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 66 files / 243 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 132 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|C:\\|/Users|/home|cmd.exe|powershell.exe" src/features/commandSimulator src/content/command src/domain/curriculum.ts src/features/grading/explain.ts tests/e2e/phase11-command.spec.ts docs/autonomous`
+Result: Reviewed expected virtual `C:\Users\student` paths, host-looking path tests, existing docs references, and no new host OS execution, host filesystem access, dependency, `allow-scripts`, or network API.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 Test Command: `npm run test:e2e -- --project=chrome --project=edge`
 Result: Initially failed 131 / 132, then passed 132 / 132.
 Failure: First full rerun exposed an existing Chrome Python initialization wait miss; targeted Chrome retest passed. Second full rerun exposed an existing Edge HTML/CSS dev-hook snapshot race during reload persistence.
