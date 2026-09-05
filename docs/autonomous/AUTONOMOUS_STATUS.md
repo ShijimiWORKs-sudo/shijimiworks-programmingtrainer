@@ -4,7 +4,7 @@ Updated: 2026-09-05 10:53 +09:00
 
 Current Phase: Phase 8 / Java - P8-02 complete, Phase 8 PR next
 Current Branch: codex/phase-8-java
-Current Commit: pending P8-02 checkpoint commit on `codex/phase-8-java`
+Current Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.

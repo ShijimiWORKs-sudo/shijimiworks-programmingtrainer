@@ -169,7 +169,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P8-02 Java Grade 3-1 Curriculum
 Datetime: 2026-09-05 10:53 +09:00
-Commit: pending checkpoint commit on `codex/phase-8-java`
+Commit: 3849f86213ebb0bbe64966ab458bdda9e4e3b08a
 Target: Add routeable Java 3級, 2級, and 1級 curricula that run through `JavaRunner`, grade through the shared Lesson Workspace, persist progress, and keep hidden test details private.
 
 Test Command: `npm run typecheck`
