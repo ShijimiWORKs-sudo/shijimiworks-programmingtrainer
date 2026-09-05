@@ -2,6 +2,7 @@ export { CppRunner } from "./CppRunner";
 export { JavaRunner } from "./JavaRunner";
 export { JavaScriptRunner } from "./JavaScriptRunner";
 export { PythonRunner } from "./PythonRunner";
+export { RubyRunner } from "./RubyRunner";
 export type {
   LanguageRunner,
   RunErrorType,
@@ -13,3 +14,4 @@ export type { CppWorkerRequest, CppWorkerResponse } from "./cppProtocol";
 export type { JavaWorkerRequest, JavaWorkerResponse } from "./javaProtocol";
 export type { JavaScriptWorkerRequest, JavaScriptWorkerResponse } from "./javascriptProtocol";
 export type { PythonWorkerRequest, PythonWorkerResponse } from "./pythonProtocol";
+export type { RubyWorkerRequest, RubyWorkerResponse } from "./rubyProtocol";
