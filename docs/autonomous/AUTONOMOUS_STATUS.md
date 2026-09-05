@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 13:58 +09:00
+Updated: 2026-09-05 15:16 +09:00
 
-Current Phase: Phase 10 / Ruby merged; Phase 11 / Windows Command ready to start
-Current Branch: main
-Current Commit: 0664670b136624512fb319e5d60c63ac29d84e17
+Current Phase: Phase 11 / Windows Command - P11-01 complete
+Current Branch: codex/phase-11-windows-command
+Current Commit: 212452ee71df57bc1bc9bc093d13f3fe0edbe7b0
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -306,21 +306,32 @@ Current Commit: 0664670b136624512fb319e5d60c63ac29d84e17
 - Completed local P10-02 full gate successfully.
 - Created Phase 10 PR #11 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success on head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `0664670b136624512fb319e5d60c63ac29d84e17`.
+- Recorded and pushed the post-merge Phase 10 checkpoint on `main` as `7993510f784c958293e7dce254eaf5bfa5edf2a7`.
+- Created Phase 11 branch `codex/phase-11-windows-command` from latest `main`.
+- Completed `P11-01 Virtual Terminal Foundation`.
+- Added a Windows Command virtual terminal state model with virtual-only `C:\Users\student` filesystem entries, command history, path normalization, and read-only command execution for `dir`, `cd`, `type`, `echo`, `help`, `cls`, `ver`, and `history`.
+- Added `CommandSimulatorRunner` behind the `LanguageRunner` abstraction without host OS execution, host filesystem access, new dependencies, or network access.
+- Kept mutation commands unavailable in the foundation simulator so create/move/delete behavior remains scoped to P11-02.
+- Kept Windows Command and PowerShell planned on the Language Select screen until curriculum routes are added.
+- Stabilized the dev-only HTML/CSS E2E edit hook after the P11-01 full gate exposed a render cleanup race during reload persistence testing.
+- Completed the local P11-01 full gate successfully.
 
 ## In Progress
-- Preparing Phase 11 branch for Windows Command work.
+- Preparing `P11-02 Virtual Filesystem Tasks`.
 
 ## Next
-- Create `codex/phase-11-windows-command` from latest `main`.
-- Start `P11-01 Virtual Terminal Foundation` from `AUTONOMOUS_PLAN.md`.
+- Start virtual filesystem mutation task support for create/move/delete commands.
+- Add simulator/content/grading/tests for command file operation exercises.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 62 files / 224 tests.
+- `npm test`: passed, 64 files / 233 tests.
 - `npm run build`: passed.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 130 tests.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 132 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P11-01 targeted tests passed: Command simulator/runner unit tests, Language Select component coverage, HTML/CSS hook regression, and Chrome/Edge P11 smoke E2E.
+- P11-01 self-review passed: virtual Command execution has no host OS/host filesystem path, hidden data leak, dependency, or scope creep. `git diff --check` passed with line-ending warnings only.
 - PR #11 GitHub Actions: `CI / verify` passed on head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`; PR merged to `main` as `0664670b136624512fb319e5d60c63ac29d84e17`.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
