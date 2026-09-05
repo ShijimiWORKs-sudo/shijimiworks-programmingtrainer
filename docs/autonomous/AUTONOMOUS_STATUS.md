@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 11:04 +09:00
+Updated: 2026-09-05 11:27 +09:00
 
-Current Phase: Phase 9 / C++ - P9-01 next
-Current Branch: main
-Current Commit: 4812455b3ebeebc2cfa8a492025a1b26eff3115e
+Current Phase: Phase 9 / C++ - P9-01 complete
+Current Branch: codex/phase-9-cpp
+Current Commit: 0e275e6810775b9ad1f155fc305d8883e7b6bca5
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -270,14 +270,21 @@ Current Commit: 4812455b3ebeebc2cfa8a492025a1b26eff3115e
 - Completed local Phase 8 full gate successfully.
 - Created Phase 8 PR #9 as draft, completed self-review, confirmed GitHub Actions `CI / verify` success for push and pull_request runs, marked it ready, and merged it to `main`.
 - Fast-forwarded local `main` to merge commit `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
+- Recorded and pushed the post-merge Phase 8 checkpoint on `main` as `193689e61e3b731a5dc1b8f6a9e3fe0802a8e825`.
+- Created Phase 9 branch `codex/phase-9-cpp` from latest `main`.
+- Completed `P9-01 C++ Compile/Run Infrastructure`.
+- Added `CppRunner` behind the existing `LanguageRunner` abstraction with a dedicated C++ worker protocol and worker entrypoint.
+- Added a browser-contained educational C++ subset runtime for `int main()`, `cout`, `cin`, basic typed variables, and simple helper functions.
+- Verified timeout and cancel recovery terminate/recreate the worker through runner tests.
+- Kept C++ planned in the language selection UI until P9-02 adds routeable curriculum content.
+- Completed local P9-01 full gate successfully.
 
 ## In Progress
-- Preparing Phase 9 branch `codex/phase-9-cpp` for `P9-01 C++ Compile/Run Infrastructure`.
+- Preparing `P9-02 C++ Grade 3-1 Curriculum`.
 
 ## Next
-- Create `codex/phase-9-cpp` from latest `main`.
-- Implement `P9-01 C++ Compile/Run Infrastructure` behind `LanguageRunner` with sandboxed, swappable browser-contained execution.
-- Add runner/runtime tests and smoke E2E, then run the checkpoint gate.
+- Add routeable C++ 3級, 2級, and 1級 curricula within the current browser-contained C++ subset or expand the subset with tests before using additional language features.
+- Wire C++ routes, catalog entries, level/curriculum pages, Lesson Workspace runner selection, content quality tests, and Chrome/Edge E2E coverage.
 
 ## Tests
 - `npm run lint`: passed.
@@ -373,6 +380,8 @@ Current Commit: 4812455b3ebeebc2cfa8a492025a1b26eff3115e
 - P8-02 targeted checks on 2026-09-05: typecheck passed; Java runtime/content/catalog/route/curriculum tests passed (9 files / 54 tests), Java content quality tests passed (6 files / 22 tests), and Chrome/Edge Java E2E passed after fixing an overly strict Java language-card locator (12 tests).
 - P8-02 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (48 files / 171 tests), build passed with existing Pyodide/chunk warnings and emitted `java.worker`, Chrome/Edge E2E passed (106 tests), audit passed with 0 vulnerabilities.
 - PR #9 Phase 8 GitHub Actions: `CI / verify` passed on head `9e0f29f02cec47dff13864ecd703fc5107825e3f`; PR merged to `main` as `4812455b3ebeebc2cfa8a492025a1b26eff3115e`.
+- P9-01 targeted checks on 2026-09-05: typecheck passed; C++ runner/runtime unit tests passed (2 files / 7 tests); Chrome/Edge P9 smoke E2E passed (2 tests).
+- P9-01 full regression on 2026-09-05: lint passed, typecheck passed, unit/component tests passed (50 files / 178 tests), build passed with existing Pyodide/chunk warnings and emitted `cpp.worker`, Chrome/Edge E2E passed (108 tests), audit passed with 0 vulnerabilities.
 
 ## Blockers
 - None active. P2-09 npm audit endpoint 503 recovered on 2026-09-04 19:58 +09:00; latest audit passed with 0 vulnerabilities.

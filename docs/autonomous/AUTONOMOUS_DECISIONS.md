@@ -215,3 +215,11 @@ Decision: Publish Java 3級, 2級, and 1級 lessons that use the supported subse
 Reason: This delivers a complete routeable Java learning path that can run, grade, and persist today without adding host execution, network services, or broad dependencies.
 Alternatives: Add a WASM JVM before curriculum; copy Python/JavaScript advanced topics exactly even where the Java subset cannot execute them; leave Java levels as placeholders. These were rejected because they either broaden P8-02 or fail the acceptance condition that Java lessons can run and grade.
 Risk: Java 2級/1級 content is intentionally subset-aware. Future Java hardening can replace or expand the runner while preserving lesson IDs and progress records.
+
+## 2026-09-05: C++ Runner Uses Browser-Contained Educational Subset
+Date: 2026-09-05
+Context: P9-01 requires C++ compile/run infrastructure, while the product architecture keeps learner execution behind `LanguageRunner`, avoids host OS execution, and does not add dependencies without a clear need.
+Decision: Add `CppRunner` with a dedicated Web Worker and a swappable educational C++ subset runtime that executes inside the browser worker boundary. Keep C++ marked planned in the UI until P9-02 adds curriculum routes.
+Reason: This satisfies the runner infrastructure checkpoint, preserves the existing browser-contained execution model, avoids requiring a local compiler or network execution service, and leaves the C++ execution strategy replaceable behind `CppRunner`.
+Alternatives: Call local `g++`; add a WASM C++ toolchain immediately; make C++ routeable before curriculum exists. These were rejected because they either violate the host OS boundary, broaden dependency/supply-chain scope, or leak P9-02 UI work into P9-01.
+Risk: The current runtime is an educational subset, not a full C++ compiler. P9-02 curriculum must stay within the supported subset or expand the runner with tests before adding lessons that require more C++ semantics.
