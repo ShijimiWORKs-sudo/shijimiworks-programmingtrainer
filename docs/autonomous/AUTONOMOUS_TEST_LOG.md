@@ -561,6 +561,23 @@ Failure: None.
 Fix: None.
 Retest Result: Passed.
 
+## 2026-09-05 Checkpoint: Phase 10 PR #11 Merge and Phase 11 Start
+Datetime: 2026-09-05 13:58 +09:00
+Commit: 0664670b136624512fb319e5d60c63ac29d84e17
+Target: Mark Phase 10 PR ready, merge Ruby runner and grade 3-1 curriculum work to `main`, update local `main`, and prepare Phase 11 / Windows Command.
+
+Test Command: PR #11 self-review
+Result: Passed. Changed files were scoped to Ruby runner/runtime, Ruby curriculum/routes/tests, language route wiring, E2E expectations for remaining planned languages, and autonomous docs.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: GitHub Actions `CI / verify` for PR #11 head `b9ba7ca4ca560b408147f87805ccdda8da6af2dc`
+Result: Passed. Workflow run `33945850019`, job `verify`, completed successfully.
+Failure: None.
+Fix: None.
+Retest Result: PR #11 was marked ready and merged into `main` as `0664670b136624512fb319e5d60c63ac29d84e17`.
+
 Test Command: `npm test -- --run src/content/javascript/grade-3/curriculum.test.ts src/content/catalog.test.ts src/routes/JavaScriptLevelSelectPage.test.tsx src/routes/JavaScriptGrade3CurriculumPage.test.tsx src/features/runner/JavaScriptRunner.test.ts src/features/runner/javascriptRuntime.test.ts`
 Result: Passed, 6 files / 18 tests.
 Failure: None.
