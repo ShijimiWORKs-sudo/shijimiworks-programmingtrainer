@@ -40,13 +40,61 @@ describe("virtual command terminal", () => {
     expect(history.stdout).toContain("3: history");
   });
 
-  it("keeps file mutation commands unavailable in the foundation simulator", () => {
+  it("deletes files inside the virtual filesystem", () => {
     const state = createVirtualTerminalState();
     const result = runCommandLine(state, "del README.txt");
 
-    expect(result.exitCode).toBe(1);
-    expect(result.stderr).toContain("not available in the foundation simulator yet");
-    expect(result.state.entries["C:\\Users\\student\\README.txt"]).toEqual(state.entries["C:\\Users\\student\\README.txt"]);
+    expect(result.exitCode).toBe(0);
+    expect(result.state.entries["C:\\Users\\student\\README.txt"]).toBeUndefined();
+  });
+
+  it("creates files with echo redirection inside the virtual filesystem", () => {
+    const state = createVirtualTerminalState();
+    const result = runCommandLine(state, "echo report ready > report.txt");
+
+    expect(result.exitCode).toBe(0);
+    expect(result.state.entries["C:\\Users\\student\\report.txt"]).toEqual({ type: "file", content: "report ready\n" });
+  });
+
+  it("creates directories and copies files without touching the host filesystem", () => {
+    const state = createVirtualTerminalState();
+    const directory = runCommandLine(state, "mkdir archive");
+    const copied = runCommandLine(directory.state, "copy C:\\Users\\student\\README.txt archive\\README-copy.txt");
+
+    expect(copied.exitCode).toBe(0);
+    expect(copied.stdout).toContain("copied");
+    expect(copied.state.entries["C:\\Users\\student\\archive"]).toEqual({ type: "directory" });
+    expect(copied.state.entries["C:\\Users\\student\\archive\\README-copy.txt"]).toEqual(state.entries["C:\\Users\\student\\README.txt"]);
+  });
+
+  it("moves files and leaves the old virtual path absent", () => {
+    const state = createVirtualTerminalState({
+      entries: {
+        "C:\\": { type: "directory" },
+        "C:\\Users": { type: "directory" },
+        "C:\\Users\\student": { type: "directory" },
+        "C:\\Users\\student\\draft.txt": { type: "file", content: "draft\n" },
+      },
+    });
+
+    const result = runCommandLine(state, "move draft.txt final.txt");
+
+    expect(result.exitCode).toBe(0);
+    expect(result.state.entries["C:\\Users\\student\\draft.txt"]).toBeUndefined();
+    expect(result.state.entries["C:\\Users\\student\\final.txt"]).toEqual({ type: "file", content: "draft\n" });
+  });
+
+  it("removes only empty virtual directories", () => {
+    const state = createVirtualTerminalState();
+    const created = runCommandLine(state, "mkdir empty");
+    const removed = runCommandLine(created.state, "rmdir empty");
+    const withFile = runCommandLine(created.state, "echo keep > empty\\keep.txt");
+    const nonEmpty = runCommandLine(withFile.state, "rmdir empty");
+
+    expect(removed.exitCode).toBe(0);
+    expect(removed.state.entries["C:\\Users\\student\\empty"]).toBeUndefined();
+    expect(nonEmpty.exitCode).toBe(1);
+    expect(nonEmpty.stderr).toContain("not empty");
   });
 
   it("runs multi-line command scripts against virtual state", () => {

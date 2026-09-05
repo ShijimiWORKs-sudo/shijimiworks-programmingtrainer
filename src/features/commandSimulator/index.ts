@@ -1,4 +1,7 @@
 export {
+  gradeCommandVirtualFileSystemExercise,
+} from "./commandGrading";
+export {
   createVirtualTerminalState,
   normalizeVirtualPath,
   runCommandLine,

@@ -100,6 +100,40 @@ function childNames(state: VirtualTerminalState, directory: string) {
   return [...children.entries()].sort(([left], [right]) => left.localeCompare(right));
 }
 
+function basename(path: string) {
+  return trimTrailingSlash(path).split("\\").at(-1) ?? path;
+}
+
+function parentPath(path: string) {
+  const trimmed = trimTrailingSlash(path);
+  const index = trimmed.lastIndexOf("\\");
+  return index <= 2 ? trimmed.slice(0, 3) : trimmed.slice(0, index);
+}
+
+function isDescendant(path: string, possibleParent: string) {
+  return path.startsWith(trimTrailingSlash(possibleParent) + "\\");
+}
+
+function writeFile(state: VirtualTerminalState, path: string, content: string): VirtualCommandResult {
+  const parent = parentPath(path);
+  if (state.entries[parent]?.type !== "directory") {
+    return { stdout: "", stderr: `Directory not found in virtual filesystem: ${parent}\n`, exitCode: 1, state };
+  }
+
+  return {
+    stdout: "",
+    stderr: "",
+    exitCode: 0,
+    state: {
+      ...state,
+      entries: {
+        ...state.entries,
+        [path]: { type: "file", content },
+      },
+    },
+  };
+}
+
 function withHistory(state: VirtualTerminalState, commandLine: string): VirtualTerminalState {
   return { ...state, history: [...state.history, commandLine] };
 }
@@ -131,6 +165,15 @@ export function runCommandLine(state: VirtualTerminalState, commandLine: string)
   }
 
   if (command === "echo") {
+    const redirectIndex = args.indexOf(">");
+    if (redirectIndex >= 0) {
+      const targetArg = args.slice(redirectIndex + 1).join(" ");
+      if (!targetArg) {
+        return { stdout: "", stderr: "A virtual file path is required after >.\n", exitCode: 1, state: nextState };
+      }
+      const target = normalizeVirtualPath(nextState.cwd, targetArg);
+      return writeFile(nextState, target, args.slice(0, redirectIndex).join(" ") + "\n");
+    }
     return { stdout: args.join(" ") + "\n", stderr: "", exitCode: 0, state: nextState };
   }
 
@@ -167,13 +210,98 @@ export function runCommandLine(state: VirtualTerminalState, commandLine: string)
     return { stdout: entry.content, stderr: "", exitCode: 0, state: nextState };
   }
 
-  if (["copy", "del", "erase", "mkdir", "move", "rmdir"].includes(command)) {
+  if (command === "mkdir") {
+    const targetArg = args.join(" ");
+    if (!targetArg) {
+      return { stdout: "", stderr: "A virtual directory path is required.\n", exitCode: 1, state: nextState };
+    }
+    const target = normalizeVirtualPath(nextState.cwd, targetArg);
+    if (nextState.entries[target]) {
+      return { stdout: "", stderr: `A virtual entry already exists: ${target}\n`, exitCode: 1, state: nextState };
+    }
+    const parent = parentPath(target);
+    if (nextState.entries[parent]?.type !== "directory") {
+      return { stdout: "", stderr: `Directory not found in virtual filesystem: ${parent}\n`, exitCode: 1, state: nextState };
+    }
     return {
       stdout: "",
-      stderr: `${command} is not available in the foundation simulator yet. File mutation is handled in the next checkpoint.\n`,
-      exitCode: 1,
-      state: nextState,
+      stderr: "",
+      exitCode: 0,
+      state: { ...nextState, entries: { ...nextState.entries, [target]: { type: "directory" } } },
     };
+  }
+
+  if (command === "copy") {
+    if (args.length < 2) {
+      return { stdout: "", stderr: "Source and destination virtual paths are required.\n", exitCode: 1, state: nextState };
+    }
+    const source = normalizeVirtualPath(nextState.cwd, args[0]);
+    const sourceEntry = nextState.entries[source];
+    if (sourceEntry?.type !== "file") {
+      return { stdout: "", stderr: `File not found in virtual filesystem: ${source}\n`, exitCode: 1, state: nextState };
+    }
+    const rawTarget = normalizeVirtualPath(nextState.cwd, args.slice(1).join(" "));
+    const target = nextState.entries[rawTarget]?.type === "directory" ? `${trimTrailingSlash(rawTarget)}\\${basename(source)}` : rawTarget;
+    const written = writeFile(nextState, target, sourceEntry.content);
+    return written.exitCode === 0 ? { ...written, stdout: "        1 file(s) copied.\n" } : written;
+  }
+
+  if (command === "move") {
+    if (args.length < 2) {
+      return { stdout: "", stderr: "Source and destination virtual paths are required.\n", exitCode: 1, state: nextState };
+    }
+    const source = normalizeVirtualPath(nextState.cwd, args[0]);
+    const sourceEntry = nextState.entries[source];
+    if (!sourceEntry) {
+      return { stdout: "", stderr: `Virtual entry not found: ${source}\n`, exitCode: 1, state: nextState };
+    }
+    const rawTarget = normalizeVirtualPath(nextState.cwd, args.slice(1).join(" "));
+    const target = nextState.entries[rawTarget]?.type === "directory" ? `${trimTrailingSlash(rawTarget)}\\${basename(source)}` : rawTarget;
+    const parent = parentPath(target);
+    if (nextState.entries[parent]?.type !== "directory") {
+      return { stdout: "", stderr: `Directory not found in virtual filesystem: ${parent}\n`, exitCode: 1, state: nextState };
+    }
+    if (sourceEntry.type === "directory" && childNames(nextState, source).length > 0) {
+      return { stdout: "", stderr: `Directory is not empty in virtual filesystem: ${source}\n`, exitCode: 1, state: nextState };
+    }
+    const entries = { ...nextState.entries };
+    delete entries[source];
+    entries[target] = sourceEntry;
+    return { stdout: "        1 file(s) moved.\n", stderr: "", exitCode: 0, state: { ...nextState, entries } };
+  }
+
+  if (command === "del" || command === "erase") {
+    const targetArg = args.join(" ");
+    if (!targetArg) {
+      return { stdout: "", stderr: "A virtual file path is required.\n", exitCode: 1, state: nextState };
+    }
+    const target = normalizeVirtualPath(nextState.cwd, targetArg);
+    if (nextState.entries[target]?.type !== "file") {
+      return { stdout: "", stderr: `File not found in virtual filesystem: ${target}\n`, exitCode: 1, state: nextState };
+    }
+    const entries = { ...nextState.entries };
+    delete entries[target];
+    return { stdout: "", stderr: "", exitCode: 0, state: { ...nextState, entries } };
+  }
+
+  if (command === "rmdir") {
+    const targetArg = args.join(" ");
+    if (!targetArg) {
+      return { stdout: "", stderr: "A virtual directory path is required.\n", exitCode: 1, state: nextState };
+    }
+    const target = normalizeVirtualPath(nextState.cwd, targetArg);
+    if (nextState.entries[target]?.type !== "directory") {
+      return { stdout: "", stderr: `Directory not found in virtual filesystem: ${target}\n`, exitCode: 1, state: nextState };
+    }
+    if (target.length <= 3 || target === nextState.cwd || isDescendant(nextState.cwd, target)) {
+      return { stdout: "", stderr: `Cannot remove the current or root virtual directory: ${target}\n`, exitCode: 1, state: nextState };
+    }
+    if (childNames(nextState, target).length > 0) {
+      return { stdout: "", stderr: `Directory is not empty in virtual filesystem: ${target}\n`, exitCode: 1, state: nextState };
+    }
+    const entries = { ...nextState.entries };
+    delete entries[target];
+    return { stdout: "", stderr: "", exitCode: 0, state: { ...nextState, entries } };
   }
 
   return { stdout: "", stderr: `'${command}' is not recognized by the virtual command prompt.\n`, exitCode: 1, state: nextState };
