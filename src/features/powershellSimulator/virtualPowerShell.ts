@@ -118,6 +118,108 @@ function commandTarget(args: string[]) {
   return positional.join(" ");
 }
 
+function getParameter(args: string[], name: string) {
+  const index = args.findIndex((arg) => arg.toLowerCase() === `-${name.toLowerCase()}`);
+  return index >= 0 ? args[index + 1] : undefined;
+}
+
+function hasSwitch(args: string[], name: string) {
+  return args.some((arg) => arg.toLowerCase() === `-${name.toLowerCase()}`);
+}
+
+function positionalArgs(args: string[]) {
+  const valueParameters = new Set(["-path", "-literalpath", "-itemtype", "-value", "-destination"]);
+  const values: string[] = [];
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg.startsWith("-")) {
+      if (valueParameters.has(arg.toLowerCase())) {
+        index += 1;
+      }
+      continue;
+    }
+    values.push(arg);
+  }
+  return values;
+}
+
+function resolveArgPath(cwd: string, args: string[], parameterName: string, positionalIndex: number) {
+  const rawPath = getParameter(args, parameterName) ?? positionalArgs(args)[positionalIndex] ?? "";
+  return rawPath ? normalizePowerShellPath(cwd, rawPath) : "";
+}
+
+function resolvePathArgument(cwd: string, args: string[], positionalIndex: number) {
+  const rawPath = getParameter(args, "Path") ?? getParameter(args, "LiteralPath") ?? positionalArgs(args)[positionalIndex] ?? "";
+  return rawPath ? normalizePowerShellPath(cwd, rawPath) : "";
+}
+
+function parentPath(path: string) {
+  const normalized = trimTrailingSlash(path);
+  if (/^[A-Z]:\\$/i.test(normalized)) {
+    return normalized;
+  }
+  const index = normalized.lastIndexOf("\\");
+  return index <= 2 ? normalized.slice(0, 3) : normalized.slice(0, index);
+}
+
+function baseName(path: string) {
+  return trimTrailingSlash(path).split("\\").at(-1) ?? "";
+}
+
+function ensureParentDirectory(state: VirtualPowerShellState, path: string) {
+  return state.entries[parentPath(path)]?.type === "directory";
+}
+
+function destinationPath(state: VirtualPowerShellState, source: string, target: string) {
+  return state.entries[target]?.type === "directory" ? `${trimTrailingSlash(target)}\\${baseName(source)}` : target;
+}
+
+function descendants(state: VirtualPowerShellState, path: string) {
+  const prefix = trimTrailingSlash(path) + "\\";
+  return Object.keys(state.entries).filter((entryPath) => entryPath.startsWith(prefix));
+}
+
+function copyVirtualEntry(state: VirtualPowerShellState, source: string, target: string): VirtualPowerShellResult {
+  const entry = state.entries[source];
+  if (!entry) {
+    return { stdout: "", stderr: `Cannot find path '${source}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state };
+  }
+
+  const resolvedTarget = destinationPath(state, source, target);
+  if (!ensureParentDirectory(state, resolvedTarget)) {
+    return { stdout: "", stderr: `Cannot find path '${parentPath(resolvedTarget)}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state };
+  }
+
+  const entries = { ...state.entries, [resolvedTarget]: { ...entry } };
+  for (const childPath of descendants(state, source)) {
+    const suffix = childPath.slice(trimTrailingSlash(source).length);
+    entries[`${trimTrailingSlash(resolvedTarget)}${suffix}`] = { ...state.entries[childPath] };
+  }
+
+  return { stdout: "", stderr: "", exitCode: 0, state: { ...state, entries } };
+}
+
+function removeVirtualEntry(state: VirtualPowerShellState, target: string, recursive: boolean): VirtualPowerShellResult {
+  const entry = state.entries[target];
+  if (!entry) {
+    return { stdout: "", stderr: `Cannot find path '${target}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state };
+  }
+
+  const childPaths = descendants(state, target);
+  if (entry.type === "directory" && childPaths.length > 0 && !recursive) {
+    return { stdout: "", stderr: `Cannot remove '${target}' because it is not empty in the virtual PowerShell filesystem.\n`, exitCode: 1, state };
+  }
+
+  const entries = { ...state.entries };
+  delete entries[target];
+  for (const childPath of childPaths) {
+    delete entries[childPath];
+  }
+
+  const cwd = state.cwd === target || state.cwd.startsWith(trimTrailingSlash(target) + "\\") ? defaultCwd : state.cwd;
+  return { stdout: "", stderr: "", exitCode: 0, state: { ...state, cwd, entries } };
+}
+
 function splitPipeline(commandLine: string) {
   const segments: string[] = [];
   let current = "";
@@ -287,7 +389,7 @@ export function runPowerShellLine(state: VirtualPowerShellState, commandLine: st
 
   if (command === "get-help" || command === "help") {
     return {
-      stdout: "Supported commands: Get-ChildItem, Set-Location, Get-Location, Get-Content, Write-Output, Where-Object, Select-Object, Measure-Object, Get-Help, Clear-Host, Get-History\n",
+      stdout: "Supported commands: Get-ChildItem, Set-Location, Get-Location, Get-Content, Write-Output, Where-Object, Select-Object, Measure-Object, New-Item, Set-Content, Copy-Item, Move-Item, Remove-Item, Get-Help, Clear-Host, Get-History\n",
       stderr: "",
       exitCode: 0,
       state: nextState,
@@ -341,6 +443,75 @@ export function runPowerShellLine(state: VirtualPowerShellState, commandLine: st
       return { stdout: "", stderr: `Cannot find path '${target}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state: nextState };
     }
     return { stdout: entry.content, stderr: "", exitCode: 0, state: nextState };
+  }
+
+  if (command === "new-item") {
+    const target = resolvePathArgument(nextState.cwd, args, 0);
+    if (!target) {
+      return { stdout: "", stderr: "New-Item requires a path in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    if (!ensureParentDirectory(nextState, target)) {
+      return { stdout: "", stderr: `Cannot find path '${parentPath(target)}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state: nextState };
+    }
+    const itemType = (getParameter(args, "ItemType") ?? "File").toLowerCase();
+    if (itemType !== "file" && itemType !== "directory") {
+      return { stdout: "", stderr: "New-Item supports only File and Directory in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    const entries = {
+      ...nextState.entries,
+      [target]: itemType === "directory" ? { type: "directory" as const } : { type: "file" as const, content: "" },
+    };
+    return { stdout: "", stderr: "", exitCode: 0, state: { ...nextState, entries } };
+  }
+
+  if (command === "set-content") {
+    const target = resolvePathArgument(nextState.cwd, args, 0);
+    if (!target) {
+      return { stdout: "", stderr: "Set-Content requires a path in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    if (!ensureParentDirectory(nextState, target)) {
+      return { stdout: "", stderr: `Cannot find path '${parentPath(target)}' because it does not exist in the virtual PowerShell filesystem.\n`, exitCode: 1, state: nextState };
+    }
+    if (nextState.entries[target]?.type === "directory") {
+      return { stdout: "", stderr: `Cannot write file content to directory '${target}' in the virtual PowerShell filesystem.\n`, exitCode: 1, state: nextState };
+    }
+    const value = getParameter(args, "Value") ?? positionalArgs(args)[1] ?? "";
+    return {
+      stdout: "",
+      stderr: "",
+      exitCode: 0,
+      state: { ...nextState, entries: { ...nextState.entries, [target]: { type: "file", content: `${value}\n` } } },
+    };
+  }
+
+  if (command === "copy-item") {
+    const source = resolvePathArgument(nextState.cwd, args, 0);
+    const target = resolveArgPath(nextState.cwd, args, "Destination", 1);
+    if (!source || !target) {
+      return { stdout: "", stderr: "Copy-Item requires source and destination paths in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    return copyVirtualEntry(nextState, source, target);
+  }
+
+  if (command === "move-item") {
+    const source = resolvePathArgument(nextState.cwd, args, 0);
+    const target = resolveArgPath(nextState.cwd, args, "Destination", 1);
+    if (!source || !target) {
+      return { stdout: "", stderr: "Move-Item requires source and destination paths in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    const copied = copyVirtualEntry(nextState, source, target);
+    if (copied.exitCode !== 0) {
+      return copied;
+    }
+    return removeVirtualEntry(copied.state, source, true);
+  }
+
+  if (command === "remove-item") {
+    const target = resolvePathArgument(nextState.cwd, args, 0);
+    if (!target) {
+      return { stdout: "", stderr: "Remove-Item requires a path in the virtual PowerShell environment.\n", exitCode: 1, state: nextState };
+    }
+    return removeVirtualEntry(nextState, target, hasSwitch(args, "Recurse"));
   }
 
   return { stdout: "", stderr: `${commandLine}: The term is not recognized in the virtual PowerShell environment.\n`, exitCode: 1, state: nextState };

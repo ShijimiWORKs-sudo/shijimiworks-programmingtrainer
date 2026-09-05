@@ -8,9 +8,10 @@ import type { AppSettings, LessonProgress } from "../domain/progress";
 import { createVirtualTerminalStateFromEnvironment, gradeCommandVirtualFileSystemExercise } from "../features/commandSimulator";
 import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
+import { createVirtualPowerShellStateFromEnvironment, gradePowerShellVirtualFileSystemExercise } from "../features/powershellSimulator";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { CommandSimulatorRunner, CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, RubyRunner, type LanguageRunner, type RunResult } from "../features/runner";
+import { CommandSimulatorRunner, CppRunner, JavaRunner, JavaScriptRunner, PowerShellSimulatorRunner, PythonRunner, RubyRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -24,6 +25,9 @@ declare global {
 function createRunnerForCourse(course: Course | undefined): LanguageRunner {
   if (course?.languageId === "lang_command") {
     return new CommandSimulatorRunner();
+  }
+  if (course?.languageId === "lang_powershell") {
+    return new PowerShellSimulatorRunner();
   }
   if (course?.languageId === "lang_cpp") {
     return new CppRunner();
@@ -41,6 +45,9 @@ function editorLanguageForCourse(course: Course | undefined) {
   if (course?.languageId === "lang_command") {
     return "bat";
   }
+  if (course?.languageId === "lang_powershell") {
+    return "powershell";
+  }
   if (course?.languageId === "lang_cpp") {
     return "cpp";
   }
@@ -56,6 +63,9 @@ function editorLanguageForCourse(course: Course | undefined) {
 function runtimeLabelForCourse(course: Course | undefined) {
   if (course?.languageId === "lang_command") {
     return "Command";
+  }
+  if (course?.languageId === "lang_powershell") {
+    return "PowerShell";
   }
   if (course?.languageId === "lang_cpp") {
     return "C++";
@@ -310,6 +320,8 @@ export function LessonWorkspacePage() {
       setRuntimeState("running");
       const runner = exercise.gradingMode === "command_virtual_fs"
         ? new CommandSimulatorRunner(createVirtualTerminalStateFromEnvironment(exercise.commandEnvironment))
+        : exercise.gradingMode === "powershell_virtual_fs"
+          ? new PowerShellSimulatorRunner(createVirtualPowerShellStateFromEnvironment(exercise.powershellEnvironment))
         : runnerRef.current;
       const result = await runner.run({ sourceCode: code, stdin, timeoutMs: exercise.timeoutMs });
       setRunResult(result);
@@ -345,6 +357,8 @@ export function LessonWorkspacePage() {
       setRuntimeState("grading");
       const grade = exercise.gradingMode === "command_virtual_fs"
         ? gradeCommandVirtualFileSystemExercise(exercise, code)
+        : exercise.gradingMode === "powershell_virtual_fs"
+          ? gradePowerShellVirtualFileSystemExercise(exercise, code)
         : await new GradingEngine(runnerRef.current).gradeExercise(exercise, code);
       const summaryResult = createGradeSummaryResult(grade);
       const exerciseProgress = getExerciseProgress(progress, exercise.id, exercise.starterCode);

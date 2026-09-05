@@ -66,12 +66,23 @@ describe("virtual PowerShell", () => {
     expect(result).toMatchObject({ exitCode: 0, stdout: "Count: 2\n", stderr: "" });
   });
 
-  it("reports unsupported commands inside the virtual environment", () => {
-    const result = runPowerShellLine(createVirtualPowerShellState(), "Remove-Item README.txt");
+  it("creates directories and writes files inside the virtual filesystem", () => {
+    const result = runPowerShellScript("New-Item -ItemType Directory -Path reports\nSet-Content -Path reports\\summary.txt -Value ready");
 
-    expect(result.exitCode).toBe(1);
-    expect(result.stderr).toContain("not recognized in the virtual PowerShell environment");
-    expect(result.state.entries["C:\\Users\\student\\README.txt"]).toBeDefined();
+    expect(result.exitCode).toBe(0);
+    expect(result.state.entries["C:\\Users\\student\\reports"]).toEqual({ type: "directory" });
+    expect(result.state.entries["C:\\Users\\student\\reports\\summary.txt"]).toEqual({ type: "file", content: "ready\n" });
+  });
+
+  it("copies, moves, and removes entries without touching host files", () => {
+    const result = runPowerShellScript(
+      "Set-Content -Path draft.txt -Value draft\nCopy-Item draft.txt backup.txt\nMove-Item draft.txt final.txt\nRemove-Item backup.txt"
+    );
+
+    expect(result.exitCode).toBe(0);
+    expect(result.state.entries["C:\\Users\\student\\final.txt"]).toEqual({ type: "file", content: "draft\n" });
+    expect(result.state.entries["C:\\Users\\student\\draft.txt"]).toBeUndefined();
+    expect(result.state.entries["C:\\Users\\student\\backup.txt"]).toBeUndefined();
   });
 
   it("reports unsupported pipeline commands without changing virtual state", () => {

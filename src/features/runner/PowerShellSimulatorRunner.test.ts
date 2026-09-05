@@ -51,6 +51,20 @@ describe("PowerShellSimulatorRunner", () => {
     expect(result.stdout).not.toContain("scripts");
   });
 
+  it("keeps file mutations inside the virtual PowerShell snapshot", async () => {
+    const runner = new PowerShellSimulatorRunner();
+
+    const result = await runner.run({
+      sourceCode: "New-Item -ItemType Directory -Path reports\nSet-Content -Path reports\\summary.txt -Value ready",
+      stdin: "",
+      timeoutMs: 1000,
+    });
+
+    const snapshot = runner.getSnapshot();
+    expect(result.status).toBe("success");
+    expect(snapshot.entries["C:\\Users\\student\\reports\\summary.txt"]).toEqual({ type: "file", content: "ready\n" });
+  });
+
   it("returns timeout for scripts over the foundation line limit", async () => {
     const runner = new PowerShellSimulatorRunner();
     const sourceCode = Array.from({ length: 201 }, () => "Write-Output x").join("\n");

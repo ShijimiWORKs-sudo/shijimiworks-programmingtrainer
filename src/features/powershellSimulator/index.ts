@@ -1,4 +1,9 @@
 export {
+  createVirtualPowerShellStateFromEnvironment,
+  gradePowerShellVirtualFileSystemExercise,
+} from "./powershellGrading";
+
+export {
   createVirtualPowerShellState,
   normalizePowerShellPath,
   runPowerShellLine,

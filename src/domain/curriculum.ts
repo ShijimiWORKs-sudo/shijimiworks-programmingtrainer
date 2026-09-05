@@ -2,7 +2,7 @@ export type LanguageStatus = "available" | "planned";
 export type LevelStatus = "available" | "planned";
 export type LessonPublicationStatus = "draft" | "published";
 export type ExerciseType = "code";
-export type GradingMode = "stdout" | "html_dom" | "command_virtual_fs";
+export type GradingMode = "stdout" | "html_dom" | "command_virtual_fs" | "powershell_virtual_fs";
 export type TestCaseVisibility = "public" | "hidden";
 export type OutputComparator = "exact_text" | "trimmed_text" | "normalized_lines";
 export type ChallengePublicationStatus = "draft" | "published";
@@ -86,6 +86,28 @@ export interface CommandFileRequirement {
   required: boolean;
 }
 
+export interface PowerShellVirtualFile {
+  path: string;
+  type: "file" | "directory";
+  content?: string;
+}
+
+export interface PowerShellVirtualEnvironment {
+  cwd?: string;
+  entries: PowerShellVirtualFile[];
+}
+
+export interface PowerShellFileRequirement {
+  id: string;
+  order: number;
+  visibility: TestCaseVisibility;
+  kind: CommandFileRequirementKind;
+  path: string;
+  description: string;
+  expectedContent?: string;
+  required: boolean;
+}
+
 export interface Exercise {
   id: string;
   lessonId: string;
@@ -101,6 +123,8 @@ export interface Exercise {
   styleRequirements?: HtmlStyleRequirement[];
   commandEnvironment?: CommandVirtualEnvironment;
   commandFileRequirements?: CommandFileRequirement[];
+  powershellEnvironment?: PowerShellVirtualEnvironment;
+  powershellFileRequirements?: PowerShellFileRequirement[];
 }
 
 export interface ChallengeExercise extends Omit<Exercise, "lessonId"> {
