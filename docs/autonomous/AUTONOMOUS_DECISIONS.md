@@ -199,3 +199,11 @@ Decision: Add shared static curriculum seed helpers and represent each HTML/CSS 
 Reason: This completes the learnable HTML/CSS path while preserving the existing safe preview/grading architecture and avoiding a new editor, runner, dependency, or persistence migration during P7-04.
 Alternatives: Build a separate HTML/CSS multi-exercise editor now; add screenshot or computed-style grading; leave Grade 2/1 as planned placeholders. These were rejected because they either broaden the checkpoint or fail the Phase 7 curriculum acceptance.
 Risk: Current style validation checks authored declarations through CSSOM rather than full visual screenshot equivalence. Future content QA or release hardening can add richer visual assertions without changing these lesson routes.
+
+## 2026-09-05: Java Runner Uses Browser-Contained Educational Subset
+Date: 2026-09-05
+Context: P8-01 requires Java compile/run runner infrastructure, while the product architecture requires language execution behind `LanguageRunner`, no host OS execution, and no dependency additions without clear need.
+Decision: Add `JavaRunner` with a dedicated Web Worker and a swappable educational Java subset compiler/runtime that executes inside the browser worker boundary. Keep Java marked planned in the UI until P8-02 adds curriculum routes.
+Reason: This satisfies the runner infrastructure checkpoint, preserves the existing browser-contained execution model, avoids requiring a local JDK or network service, and leaves the Java execution strategy replaceable behind `JavaRunner`.
+Alternatives: Call local `javac/java`; add a WASM JVM dependency immediately; make Java routeable before curriculum exists. These were rejected because they either violate the host OS boundary, broaden dependency/supply-chain scope, or leak P8-02 UI work into P8-01.
+Risk: The current runtime is an educational subset, not a full Java compiler/JVM. P8-02 curriculum must stay within this supported subset or deliberately expand the runner with tests before adding lessons that require more Java semantics.

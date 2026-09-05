@@ -15,4 +15,15 @@ describe("LanguageSelectPage", () => {
     expect(screen.getByRole("link", { name: /JavaScript/ })).toHaveAttribute("href", "/languages/javascript");
     expect(screen.getByRole("link", { name: /HTML\/CSS/ })).toHaveAttribute("href", "/languages/html-css");
   });
+
+  it("keeps planned Java unavailable until curriculum routes are added", () => {
+    render(
+      <MemoryRouter>
+        <LanguageSelectPage />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText("Java")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Java\b/ })).not.toBeInTheDocument();
+  });
 });
