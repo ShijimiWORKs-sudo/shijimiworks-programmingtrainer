@@ -271,3 +271,11 @@ Decision: Implement file creation, directory creation, copy, move, delete, and e
 Reason: This delivers the file-operation learning model and tests without calling Windows `cmd.exe`, touching the local filesystem, changing browser routes early, or introducing dependencies.
 Alternatives: Publish Command routes in P11-02; reuse stdout-only grading for filesystem tasks; execute real shell commands in a temporary folder. These were rejected because they either broaden the checkpoint, make FS validation indirect, or violate the product safety boundary.
 Risk: Redirection and filesystem behavior cover the teaching subset, not every Windows Command edge case. P11-03 curriculum should stay within this subset unless it expands the simulator with tests first.
+
+## 2026-09-05: Command Grade 3-1 Uses Virtual Filesystem Lessons
+Date: 2026-09-05
+Context: P11-03 requires Command grade 3, 2, and 1 curricula after P11-01/P11-02 established a virtual terminal and virtual filesystem grading model.
+Decision: Publish Command 3級, 2級, and 1級 lessons that all run through `CommandSimulatorRunner` and `command_virtual_fs` requirements, covering create, copy, move, delete, cleanup, and small maintenance workflows.
+Reason: This completes the routeable Command path while preserving the safety boundary: commands mutate only in-memory `VirtualTerminalState`, never Windows `cmd.exe` or the host filesystem.
+Alternatives: Add a real shell-backed runner; leave grade 2/1 as placeholders; switch Command lessons to stdout-only grading. These were rejected because they would violate the sandbox boundary, under-deliver the phase, or make file task validation indirect.
+Risk: The Command curriculum teaches an educational subset of Windows Command behavior. Future PowerShell work should build a separate virtual model rather than broadening this subset into real OS execution.

@@ -1,5 +1,76 @@
 # Programming Trainer Autonomous Test Log
 
+## 2026-09-05 Checkpoint: P11-03 Command Grade 3-1 Curriculum
+Datetime: 2026-09-05 16:55 +09:00
+Commit: 1abc699b0a7f2b7b0d50627ee55f42a0f8bc1244
+Target: Publish the Windows Command grade 3, grade 2, and grade 1 curricula, route them from Language Select, connect Lesson Workspace run/grade to the virtual terminal/virtual filesystem model, and verify progress persistence plus hidden detail suppression.
+
+Test Command: `npm run typecheck`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed in targeted and full gates.
+
+Test Command: `npm test -- --run src/content/command/curriculum.test.ts src/content/catalog.test.ts src/routes/LanguageSelectPage.test.tsx src/routes/CommandLevelSelectPage.test.tsx src/routes/CommandGrade3CurriculumPage.test.tsx src/routes/CommandGrade2CurriculumPage.test.tsx src/routes/CommandGrade1CurriculumPage.test.tsx src/app/App.test.tsx src/features/commandSimulator/commandGrading.test.ts src/features/commandSimulator/virtualTerminal.test.ts src/features/runner/CommandSimulatorRunner.test.ts`
+Result: Initially failed 88 / 89, then passed 11 files / 89 tests.
+Failure: Language Select displayed Command as available but still rendered it as a disabled card because `routeForLanguage` did not include the new `command` slug.
+Fix: Added `routePaths.command` handling to `LanguageSelectPage`.
+Retest Result: Passed, 11 files / 89 tests.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge tests/e2e/phase11-command.spec.ts`
+Result: Initially failed 8 / 10, then passed 10 / 10.
+Failure: The Command Lesson 1 run assertion expected stdout from `mkdir` and `echo > file`, but those successful commands intentionally produce empty stdout in the virtual terminal.
+Fix: Changed the E2E run script to add `dir reports` after the filesystem mutations and asserted the actual virtual directory listing output.
+Retest Result: Passed, 10 tests across Chrome and Edge.
+
+Test Command: `npm run lint`
+Result: Passed.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm test`
+Result: Passed, 70 files / 258 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run build`
+Result: Passed.
+Failure: None. Vite emitted existing Pyodide browser-compatibility externalization warnings and chunk-size warnings.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm run test:e2e -- --project=chrome --project=edge`
+Result: Passed, 140 tests.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`
+Result: Passed with 0 vulnerabilities.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: `git diff --check`
+Result: Passed with line-ending warnings only for touched text files.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Self-review scan with `rg -n "child_process|node:fs|node:path|node:vm|allow-scripts|fetch\(|XMLHttpRequest|WebSocket|importScripts|new Function|globalThis|self|window|document|cmd.exe|powershell.exe" src/features/commandSimulator src/features/runner/CommandSimulatorRunner.ts src/content/command src/routes src/app tests/e2e/phase11-command.spec.ts docs/autonomous`
+Result: Reviewed expected existing dev-only E2E hooks and historical autonomous log entries. P11-03 added no host OS execution, host filesystem access, network API, new dependency, `allow-scripts`, or real `cmd.exe` / PowerShell execution path.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
+Test Command: Hidden detail and scope self-review scan with `rg -n "Hidden Test|hidden|summary.txt has the requested content|todo.txt is absent|plan.txt remains|summery.txt is gone|Command|PowerShell|Coming soon" src/content/command src/routes tests/e2e src/content/catalog.ts src/features/grading src/features/commandSimulator`
+Result: Hidden Command requirement descriptions appear in curriculum metadata and tests that assert they are not visible in the Grading result. Command is available and PowerShell remains the only planned language. Scope matches P11-03.
+Failure: None.
+Fix: None.
+Retest Result: Passed.
+
 ## 2026-09-04 Checkpoint: Phase 1 Final Hardening Initial State
 Datetime: 2026-09-04
 Commit: 94ceba5c2c0768040b3bfaf927f0029c5a5323c7

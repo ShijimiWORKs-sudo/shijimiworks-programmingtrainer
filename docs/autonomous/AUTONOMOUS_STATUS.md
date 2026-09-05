@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 15:58 +09:00
+Updated: 2026-09-05 16:55 +09:00
 
-Current Phase: Phase 11 / Windows Command - P11-02 complete
+Current Phase: Phase 11 / Windows Command - P11-03 complete, Phase 11 PR checkpoint next
 Current Branch: codex/phase-11-windows-command
-Current Commit: 4586c04a514ba3574aeba2a14c506aa5b8aca348
+Current Commit: 1abc699b0a7f2b7b0d50627ee55f42a0f8bc1244
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -322,21 +322,31 @@ Current Commit: 4586c04a514ba3574aeba2a14c506aa5b8aca348
 - Seeded draft Command 3級 file operation lessons for create, move/copy, and delete cleanup tasks without publishing Command in the main catalog before P11-03.
 - Verified host-looking paths are treated as virtual paths only and no host OS command/file access was introduced.
 - Completed the local P11-02 full gate successfully.
+- Completed `P11-03 Command Grade 3-1 Curriculum`.
+- Published routeable Command 3級, 2級, and 1級 curricula with 10 / 6 / 4 lessons.
+- Added Command level select and curriculum pages, plus lesson routes for all three levels.
+- Wired the shared Lesson Workspace to use `CommandSimulatorRunner`, Monaco `bat` mode, Command runtime labels, and `command_virtual_fs` grading from each exercise's virtual environment seed.
+- Published Command from the Language Select screen while keeping PowerShell planned for Phase 12.
+- Verified Command virtual filesystem grading, progress persistence/reload, hidden requirement detail suppression, and Chrome/Edge E2E coverage.
+- Completed the local P11-03 full gate successfully.
 
 ## In Progress
-- Preparing `P11-03 Command Grade 3-1 Curriculum`.
+- Preparing the Phase 11 PR checkpoint from `codex/phase-11-windows-command`.
 
 ## Next
-- Publish and route the Command grade 3-1 curriculum from the draft virtual filesystem foundation.
-- Wire Command routes, workspace grading, progress persistence, and Chrome/Edge E2E coverage.
+- Push the P11-03 checkpoint commits.
+- Create or update the Phase 11 Draft PR, self-review it, wait for CI, then ready/merge when green.
+- After Phase 11 merge, update `main`, record the merge checkpoint, and start Phase 12 / PowerShell.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 66 files / 243 tests.
-- `npm run build`: passed.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 132 tests.
+- `npm test`: passed, 70 files / 258 tests.
+- `npm run build`: passed with existing Pyodide browser-compatibility and chunk-size warnings.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 140 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
+- P11-03 targeted tests passed: Command curriculum/catalog/route/component tests, Command simulator/grading tests, and Chrome/Edge Command E2E.
+- P11-03 self-review passed: Command execution/grading remains virtual-only, hidden file requirement details stay generic in UI, no dependency was added, PowerShell remains planned, and no scope creep was found.
 - P11-02 targeted tests passed: virtual terminal mutation tests, command filesystem grading tests, Command draft curriculum tests, grading explanation tests, and Chrome/Edge P11 smoke E2E.
 - P11-02 self-review passed: create/move/delete commands mutate only virtual state, hidden file requirement details remain generic, Command stays planned until P11-03, no dependency or scope creep.
 - P11-01 targeted tests passed: Command simulator/runner unit tests, Language Select component coverage, HTML/CSS hook regression, and Chrome/Edge P11 smoke E2E.
