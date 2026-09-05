@@ -204,10 +204,12 @@ function transformCinStatements(source: string, variableTypes: Map<string, CppTy
 
 function transformDeclarations(source: string) {
   return source
+    .replace(/\b(?:std::string|string|int|double|float|bool)\s+([A-Za-z_][A-Za-z0-9_]*)\s*\[[^\]]+\]\s*=\s*\{/g, "let $1 = [")
     .replace(/\b(?:const\s+)?(?:std::string|string|int|double|float|bool)\s*(?:&|\*)?\s+([A-Za-z_][A-Za-z0-9_]*)\s*=/g, "let $1 =")
     .replace(/\b(?:std::string|string|int|double|float|bool)\s+([A-Za-z_][A-Za-z0-9_]*)\s*;/g, "let $1;")
     .replace(/\btrue\b/g, "true")
-    .replace(/\bfalse\b/g, "false");
+    .replace(/\bfalse\b/g, "false")
+    .replace(/\}\s*;/g, "];");
 }
 
 function transformFunctions(source: string, variableTypes: Map<string, CppType>) {

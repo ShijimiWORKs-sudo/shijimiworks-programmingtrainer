@@ -12,6 +12,13 @@ describe("App routes", () => {
   it.each([
     [routePaths.home, "Programming Trainer"],
     [routePaths.languages, "Language Select"],
+    [routePaths.cpp, "C++ Level Select"],
+    [routePaths.cppGrade1, "C++ 1級"],
+    [routePaths.cppGrade1Lesson("lesson_cpp1_01_bug_fix"), "Lesson 01: bug fix"],
+    [routePaths.cppGrade2, "C++ 2級"],
+    [routePaths.cppGrade2Lesson("lesson_cpp2_01_function_return"), "Lesson 01: 関数の戻り値"],
+    [routePaths.cppGrade3, "C++ 3級"],
+    [routePaths.cppGrade3Lesson("lesson_cpp3_01_cout"), "Lesson 01: cout / 出力"],
     [routePaths.java, "Java Level Select"],
     [routePaths.javaGrade1, "Java 1級"],
     [routePaths.javaGrade1Lesson("lesson_java1_01_bug_fix"), "Lesson 01: bug fix"],

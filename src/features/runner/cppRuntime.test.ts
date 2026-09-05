@@ -64,6 +64,32 @@ int main() {
     expect(result.stdout).toBe("12\n");
   });
 
+  it("supports array literals for curriculum tasks", async () => {
+    const result = await runCppSource(
+      `
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+  string first;
+  string second;
+  string third;
+  cin >> first >> second >> third;
+  string items[3] = {first, second, third};
+  items[1] = "C++";
+  cout << items[0] << endl;
+  cout << items[1] << endl;
+  cout << items[2] << endl;
+  return 0;
+}
+`,
+      "red blue green\n"
+    );
+
+    expect(result.stdout).toBe("red\nC++\ngreen\n");
+  });
+
   it("reports missing main and JavaScript syntax failures as syntax errors", async () => {
     const missingMain = await runCppSource("int doubleNumber(int number) { return number * 2; }", "");
     const syntaxFailure = await runCppSource("int main() { int total = ; return 0; }", "");

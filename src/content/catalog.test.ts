@@ -164,6 +164,38 @@ describe("content catalog", () => {
     expect(findNextLesson("lesson_java1_04_refactoring")).toBeUndefined();
   });
 
+  it("enables C++ grade 1, grade 2, and grade 3 and keeps next-lesson routing within each C++ course", () => {
+    const cpp = languages.find((language) => language.slug === "cpp");
+
+    expect(cpp).toMatchObject({
+      status: "available",
+      levels: [
+        { code: "grade-3", status: "available", courses: [{ id: "course_cpp_grade_3_foundation" }] },
+        { code: "grade-2", status: "available", courses: [{ id: "course_cpp_grade_2" }] },
+        { code: "grade-1", status: "available", courses: [{ id: "course_cpp_grade_1" }] },
+      ],
+    });
+    expect(findLessonById("lesson_cpp3_01_cout")).toMatchObject({
+      title: "Lesson 01: cout / 出力",
+      status: "published",
+    });
+    expect(findCourseByLessonId("lesson_cpp3_01_cout")?.id).toBe("course_cpp_grade_3_foundation");
+    expect(findNextLesson("lesson_cpp3_01_cout")).toMatchObject({
+      id: "lesson_cpp3_02_variables",
+    });
+    expect(findNextLesson("lesson_cpp3_10_functions")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_cpp2_01_function_return")?.id).toBe("course_cpp_grade_2");
+    expect(findNextLesson("lesson_cpp2_01_function_return")).toMatchObject({
+      id: "lesson_cpp2_02_function_composition",
+    });
+    expect(findNextLesson("lesson_cpp2_06_small_project")).toBeUndefined();
+    expect(findCourseByLessonId("lesson_cpp1_01_bug_fix")?.id).toBe("course_cpp_grade_1");
+    expect(findNextLesson("lesson_cpp1_01_bug_fix")).toMatchObject({
+      id: "lesson_cpp1_02_specification_change",
+    });
+    expect(findNextLesson("lesson_cpp1_04_refactoring")).toBeUndefined();
+  });
+
   it("enables HTML/CSS grade 1, grade 2, and grade 3 and keeps next-lesson routing within each HTML/CSS course", () => {
     const htmlCss = languages.find((language) => language.slug === "html-css");
 

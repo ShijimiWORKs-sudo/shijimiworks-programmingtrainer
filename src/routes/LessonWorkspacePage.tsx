@@ -9,7 +9,7 @@ import { CodeEditor } from "../features/editor/CodeEditor";
 import { explainTestCaseResult, GradingEngine, type GradeResult } from "../features/grading";
 import { createAttempt, createGradeSummaryResult } from "../features/progress/attempts";
 import { allExercisesPassed, createInitialProgress, getExerciseProgress, markPassed, touchExerciseProgress, touchProgress } from "../features/progress/progressModel";
-import { JavaRunner, JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
+import { CppRunner, JavaRunner, JavaScriptRunner, PythonRunner, type LanguageRunner, type RunResult } from "../features/runner";
 import { defaultSettings, localUserId, progressRepository, settingsRepository } from "../repositories";
 
 declare global {
@@ -21,6 +21,9 @@ declare global {
 }
 
 function createRunnerForCourse(course: Course | undefined): LanguageRunner {
+  if (course?.languageId === "lang_cpp") {
+    return new CppRunner();
+  }
   if (course?.languageId === "lang_java") {
     return new JavaRunner();
   }
@@ -28,6 +31,9 @@ function createRunnerForCourse(course: Course | undefined): LanguageRunner {
 }
 
 function editorLanguageForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_cpp") {
+    return "cpp";
+  }
   if (course?.languageId === "lang_java") {
     return "java";
   }
@@ -35,6 +41,9 @@ function editorLanguageForCourse(course: Course | undefined) {
 }
 
 function runtimeLabelForCourse(course: Course | undefined) {
+  if (course?.languageId === "lang_cpp") {
+    return "C++";
+  }
   if (course?.languageId === "lang_java") {
     return "Java";
   }
@@ -42,6 +51,15 @@ function runtimeLabelForCourse(course: Course | undefined) {
 }
 
 function curriculumPathForCourse(course: Course | undefined) {
+  if (course?.levelId === "level_cpp_1") {
+    return routePaths.cppGrade1;
+  }
+  if (course?.levelId === "level_cpp_2") {
+    return routePaths.cppGrade2;
+  }
+  if (course?.levelId === "level_cpp_3") {
+    return routePaths.cppGrade3;
+  }
   if (course?.levelId === "level_java_1") {
     return routePaths.javaGrade1;
   }
@@ -70,6 +88,15 @@ function curriculumPathForCourse(course: Course | undefined) {
 }
 
 function lessonPathForCourse(course: Course | undefined, lessonId: string) {
+  if (course?.levelId === "level_cpp_1") {
+    return routePaths.cppGrade1Lesson(lessonId);
+  }
+  if (course?.levelId === "level_cpp_2") {
+    return routePaths.cppGrade2Lesson(lessonId);
+  }
+  if (course?.levelId === "level_cpp_3") {
+    return routePaths.cppGrade3Lesson(lessonId);
+  }
   if (course?.levelId === "level_java_1") {
     return routePaths.javaGrade1Lesson(lessonId);
   }

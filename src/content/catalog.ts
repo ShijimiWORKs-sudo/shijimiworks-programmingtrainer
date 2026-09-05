@@ -1,4 +1,7 @@
 import type { Language } from "../domain/curriculum";
+import { cppGrade1Course } from "./cpp/grade-1";
+import { cppGrade2Course } from "./cpp/grade-2";
+import { cppGrade3Course } from "./cpp/grade-3";
 import { htmlCssGrade1Course } from "./html-css/grade-1";
 import { htmlCssGrade2Course } from "./html-css/grade-2";
 import { htmlCssGrade3Course } from "./html-css/grade-3";
@@ -85,7 +88,42 @@ export const languages: Language[] = [
       },
     ],
   },
-  { id: "lang_cpp", slug: "cpp", name: "C++", order: 3, status: "planned", levels: [] },
+  {
+    id: "lang_cpp",
+    slug: "cpp",
+    name: "C++",
+    order: 3,
+    status: "available",
+    levels: [
+      {
+        id: "level_cpp_3",
+        languageId: "lang_cpp",
+        code: "grade-3",
+        name: "3級",
+        order: 1,
+        status: "available",
+        courses: [cppGrade3Course],
+      },
+      {
+        id: "level_cpp_2",
+        languageId: "lang_cpp",
+        code: "grade-2",
+        name: "2級",
+        order: 2,
+        status: "available",
+        courses: [cppGrade2Course],
+      },
+      {
+        id: "level_cpp_1",
+        languageId: "lang_cpp",
+        code: "grade-1",
+        name: "1級",
+        order: 3,
+        status: "available",
+        courses: [cppGrade1Course],
+      },
+    ],
+  },
   { id: "lang_ruby", slug: "ruby", name: "Ruby", order: 4, status: "planned", levels: [] },
   {
     id: "lang_javascript",
