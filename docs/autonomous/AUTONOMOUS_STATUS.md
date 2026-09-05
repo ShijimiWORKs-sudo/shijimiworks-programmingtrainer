@@ -1,10 +1,10 @@
 # Programming Trainer Autonomous Status
 
-Updated: 2026-09-05 13:02 +09:00
+Updated: 2026-09-05 13:51 +09:00
 
-Current Phase: Phase 10 / Ruby - P10-01 complete
+Current Phase: Phase 10 / Ruby - P10-02 complete
 Current Branch: codex/phase-10-ruby
-Current Commit: 29a2e5422263a541c3e103272fd87d9d5717d3d0
+Current Commit: 1119badc3923bd29825889e367d86e7717e64e7d
 
 ## Completed
 - Recovered repository state at `C:\制作データ\10_App\ProgrammingTrainer`.
@@ -296,20 +296,28 @@ Current Commit: 29a2e5422263a541c3e103272fd87d9d5717d3d0
 - Verified timeout and cancel recovery terminate/recreate the worker through runner tests.
 - Kept Ruby planned in the language selection UI until P10-02 adds routeable curriculum content.
 - Completed local P10-01 full gate successfully.
+- Completed `P10-02 Ruby Grade 3-1 Curriculum`.
+- Added Ruby as an available language with routeable 3級, 2級, and 1級 levels.
+- Added 10 Ruby 3級 lessons with public/hidden grading coverage, including Lesson 10 multiple exercises and exercise switching.
+- Added 6 Ruby 2級 lessons and 4 Ruby 1級 practical lessons with visible support files for maintenance tasks.
+- Wired Ruby routes, catalog entries, curriculum pages, Lesson Workspace runner selection, Monaco Ruby mode, progress persistence, and Chrome/Edge E2E coverage.
+- Fixed the Ruby educational runtime comment stripping so `#{}` interpolation after whitespace inside a string is preserved.
+- Verified Ruby hidden test details remain private and hidden values are absent from visible project support files.
+- Completed local P10-02 full gate successfully.
 
 ## In Progress
-- Preparing `P10-02 Ruby Grade 3-1 Curriculum`.
+- Preparing Phase 10 PR self-review and merge checkpoint.
 
 ## Next
-- Add routeable Ruby 3級, 2級, and 1級 curricula within the current browser-contained Ruby subset or expand the subset with tests before using additional language features.
-- Wire Ruby routes, catalog entries, level/curriculum pages, Lesson Workspace runner selection, content quality tests, and Chrome/Edge E2E coverage.
+- Push `codex/phase-10-ruby`, create or update the Phase 10 draft PR, self-review it, confirm GitHub Actions green, mark ready, and merge to `main`.
+- After Phase 10 merge, create Phase 11 branch for Windows Command work from the latest `main`.
 
 ## Tests
 - `npm run lint`: passed.
 - `npm run typecheck`: passed.
-- `npm test`: passed, 9 files / 23 tests.
+- `npm test`: passed, 62 files / 224 tests.
 - `npm run build`: passed.
-- `npm run test:e2e -- --project=chrome --project=edge`: passed, 10 tests.
+- `npm run test:e2e -- --project=chrome --project=edge`: passed, 130 tests.
 - `npm audit --audit-level=low --fetch-timeout=600000 --fetch-retries=2`: passed, 0 vulnerabilities.
 - PR #2 self-review rerun on 2026-09-04: lint passed, typecheck passed, unit/component tests passed, build passed, Chrome/Edge E2E passed, audit passed.
 - PR #2 CI on head `ecdeee25fe5110eea818cd50f4fb58a4ccd9eb55`: GitHub Actions `verify` passed for push and pull_request runs.
