@@ -551,7 +551,7 @@ Retest Result: Passed.
 
 ## 2026-09-05 Checkpoint: P7-04 HTML/CSS Grade 3-1 Curriculum
 Datetime: 2026-09-05 09:22 +09:00
-Commit: pending P7-04 checkpoint commit
+Commit: 08f5e14fa118427e7e97f0c95ff85d5101dd2edf
 Target: Complete HTML/CSS grade 3, 2, and 1 routeable curricula, course-aware HTML/CSS workspace navigation, progress display, preview persistence, and Chrome/Edge coverage.
 
 Test Command: `npm run typecheck`
